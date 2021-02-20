@@ -1,0 +1,17 @@
+<app-navbar></app-navbar>
+
+<ng-container>
+    <div class="wrapper" style="padding:0;">
+        <div [ngClass]="animationActive ? 'main-anim' : ''">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</ng-container>
+
+<div *ngIf="env.name === 'dev'" class="non-prod-env no-select">
+    DEVELOPMENT VERSION
+</div>
+
+<div class="footer no-select">
+    Build: {{appService.build}} Version: {{appService.version}}
+</div>

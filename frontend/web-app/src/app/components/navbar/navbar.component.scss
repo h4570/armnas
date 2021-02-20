@@ -1,0 +1,54 @@
+@import "./../../../variables.scss";
+@import './../../scss/animations/fade-in.scss';
+
+a {
+    color: white;
+}
+
+header {
+    @include fadeIn(0.5s);
+    color: black;
+    background-color: $navbar-color;
+    width: 100%;
+    position: fixed;
+    z-index: 999;
+
+    .header-container {
+        display: grid;
+        grid-template-columns: 200px auto;
+        padding: 10px;
+
+        .app-name-area {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: 22px;
+            padding: 0 20px 0 30px;
+
+            img {
+                width: 100px;
+                height: auto;
+            }
+        }
+
+        .user-area {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 60px 0 20px;
+
+            .nav-spacer {
+                width: 20px;
+                height: 1px;
+            }
+
+            .nav-btn {
+                font-weight: 700;
+            }
+
+        }
+
+    }
+
+
+}

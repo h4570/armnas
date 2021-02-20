@@ -1,0 +1,30 @@
+.icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+  position: absolute
+}
+
+.icon-spacer {
+  width: 36px;
+  height: 36px;
+  display: inline-block
+}
+
+.title {
+  display: inline-block;
+  position: absolute;
+  margin-top: 3px;
+  margin-right: 3px;
+}
+.title-fix {
+  display: inline-block;
+  margin-top: 3px;
+  margin-right: 3px;
+  opacity: 0;
+}
+
+.text {
+  font-size: 18px;
+  padding: 0px 5px 0px 5px;
+}

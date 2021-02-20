@@ -1,0 +1,77 @@
+@import '~@angular/material/theming';
+$custom-typography: mat-typography-config($font-family: 'Lato');
+@include mat-core($custom-typography);
+$app-primary: mat-palette($mat-blue-grey, 900);
+$app-accent: mat-palette($mat-pink, A200, A100, A400);
+$app-warn: mat-palette($mat-red);
+$app-theme: mat-light-theme($app-primary, $app-accent, $app-warn);
+@include angular-material-theme($app-theme);
+
+$font-weight-light: 300;
+$font-weight-regular: 400;
+$font-weight-heavy: 700;
+$font-height: 1.5;
+
+.font-light {
+    font-weight: $font-weight-light;
+}
+
+.font-regular {
+    font-weight: $font-weight-regular;
+}
+
+.font-heavy {
+    font-weight: $font-weight-heavy;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+a {
+    text-decoration: none;
+}
+
+.mat-tooltip {
+    font-size: 16px !important;
+    white-space: normal !important;
+}
+
+div,
+button,
+span:focus {
+    outline: 0;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+}
+
+.no-select {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+// SPACERS
+
+.small-spacer {
+    width: 1px;
+    height: 25px;
+}
+
+.spacer {
+    width: 1px;
+    height: 50px;
+}
+
+.big-spacer {
+    width: 1px;
+    height: 75px;
+}

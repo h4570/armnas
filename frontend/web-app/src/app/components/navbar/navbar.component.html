@@ -1,0 +1,63 @@
+<header class="mat-elevation-z6">
+
+  <div class="header-container">
+
+    <div class="app-name-area">
+      <img src="/assets/img/logo/color/text_m.png">
+    </div>
+
+    <div class="user-area">
+
+      <ng-container>
+
+        <div class="nav-spacer"></div>
+
+        <button mat-icon-button [matMenuTriggerFor]="notifications">
+          <mat-icon matBadge="4" matBadgeOverlap="true" matBadgeColor="accent">notifications</mat-icon>
+        </button>
+
+        <button mat-icon-button [matMenuTriggerFor]="settings">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #settings="matMenu">
+          <button mat-menu-item>
+            <mat-icon>bug_report</mat-icon>
+            <span>{{ 'navbar.reportProblem' | translate }}</span>
+          </button>
+          <button mat-menu-item [matMenuTriggerFor]="languages">
+            <mat-icon>language</mat-icon>
+            <span>{{ 'navbar.language' | translate }}</span>
+          </button>
+        </mat-menu>
+
+        <mat-menu #languages="matMenu">
+          <button mat-menu-item (click)="changeLang('pl-PL')">
+            <span>{{ 'navbar.polish' | translate }}</span>
+          </button>
+          <button mat-menu-item (click)="changeLang('en-US')">
+            <span>{{ 'navbar.english' | translate }}</span>
+          </button>
+        </mat-menu>
+
+        <mat-menu #notifications="matMenu">
+          <button mat-menu-item>
+            <span>Message 1</span>
+          </button>
+          <button mat-menu-item>
+            <span>Message 2</span>
+          </button>
+          <button mat-menu-item>
+            <span>Message 3</span>
+          </button>
+        </mat-menu>
+
+      </ng-container>
+
+    </div>
+
+  </div>
+
+</header>
+
+<div style="height:80px;"></div>

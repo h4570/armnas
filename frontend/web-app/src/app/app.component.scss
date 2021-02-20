@@ -1,0 +1,47 @@
+@import "../variables.scss";
+@import './scss/animations/fade-in.scss';
+
+.main-anim {
+    animation: fadeInFromNone 0.33s ease-in-out;
+}
+
+.wrapper {
+    @include fadeIn(1.5s);
+}
+
+.non-prod-env {
+    position: fixed;
+    padding: 0 15px 0 8px;
+    left: 0;
+    bottom: 0;
+    color: rgba(0, 0, 0, 0.4);
+    @include fadeIn(3s);
+    font-size: 36px;
+}
+
+.footer {
+    position: fixed;
+    padding: 0 15px 8px 0;
+    right: 0;
+    bottom: 0;
+    color: rgba(0, 0, 0, 0.4);
+    @include fadeIn(5s);
+    font-size: 14px;
+}
+
+@keyframes fadeInFromNone {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        display: block;
+        opacity: 1;
+    }
+}

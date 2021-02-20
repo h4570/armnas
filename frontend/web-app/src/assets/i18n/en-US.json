@@ -1,0 +1,16 @@
+{
+	"navbar": {
+		"reportProblem": "Report problem",
+		"language": "Language",
+		"polish": "Polish",
+		"english": "English"
+	},
+	"coreErrors": {
+		"error0Title": "Timeout!",
+		"error0Subtitle": "Application don't have connection to server. Please check your internet connection.",
+		"error401Title": "Unauthorized!",
+		"error401Subtitle": "You are not authorized to do this operation. If you think that you should have access to this resource, contact the application administrator.",
+		"error500Title": "Critical error.",
+		"error500Subtitle": "Critical error occured. If the problem still persists, report this incident via GitHub issue."
+	}
+}

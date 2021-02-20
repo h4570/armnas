@@ -1,0 +1,65 @@
+@mixin fadeOut($time) {
+    -webkit-animation: fadeout $time ease-in-out;
+    /* Safari, Chrome and Opera > 12.1 */
+    -moz-animation: fadeout $time ease-in-out;
+    /* Firefox < 16 */
+    -ms-animation: fadeout $time ease-in-out;
+    /* Internet Explorer */
+    -o-animation: fadeout $time ease-in-out;
+    /* Opera < 12.1 */
+    animation: fadeout $time ease-in-out;
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadeout {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

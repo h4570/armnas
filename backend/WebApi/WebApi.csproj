@@ -3,14 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
 	<Version>1.0.0</Version>
-	<Build>BUILD_ID</Build>
 	<ProjectGuid>5b36856c-3a26-4d51-9505-3dab72d8c816</ProjectGuid>
   </PropertyGroup>
   
   <ItemGroup>
     <AssemblyAttribute Include="WebApi.Controllers.AppInfoAttribute">
     <_Parameter1>$(Version)</_Parameter1>
-    <_Parameter2>$(Build)</_Parameter2>
     </AssemblyAttribute>
   </ItemGroup>
 

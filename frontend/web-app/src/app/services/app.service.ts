@@ -6,13 +6,8 @@ import { environment } from '../../environments/environment';
 export class AppService {
 
     private _version: string | undefined;
-    private _build: string | undefined;
 
     constructor(private readonly http: HttpClient) { }
-
-    public get build(): string | undefined {
-        return this._build;
-    }
 
     public get version(): string | undefined {
         return this._version;
@@ -24,7 +19,6 @@ export class AppService {
             .get<{ version: string; build: string }>(environment.urls.api + 'app-info')
             .toPromise();
         this._version = appInfo.version;
-        this._build = appInfo.build;
     }
 
     /** @returns Language choosed by user or English if not changed. */

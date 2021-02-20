@@ -9,15 +9,13 @@ using System.Reflection;
 namespace WebApi.Controllers
 {
 
-    [AttributeUsage(AttributeTargets.Assembly, Inherited = false, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Assembly)]
     public sealed class AppInfoAttribute : Attribute
     {
         public string Version { get; }
-        public string Build { get; }
-        public AppInfoAttribute(string version, string build)
+        public AppInfoAttribute(string version)
         {
             Version = version;
-            Build = build;
         }
     }
 
@@ -31,7 +29,7 @@ namespace WebApi.Controllers
         public ActionResult<ActionResult<object>> GetAppInfo()
         {
             var appInfo = Assembly.GetEntryAssembly().GetCustomAttribute<AppInfoAttribute>();
-            return Ok(new { version = appInfo.Version, build = appInfo.Build });
+            return Ok(new { version = appInfo.Version });
         }
 
     }

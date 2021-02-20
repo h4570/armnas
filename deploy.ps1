@@ -27,7 +27,7 @@ Write-Host "Deploying Angular (frontend)" -ForegroundColor Magenta
 
 Write-Host "Building Web API (backend)" -ForegroundColor DarkGreen
 Set-Location backend/WebApi
-$GIT_TAG = git describe;
+$GIT_TAG = git describe --tags
 $GIT_TAG = $GIT_TAG.Substring(1)
 dotnet publish -c Release /p:version=${GIT_TAG} --output "./publish" > $null
 Set-Location ..

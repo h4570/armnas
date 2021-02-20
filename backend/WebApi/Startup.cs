@@ -59,7 +59,6 @@ namespace WebApi
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArmNas"));
-            app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors();

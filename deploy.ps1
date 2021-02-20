@@ -20,8 +20,8 @@ Set-Location ..
 Set-Location ..
 
 Write-Host "Deploying Angular (frontend)" -ForegroundColor Magenta
-& $SSH $SSH_DEFAULT_ARGS $TARGET, 'rm -rf /root/armnas/frontend/web-app/*' > $null
-& $SCP $SCP_DEFAULT_ARGS './frontend/web-app/dist/\*', $TARGET':/root/armnas/frontend/web-app' > $null
+& $SSH $SSH_DEFAULT_ARGS $TARGET, 'rm -rf /var/www/armnas/frontend/web-app/*' > $null
+& $SCP $SCP_DEFAULT_ARGS './frontend/web-app/dist/\*', $TARGET':/var/www/armnas/frontend/web-app' > $null
 
 # ===--- Deploy backend ---===
 
@@ -34,8 +34,8 @@ Set-Location ..
 Set-Location ..
 
 Write-Host "Deploying Web API (backend)" -ForegroundColor Magenta
-& $SSH $SSH_DEFAULT_ARGS $TARGET, 'rm -rf /root/armnas/backend/WebApi/*' > $null
-& $SCP $SCP_DEFAULT_ARGS './backend/WebApi/publish/\*', $TARGET':/root/armnas/backend/WebApi' > $null
+& $SSH $SSH_DEFAULT_ARGS $TARGET, 'rm -rf /var/www/armnas/backend/WebApi/*' > $null
+& $SCP $SCP_DEFAULT_ARGS './backend/WebApi/publish/\*', $TARGET':/var/www/armnas/backend/WebApi' > $null
 Remove-Item -LiteralPath "./backend/WebApi/publish" -Force -Recurse 
 
 # ===--- Finish ---===

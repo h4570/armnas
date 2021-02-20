@@ -1,3 +1,4 @@
 .vscode/
 .vs/
 packages/
+backend/WebApi/armnas.db

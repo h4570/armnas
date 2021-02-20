@@ -1,7 +1,7 @@
 export const environment = {
   name: 'prd',
   urls: {
-    app: 'https://armnas.site/',
-    api: 'https://api.armnas.site/'
+    app: 'http://armnas.site/',
+    api: 'http://api.armnas.site/'
   }
 };

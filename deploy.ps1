@@ -34,9 +34,14 @@ Set-Location ..
 Set-Location ..
 
 Write-Host "Deploying Web API (backend)" -ForegroundColor Magenta
+& $SSH $SSH_DEFAULT_ARGS $TARGET, '. /var/www/armnas/backend/WebApi/stop.sh' > $null # stop backend
 & $SSH $SSH_DEFAULT_ARGS $TARGET, 'rm -rf /var/www/armnas/backend/WebApi/*' > $null
 & $SCP $SCP_DEFAULT_ARGS './backend/WebApi/publish/\*', $TARGET':/var/www/armnas/backend/WebApi' > $null
 Remove-Item -LiteralPath "./backend/WebApi/publish" -Force -Recurse 
+& $SSH $SSH_DEFAULT_ARGS $TARGET, 'chmod +x /var/www/armnas/backend/WebApi/start.sh' > $null
+& $SSH $SSH_DEFAULT_ARGS $TARGET, 'chmod +x /var/www/armnas/backend/WebApi/stop.sh' > $null
+
+& $SSH $SSH_DEFAULT_ARGS $TARGET, '. /var/www/armnas/backend/WebApi/start.sh' > $null # start backend
 
 # ===--- Finish ---===
 

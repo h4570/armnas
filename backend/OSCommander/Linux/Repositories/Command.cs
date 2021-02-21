@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace OSCommander.Linux.Services
+namespace OSCommander.Linux.Repositories
 {
-    internal static class Command
+    public static class Command
     {
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace OSCommander.Linux.Services
         ///  There is no process associated with this <see cref="T:System.Diagnostics.Process" /> object.  
         ///  -or-  
         ///  You are attempting to call <see cref="M:System.Diagnostics.Process.WaitForExit" /> for a process that is running on a remote computer. This method is available only for processes that are running on the local computer.</exception>
-        /// <exception cref="T:OSCommander.Linux.Services.Command+CommandFailException">When there is stderr for this command</exception>
+        /// <exception cref="T:OSCommander.Linux.Repositories.Command.CommandFailException">When there is stderr for this command</exception>
         public static string Execute(string command)
         {
             using var proc = new Process

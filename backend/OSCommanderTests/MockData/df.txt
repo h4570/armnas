@@ -1,0 +1,10 @@
+﻿Filesystem     1K-blocks    Used Available Use% Mounted on
+    udev              947944       0    947944   0% /dev
+    tmpfs             203824   14892    188932   8% /run
+    /dev/mmcblk0p1  15122336 1698100  13243548  12% /
+tmpfs            1019108       0   1019108   0% /dev/shm
+tmpfs               5120       4      5116   1% /run/lock
+tmpfs            1019108       0   1019108   0% /sys/fs/cgroup
+tmpfs            1019108       0   1019108   0% /tmp
+    /dev/zram1         49584    2964     43036   7% /var/log
+tmpfs             203820       0    203820   0% /run/user/0

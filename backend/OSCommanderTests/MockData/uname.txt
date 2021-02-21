@@ -1,0 +1,1 @@
+﻿Linux odroidxu4 5.4.98-odroidxu4 #21.02.2 SMP PREEMPT Sun Feb 14 22:29:57 CET 2021 armv7l armv7l armv7l GNU/Linux

@@ -9,8 +9,8 @@ namespace OSCommander
         public static ISystemInformation GetSystemInformation(ILogger logger)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                return new Linux.SystemInformation(logger);
-            return new Windows.SystemInformation();
+                return new Linux.Fascades.SystemInformation(logger);
+            return new Mockup.SystemInformation();
         }
 
     }

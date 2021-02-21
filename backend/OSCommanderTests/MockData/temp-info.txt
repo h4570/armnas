@@ -1,0 +1,5 @@
+﻿cpu0-thermal  47.0
+cpu1-thermal  48.0
+cpu2-thermal  51.0
+cpu3-thermal  48.0
+gpu-thermal   47.0

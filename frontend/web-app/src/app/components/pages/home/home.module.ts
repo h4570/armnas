@@ -7,6 +7,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared/shared.module';
 import { SysInfoComponent } from './sys-info/sys-info.component';
 import { SystemInformationService } from 'src/app/services/system-information.service';
+import { SkeletonModule } from 'primeng/skeleton';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
     declarations: [
@@ -16,8 +18,10 @@ import { SystemInformationService } from 'src/app/services/system-information.se
     imports: [
         CommonModule,
         FormsModule,
+        SkeletonModule,
         RouterModule,
         TranslateModule,
+        MatProgressBarModule,
         SharedModule,
     ],
     exports: [

@@ -16,11 +16,11 @@ import { MatIconModule } from '@angular/material/icon';
         FastDialogComponent
     ],
     imports: [
+        TranslateModule,
         CommonModule,
         MatProgressBarModule,
         MatBottomSheetModule,
         MatDialogModule,
-        TranslateModule,
         MatButtonModule,
         MatIconModule,
     ],

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -30,6 +30,7 @@ export class FastDialogComponent {
   constructor(
     public readonly dialogRef: MatDialogRef<FastDialogComponent>,
     public readonly translate: TranslateService,
-    @Inject(MAT_DIALOG_DATA) public payload: { type: DialogType; btnType: DialogButtonType; title: string; texts: string[] }) { }
+    @Inject(MAT_DIALOG_DATA) public payload: { type: DialogType; btnType: DialogButtonType; title: string; texts: string[] }) {
+  }
 
 }

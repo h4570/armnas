@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { SystemInformationService } from 'src/app/services/system-information.service';
 
 @Component({
@@ -10,7 +11,10 @@ export class SysInfoComponent implements OnInit {
 
   public distro = 'Loading';
 
-  constructor(private sysInfo: SystemInformationService) { }
+  constructor(
+    private sysInfo: SystemInformationService,
+    public translate: TranslateService
+  ) { }
 
   public async ngOnInit(): Promise<void> {
     await this.load();

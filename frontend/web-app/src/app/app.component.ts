@@ -24,8 +24,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ) { }
 
   public async ngOnInit(): Promise<any> {
-    await this.appService.updateVersionAndBuild();
     await this.configureLanguage();
+    await this.appService.updateVersionAndBuild();
     this.configureRoutingAnimation();
   }
 
@@ -36,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private async configureLanguage(): Promise<any> {
     this.translate.setDefaultLang('en-US');
     const userLang = this.appService.getUserLanguage();
+    await this.translate.getTranslation(userLang).toPromise(); // load
     await this.translate.use(userLang).toPromise();
   }
 

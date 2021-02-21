@@ -5,12 +5,18 @@
 		"polish": "Polski",
 		"english": "Angielski"
 	},
-	"coreErrors": {
+	"httpErrors": {
 		"error0Title": "Czas minął!",
 		"error0Subtitle": "Aplikacja nie ma połączenia z serwerem. Proszę sprawdź swoje połączenie z internetem.",
 		"error401Title": "Nieautoryzowany!",
 		"error401Subtitle": "Nie masz uprawnień do wykonania tej operacji. Jeśli uważasz, że powinieneś mieć dostęp do tego zasobu, skontaktuj się z administratorem aplikacji.",
 		"error500Title": "Błąd krytyczny.",
 		"error500Subtitle": "Wystąpił błąd krytyczny. Jeśli problem nadal występuje, zgłoś błąd za pomocą GitHub issue."
+	},
+	"common": {
+		"yes": "Tak",
+		"no": "Nie",
+		"cancel": "Anuluj",
+		"confirm": "Potwierdź"
 	}
 }

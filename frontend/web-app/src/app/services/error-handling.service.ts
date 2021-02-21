@@ -29,23 +29,23 @@ export class ErrorHandlingService extends ErrorHandler {
         let isError = false;
         if (err.status === 0) {
             isError = true;
-            title = this.translate.instant('coreErrors.error0Title') as string;
-            texts = [this.translate.instant('coreErrors.error0Subtitle') as string];
+            title = this.translate.instant('httpErrors.error0Title') as string;
+            texts = [this.translate.instant('httpErrors.error0Subtitle') as string];
             type = DialogType.error;
             // TODO, log to external website new Error(JSON.stringify(err))
         }
         else if (err.status === 500) {
             isError = true;
             console.error(err);
-            title = this.translate.instant('coreErrors.error500Title') as string;
-            texts = [this.translate.instant('coreErrors.error500Subtitle') as string, `${err.error}`.split('\n')[0]];
+            title = this.translate.instant('httpErrors.error500Title') as string;
+            texts = [this.translate.instant('httpErrors.error500Subtitle') as string, `${err.error}`.split('\n')[0]];
             type = DialogType.error;
             // TODO, log to external website new Error(JSON.stringify(err))
         }
         else if (err.status === 401) {
             isError = true;
-            title = this.translate.instant('coreErrors.error401Title') as string;
-            texts = [this.translate.instant('coreErrors.error401Subtitle') as string];
+            title = this.translate.instant('httpErrors.error401Title') as string;
+            texts = [this.translate.instant('httpErrors.error401Subtitle') as string];
             type = DialogType.alert;
             // TODO, log to external website new Error(JSON.stringify(err))
         }

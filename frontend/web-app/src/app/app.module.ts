@@ -19,19 +19,19 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     AppComponent
   ],
   imports: [
-    HomeModule,
-    AppRoutingModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    SharedModule,
-    NavbarModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    HomeModule,
+    AppRoutingModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    SharedModule,
+    NavbarModule,
   ],
   providers: [
     AppService,

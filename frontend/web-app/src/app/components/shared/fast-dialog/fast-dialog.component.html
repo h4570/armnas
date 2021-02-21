@@ -14,13 +14,13 @@
 <div class="small-spacer"></div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="dialogRef.close(true)">
-    <span *ngIf="payload.btnType === DialogButtonType.yesNo">{{ 'starter.yes' | translate }}</span>
+    <span *ngIf="payload.btnType === DialogButtonType.yesNo">{{ 'common.yes' | translate }}</span>
     <span *ngIf="payload.btnType === DialogButtonType.ok">Ok</span>
-    <span style="color:#f44336" *ngIf="payload.btnType === DialogButtonType.confirm">{{ 'starter.confirm' | translate
+    <span style="color:#f44336" *ngIf="payload.btnType === DialogButtonType.confirm">{{ 'common.confirm' | translate
       }}</span>
   </button>
   <button mat-raised-button (click)="dialogRef.close(null)">
-    <span *ngIf="payload.btnType === DialogButtonType.yesNo">{{ 'starter.no' | translate }}</span>
-    <span *ngIf="payload.btnType !== DialogButtonType.yesNo">{{ 'starter.cancel' | translate }}</span>
+    <span *ngIf="payload.btnType === DialogButtonType.yesNo">{{ 'common.no' | translate }}</span>
+    <span *ngIf="payload.btnType !== DialogButtonType.yesNo">{{ 'common.cancel' | translate }}</span>
   </button>
 </div>

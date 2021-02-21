@@ -35,6 +35,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\OSCommander\OSCommander.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="armnas.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

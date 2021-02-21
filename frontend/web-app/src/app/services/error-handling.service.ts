@@ -16,7 +16,7 @@ export class ErrorHandlingService extends ErrorHandler {
     }
 
     public handleError(error: Error): void {
-        if (environment.name === 'local')
+        if (environment.name === 'dev')
             console.error(error);
         // else // TODO, log to external website
     }

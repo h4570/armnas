@@ -16,9 +16,6 @@ namespace WebApi
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        public DbSet<Shelf> Shelfs { get; set; }
-        public DbSet<ShelfCategory> ShelfsCategories { get; set; }
-
         // ---
 
         public DbSet<AppHistory> AppHistory { get; set; }

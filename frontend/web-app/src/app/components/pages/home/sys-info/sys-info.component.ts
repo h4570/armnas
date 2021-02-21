@@ -23,8 +23,6 @@ export class SysInfoComponent implements OnInit {
   }
 
   private async loadDistro(): Promise<void> {
-    console.log(1);
-    console.log(await this.sysInfo.getDistributionName());
     this.distro = await this.sysInfo.getDistributionName();
   }
 

@@ -14,7 +14,6 @@ export class SystemInformationService {
     ) { }
 
     public async getDistributionName(): Promise<string> {
-        console.log(`${this.url}/distribution`);
         return this.http
             .get(`${this.url}/distribution`, { responseType: 'text' })
             .toPromise()

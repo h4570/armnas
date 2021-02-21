@@ -5,10 +5,13 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../shared/shared.module';
+import { SysInfoComponent } from './sys-info/sys-info.component';
+import { SystemInformationService } from 'src/app/services/system-information.service';
 
 @NgModule({
     declarations: [
-        HomeComponent
+        HomeComponent,
+        SysInfoComponent
     ],
     imports: [
         CommonModule,
@@ -21,7 +24,7 @@ import { SharedModule } from '../../shared/shared.module';
         HomeComponent
     ],
     providers: [
-
+        SystemInformationService
     ]
 })
 export class HomeModule { }

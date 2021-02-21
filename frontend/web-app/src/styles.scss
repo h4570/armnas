@@ -24,6 +24,10 @@ $font-height: 1.5;
     font-weight: $font-weight-heavy;
 }
 
+.rounded {
+    border-radius: 10px;
+}
+
 html,
 body {
     height: 100%;
@@ -74,4 +78,11 @@ body {
 .big-spacer {
     width: 1px;
     height: 75px;
+}
+
+// Handle 125% and 150% Windows 10 Font Scaling
+@media (min-resolution: 120dpi) {
+    html {
+        font-size: 80%;
+    }
 }

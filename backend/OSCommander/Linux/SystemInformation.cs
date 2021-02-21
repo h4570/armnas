@@ -26,7 +26,7 @@ namespace OSCommander.Linux
             try
             {
                 var stdout = Command.Execute("awk -F= '$1==\"PRETTY_NAME\" { print $2 ;}' /etc/os-release");
-                return stdout;
+                return CleanUpTheResult(stdout);
             }
             catch (Command.CommandFailException ex)
             {
@@ -34,5 +34,21 @@ namespace OSCommander.Linux
                 return "Error";
             }
         }
+
+        // ---
+
+        /// <summary>
+        /// Trims and removes " and \n from result
+        /// </summary>
+        /// <param name="result">Dirty input</param>
+        /// <returns>Clean output</returns>
+        private string CleanUpTheResult(string input)
+        {
+            return input
+                .Trim()
+                .Replace("\"", string.Empty)
+                .Replace("\n", string.Empty);
+        }
+
     }
 }

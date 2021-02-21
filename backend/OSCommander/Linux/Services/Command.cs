@@ -28,7 +28,7 @@ namespace OSCommander.Linux.Services
                 StartInfo =
                 {
                     FileName = "/bin/bash",
-                    Arguments = $"-c \" {command} \"",
+                    Arguments = $"-c \" {command.Replace("\"", "\\\"")} \"",
                     UseShellExecute = false,
                     RedirectStandardOutput = true,
                     RedirectStandardError = true

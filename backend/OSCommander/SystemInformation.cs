@@ -236,29 +236,6 @@ namespace OSCommander
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
-        private static int GetRamValue(string memInfo, string name)
-        {
-            try
-            {
-                var line = memInfo
-                    .Split("\n")
-                    .SingleOrDefault(c => c.ToLower().StartsWith(name.ToLower()));
-                if (line == null || string.IsNullOrWhiteSpace(line))
-                    throw new CommandResponseParsingException($"Line with RAM '{name}' was not found.");
-
-                var parts = line
-                    .Replace("\t", string.Empty)
-                    .Replace("\r", string.Empty)
-                    .Split(" ").Where(c => c.Trim() != "").ToList();
-                return int.Parse(parts[1]);
-            }
-            catch (Exception ex)
-            {
-                throw new CommandResponseParsingException(ex);
-            }
-        }
-
-        /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         private static DiskInfo GetDiskInfoByLine(string line)
         {
             try

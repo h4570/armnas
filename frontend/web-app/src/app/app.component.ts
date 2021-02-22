@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AppService } from './services/app.service';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Title } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
 import { Subscription } from 'rxjs';
 

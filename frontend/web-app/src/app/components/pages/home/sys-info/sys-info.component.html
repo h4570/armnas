@@ -1,53 +1,65 @@
-<div class="row main">
-    <div class="col-6">
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-9"></div>
+            <div class="col-3">
+                <mat-slider [(ngModel)]="refreshInterval" (ngModelChange)="onRefreshIntervalChange()" thumbLabel
+                    [displayWith]="formatRefreshIntervalLabel" tickInterval="100" min="100" [max]="refreshOffValue">
+                </mat-slider>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
 
-        <ng-container *ngIf="loading">
-            <p-skeleton width="95%" height="3rem"></p-skeleton>
-            <div style="width:1px;height:1rem"></div>
-            <p-skeleton width="90%" height="3rem"></p-skeleton>
-            <div style="width:1px;height:.5rem"></div>
-            <p-skeleton width="80%" height="2.5rem"></p-skeleton>
-        </ng-container>
+                <ng-container *ngIf="loading">
+                    <p-skeleton width="95%" height="3rem"></p-skeleton>
+                    <div style="width:1px;height:1rem"></div>
+                    <p-skeleton width="90%" height="3rem"></p-skeleton>
+                    <div style="width:1px;height:.5rem"></div>
+                    <p-skeleton width="80%" height="2.5rem"></p-skeleton>
+                </ng-container>
 
-        <ng-container *ngIf="!loading">
-            <h4>Distribution</h4>
-            <p>{{distro}}</p>
-            <div class="tiny-spacer"></div>
-            <h4>Kernel</h4>
-            <p>{{kernel}}</p>
-            <div class="tiny-spacer"></div>
-            <h4>IP Address:</h4>
-            <p>{{ip}}</p>
-            <div class="tiny-spacer"></div>
-            <h4>Uptime:</h4>
-            <p>{{upTime}}</p>
-        </ng-container>
+                <ng-container *ngIf="!loading">
+                    <h4>Distribution</h4>
+                    <p>{{distro}}</p>
+                    <div class="tiny-spacer"></div>
+                    <h4>Kernel</h4>
+                    <p>{{kernel}}</p>
+                    <div class="tiny-spacer"></div>
+                    <h4>IP Address:</h4>
+                    <p>{{ip}}</p>
+                    <div class="tiny-spacer"></div>
+                    <h4>Uptime:</h4>
+                    <p>{{upTime}}</p>
+                </ng-container>
 
-    </div>
+            </div>
 
-    <div class="col-6">
+            <div class="col-6">
 
-        <ng-container *ngIf="loading">
-            <p-skeleton width="80%" height="2.5rem"></p-skeleton>
-            <div style="width:1px;height:1rem"></div>
-            <p-skeleton width="90%" height="3rem"></p-skeleton>
-            <div style="width:1px;height:.5rem"></div>
-            <p-skeleton width="70%" height="3rem"></p-skeleton>
-        </ng-container>
+                <ng-container *ngIf="loading">
+                    <p-skeleton width="80%" height="2.5rem"></p-skeleton>
+                    <div style="width:1px;height:1rem"></div>
+                    <p-skeleton width="90%" height="3rem"></p-skeleton>
+                    <div style="width:1px;height:.5rem"></div>
+                    <p-skeleton width="70%" height="3rem"></p-skeleton>
+                </ng-container>
 
-        <ng-container *ngIf="!loading">
-            <div class="tiny-spacer"></div>
-            <h4>CPU temp: {{cpuTemp}}</h4>
-            <div class="small-spacer"></div>
-            <h4>CPU usage: {{cpuUsage}}%</h4>
-            <mat-progress-bar mode="determinate" [value]="cpuUsage"></mat-progress-bar>
-            <div class="small-spacer"></div>
-            <h4>RAM usage: {{ramUsage}}%</h4>
-            <mat-progress-bar mode="determinate" [value]="ramUsage"></mat-progress-bar>
-            <div class="small-spacer"></div>
-            <h4>OS disk usage: {{osDiskUsage}}%</h4>
-            <mat-progress-bar mode="determinate" [value]="osDiskUsage"></mat-progress-bar>
-        </ng-container>
+                <ng-container *ngIf="!loading">
+                    <div class="tiny-spacer"></div>
+                    <h4>CPU temp: {{cpuTemp}}</h4>
+                    <div class="small-spacer"></div>
+                    <h4>CPU usage: {{cpuUsage}}%</h4>
+                    <mat-progress-bar mode="determinate" [value]="cpuUsage"></mat-progress-bar>
+                    <div class="small-spacer"></div>
+                    <h4>RAM usage: {{ramUsage}}%</h4>
+                    <mat-progress-bar mode="determinate" [value]="ramUsage"></mat-progress-bar>
+                    <div class="small-spacer"></div>
+                    <h4>OS disk usage: {{osDiskUsage}}%</h4>
+                    <mat-progress-bar mode="determinate" [value]="osDiskUsage"></mat-progress-bar>
+                </ng-container>
 
+            </div>
+        </div>
     </div>
 </div>

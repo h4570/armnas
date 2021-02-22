@@ -9,6 +9,9 @@ import { SysInfoComponent } from './sys-info/sys-info.component';
 import { SystemInformationService } from 'src/app/services/system-information.service';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     declarations: [
@@ -21,8 +24,11 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
         SkeletonModule,
         RouterModule,
         TranslateModule,
+        MatIconModule,
+        MatButtonModule,
         MatProgressBarModule,
         SharedModule,
+        MatSliderModule,
     ],
     exports: [
         HomeComponent

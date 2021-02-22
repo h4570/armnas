@@ -6,7 +6,6 @@
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a6a25d66_002D2829_002D4a11_002D88f3_002D46e410f7acf9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="GetCPUInfoTest_Good" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::36BE5A34-AAD4-4ABB-A33B-A11CD1C59547::net5.0::OSCommander.Linux.Fascades.Tests.SystemInformationTests.GetCPUInfoTest_Good&lt;/TestId&gt;&#xD;
-    &lt;TestId&gt;xUnit::36BE5A34-AAD4-4ABB-A33B-A11CD1C59547::net5.0::OSCommander.Linux.Fascades.Tests.SystemInformationTests.GetStartTimeTest_Good&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::36BE5A34-AAD4-4ABB-A33B-A11CD1C59547::net5.0::OSCommanderTests.SystemInformationTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

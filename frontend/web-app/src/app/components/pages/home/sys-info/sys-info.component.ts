@@ -2,6 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SystemInformationService } from 'src/app/services/system-information.service';
 
+export const REFRESH_OFF_VALUE = 10000;
+
 @Component({
   selector: 'app-sys-info',
   templateUrl: './sys-info.component.html',
@@ -18,10 +20,10 @@ export class SysInfoComponent implements OnInit, OnDestroy {
   public ip = 'Loading';
   public upTime = 'Loading';
   public loading = true;
+  public refreshInterval = 5000;
+  public refreshOffValue = REFRESH_OFF_VALUE;
 
-  private keepUpdating = true;
-  private refershInterval = 3000;
-
+  private isNgDestroyed = false;
   constructor(
     private sysInfo: SystemInformationService,
     public translate: TranslateService
@@ -33,17 +35,38 @@ export class SysInfoComponent implements OnInit, OnDestroy {
     promises.push(this.loadDynamic());
     await Promise.all(promises);
     this.loading = false;
-    setTimeout(async () => await this.refresh(), this.refershInterval); // refresh after 5 sec
+    this.loadRefreshSettings();
+    setTimeout(async () => await this.refresh(), this.refreshInterval);
   }
 
   public async refresh(): Promise<void> {
+    if (this.isNgDestroyed || this.refreshInterval === REFRESH_OFF_VALUE)
+      return;
     await this.loadDynamic();
-    if (this.keepUpdating) // if not destroyed
-      setTimeout(() => this.refresh(), this.refershInterval); // refresh again after 5 sec
+    setTimeout(() => this.refresh(), this.refreshInterval);
   }
 
   public ngOnDestroy(): void {
-    this.keepUpdating = false;
+    this.isNgDestroyed = true;
+  }
+
+  public onRefreshIntervalChange(): void {
+    this.saveRefreshSettings();
+  }
+
+  public formatRefreshIntervalLabel(value: number) {
+    if (value === REFRESH_OFF_VALUE) return 'off';
+    return (value / 1000).toFixed(1) + 's';
+  }
+
+  private saveRefreshSettings(): void {
+    localStorage.setItem('sys-info-refresh-interval', this.refreshInterval.toString());
+  }
+
+  private loadRefreshSettings(): void {
+    const refInterval = localStorage.getItem('sys-info-refresh-interval');
+    if (refInterval)
+      this.refreshInterval = parseInt(refInterval, 10);
   }
 
   private async loadStatic(): Promise<void> {
@@ -64,41 +87,70 @@ export class SysInfoComponent implements OnInit, OnDestroy {
   }
 
   private async loadDistro(): Promise<void> {
-    this.distro = await this.sysInfo.getDistributionName();
+    try {
+      this.distro = await this.sysInfo.getDistributionName();
+    } catch {
+      this.distro = 'Error';
+    }
   }
 
   private async loadKernel(): Promise<void> {
-    this.kernel = await this.sysInfo.getKernelName();
+    try {
+      this.kernel = await this.sysInfo.getKernelName();
+    } catch {
+      this.kernel = 'Error';
+    }
   }
 
   private async loadCPUInfo(): Promise<void> {
-    const cpuInfo = await this.sysInfo.getCPUInfo();
-    this.cpuTemp = `${cpuInfo.temperature}C`;
-    this.cpuUsage = cpuInfo.percentageUsage;
+    try {
+      const cpuInfo = await this.sysInfo.getCPUInfo();
+      this.cpuTemp = `${cpuInfo.temperature}C`;
+      this.cpuUsage = cpuInfo.percentageUsage;
+    } catch {
+      this.cpuTemp = 'Error';
+      this.cpuUsage = 0;
+    }
   }
 
   private async loadRAMInfo(): Promise<void> {
-    const ramInfo = await this.sysInfo.getRAMInfo();
-    const perc = ((ramInfo.totalInKB - ramInfo.freeInKB) / ramInfo.totalInKB) * 100;
-    this.ramUsage = parseFloat(perc.toFixed(2));
+    try {
+      const ramInfo = await this.sysInfo.getRAMInfo();
+      const perc = ((ramInfo.totalInMB - ramInfo.freeInMB) / ramInfo.totalInMB) * 100;
+      this.ramUsage = parseFloat(perc.toFixed(2));
+    } catch {
+      this.ramUsage = 0;
+    }
   }
 
   private async loadDiskInfo(): Promise<void> {
-    const disks = await this.sysInfo.getDisksInfo();
-    const mainDisk = disks.find(c => c.isMain);
-    const perc = (mainDisk.usedMemoryInMB / mainDisk.memoryInMB) * 100;
-    this.osDiskUsage = parseFloat(perc.toFixed(2));
+    try {
+      const disks = await this.sysInfo.getDisksInfo();
+      const mainDisk = disks.find(c => c.isMain);
+      const perc = (mainDisk.usedMemoryInMB / mainDisk.memoryInMB) * 100;
+      this.osDiskUsage = parseFloat(perc.toFixed(2));
+    } catch {
+      this.osDiskUsage = 0;
+    }
   }
 
   private async loadIP(): Promise<void> {
-    this.ip = await this.sysInfo.getIP();
+    try {
+      this.ip = await this.sysInfo.getIP();
+    } catch {
+      this.ip = 'Error';
+    }
   }
 
   private async loadUpTime(): Promise<void> {
-    const start = await this.sysInfo.getStartTime();
-    const now = new Date();
-    const diff = start.difference(now, 1000 * 60 * 60);
-    this.upTime = `${diff.toFixed(2)}h`;
+    try {
+      const start = await this.sysInfo.getStartTime();
+      const now = new Date();
+      const diffInMin = start.difference(now, 1000 * 60);
+      this.upTime = `${Math.floor(diffInMin / 60)}h ${diffInMin % 60}m`;
+    } catch {
+      this.upTime = 'Error';
+    }
   }
 
 }

@@ -1,30 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Moq;
-using OSCommander.Linux.Repositories;
-using OSCommander.Linux.Services;
+using OSCommander.Repositories;
+using OSCommander.Services;
+
 // ReSharper disable StringLiteralTypo
 
-namespace OSCommanderTests.Linux.Services
+namespace OSCommanderTests.Services
 {
     public static class SystemServiceMock
     {
         /// <exception cref="T:System.IO.DirectoryNotFoundException">The specified path is invalid (for example, it is on an unmapped drive).</exception>
-        /// <exception cref="T:System.Security.SecurityException">The caller does not have the required permission.</exception>
-        /// <exception cref="T:System.IO.FileNotFoundException">The file specified in <paramref name="path" /> was not found.</exception>
-        /// <exception cref="T:System.UnauthorizedAccessException"><paramref name="path" /> specified a file that is read-only.  
-        ///  -or-  
-        ///  This operation is not supported on the current platform.  
-        ///  -or-  
-        ///  <paramref name="path" /> specified a directory.  
-        ///  -or-  
-        ///  The caller does not have the required permission.</exception>
         /// <exception cref="T:System.IO.IOException">An I/O error occurred while opening the file.</exception>
-        public static ISystemService GetGood()
+        /// <exception cref="T:System.UnauthorizedAccessException">specified a file that is read-only.</exception>
+        /// <exception cref="T:System.IO.FileNotFoundException">The file specified in was not found.</exception>
+        /// <exception cref="T:System.Security.SecurityException">The caller does not have the required permission.</exception>
+        /// <exception cref="T:System.ArgumentException"> is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <see cref="F:System.IO.Path.InvalidPathChars" />.</exception>
+        /// <exception cref="T:System.ArgumentNullException"> is <see langword="null" />.</exception>
+        /// <exception cref="T:System.IO.PathTooLongException">The specified path, file name, or both exceed the system-defined maximum length.</exception>
+        /// <exception cref="T:System.NotSupportedException"> is in an invalid format.</exception>
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        internal static ISystemService GetGood()
         {
             var mockRepo = new Mock<ISystemService>();
 
@@ -71,54 +67,58 @@ namespace OSCommanderTests.Linux.Services
             return mockRepo.Object;
         }
 
-        public static ISystemService GetWithCommandException()
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        internal static ISystemService GetWithCommandException()
         {
             var mockRepo = new Mock<ISystemService>();
 
             mockRepo
                 .Setup(obj => obj.GetCpuInfo())
-                .Throws(new Command.CommandFailException("err"));
+                .Throws(new CommandFailException("err"));
 
             mockRepo
                 .Setup(obj => obj.GetDf())
-                .Throws(new Command.CommandFailException("err"));
+                .Throws(new CommandFailException("err"));
 
             mockRepo
                 .Setup(obj => obj.GetFdisk())
-                .Throws(new Command.CommandFailException("err"));
+                .Throws(new CommandFailException("err"));
 
             mockRepo
                 .Setup(obj => obj.GetIpAddresses())
-                .Throws(new Command.CommandFailException("err"));
+                .Throws(new CommandFailException("err"));
 
             mockRepo
                 .Setup(obj => obj.GetMemInfo())
-                .Throws(new Command.CommandFailException("err"));
+                .Throws(new CommandFailException("err"));
 
             mockRepo
                 .Setup(obj => obj.GetOsRelease())
-                .Throws(new Command.CommandFailException("err"));
+                .Throws(new CommandFailException("err"));
 
             mockRepo
                 .Setup(obj => obj.GetProcStat())
-                .Throws(new Command.CommandFailException("err"));
+                .Throws(new CommandFailException("err"));
 
             mockRepo
                 .Setup(obj => obj.GetTempInfo())
-                .Throws(new Command.CommandFailException("err"));
+                .Throws(new CommandFailException("err"));
 
             mockRepo
                 .Setup(obj => obj.GetUname())
-                .Throws(new Command.CommandFailException("err"));
+                .Throws(new CommandFailException("err"));
 
             mockRepo
                 .Setup(obj => obj.GetUpTime())
-                .Returns(string.Empty);
+                .Throws(new CommandFailException("err"));
 
             return mockRepo.Object;
         }
 
-        public static ISystemService GetWithEmptyResponses()
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        internal static ISystemService GetWithEmptyResponses()
         {
             var mockRepo = new Mock<ISystemService>();
 

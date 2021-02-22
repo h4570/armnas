@@ -64,41 +64,70 @@ export class SysInfoComponent implements OnInit, OnDestroy {
   }
 
   private async loadDistro(): Promise<void> {
-    this.distro = await this.sysInfo.getDistributionName();
+    try {
+      this.distro = await this.sysInfo.getDistributionName();
+    } catch {
+      this.distro = 'Error';
+    }
   }
 
   private async loadKernel(): Promise<void> {
-    this.kernel = await this.sysInfo.getKernelName();
+    try {
+      this.kernel = await this.sysInfo.getKernelName();
+    } catch {
+      this.kernel = 'Error';
+    }
   }
 
   private async loadCPUInfo(): Promise<void> {
-    const cpuInfo = await this.sysInfo.getCPUInfo();
-    this.cpuTemp = `${cpuInfo.temperature}C`;
-    this.cpuUsage = cpuInfo.percentageUsage;
+    try {
+      const cpuInfo = await this.sysInfo.getCPUInfo();
+      this.cpuTemp = `${cpuInfo.temperature}C`;
+      this.cpuUsage = cpuInfo.percentageUsage;
+    } catch {
+      this.cpuTemp = 'Error';
+      this.cpuUsage = 0;
+    }
   }
 
   private async loadRAMInfo(): Promise<void> {
-    const ramInfo = await this.sysInfo.getRAMInfo();
-    const perc = ((ramInfo.totalInKB - ramInfo.freeInKB) / ramInfo.totalInKB) * 100;
-    this.ramUsage = parseFloat(perc.toFixed(2));
+    try {
+      const ramInfo = await this.sysInfo.getRAMInfo();
+      const perc = ((ramInfo.totalInKB - ramInfo.freeInKB) / ramInfo.totalInKB) * 100;
+      this.ramUsage = parseFloat(perc.toFixed(2));
+    } catch {
+      this.ramUsage = 0;
+    }
   }
 
   private async loadDiskInfo(): Promise<void> {
-    const disks = await this.sysInfo.getDisksInfo();
-    const mainDisk = disks.find(c => c.isMain);
-    const perc = (mainDisk.usedMemoryInMB / mainDisk.memoryInMB) * 100;
-    this.osDiskUsage = parseFloat(perc.toFixed(2));
+    try {
+      const disks = await this.sysInfo.getDisksInfo();
+      const mainDisk = disks.find(c => c.isMain);
+      const perc = (mainDisk.usedMemoryInMB / mainDisk.memoryInMB) * 100;
+      this.osDiskUsage = parseFloat(perc.toFixed(2));
+    } catch {
+      this.osDiskUsage = 0;
+    }
   }
 
   private async loadIP(): Promise<void> {
-    this.ip = await this.sysInfo.getIP();
+    try {
+      this.ip = await this.sysInfo.getIP();
+    } catch {
+      this.ip = 'Error';
+    }
   }
 
   private async loadUpTime(): Promise<void> {
-    const start = await this.sysInfo.getStartTime();
-    const now = new Date();
-    const diff = start.difference(now, 1000 * 60 * 60);
-    this.upTime = `${diff.toFixed(2)}h`;
+    try {
+      const start = await this.sysInfo.getStartTime();
+      const now = new Date();
+      const diff = start.difference(now, 1000 * 60 * 60);
+      this.upTime = `${diff.toFixed(2)}h`;
+    } catch {
+      this.upTime = 'Error';
+    }
   }
 
 }

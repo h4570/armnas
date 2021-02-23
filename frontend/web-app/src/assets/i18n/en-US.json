@@ -3,7 +3,9 @@
 		"reportProblem": "Report problem",
 		"language": "Language",
 		"polish": "Polish",
-		"english": "English"
+		"english": "English",
+		"tweak": "Tweak",
+		"normalMode": "Normal mode"
 	},
 	"httpErrors": {
 		"error0Title": "Timeout!",

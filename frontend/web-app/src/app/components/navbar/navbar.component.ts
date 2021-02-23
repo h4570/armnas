@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { AppService } from 'src/app/services/app.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,6 +13,7 @@ export class NavbarComponent {
 
   constructor(
     public readonly translate: TranslateService,
+    public readonly appService: AppService
   ) {
     this.setWinterTime();
   }
@@ -19,6 +21,14 @@ export class NavbarComponent {
   public changeLang(language: string): void {
     localStorage.setItem('language', language);
     this.translate.use(language);
+  }
+
+  public onTweakClick(): void {
+    this.appService.isInTweakMode = true;
+  }
+
+  public onNormalModeClick(): void {
+    this.appService.isInTweakMode = false;
   }
 
   private setWinterTime(): void {

@@ -5,9 +5,11 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class AppService {
 
+    public isInTweakMode: boolean;
+
     private _version: string | undefined;
 
-    constructor(private readonly http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { this.isInTweakMode = false; }
 
     public get version(): string | undefined {
         return this._version;

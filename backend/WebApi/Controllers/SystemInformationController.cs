@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using OSCommander;
+using OSCommander.Dtos;
 using OSCommander.Models;
+using OSCommander.Models.PartitionInfo;
 
 namespace WebApi.Controllers
 {
@@ -18,9 +22,13 @@ namespace WebApi.Controllers
         private readonly SystemInformation _systemInfo;
 
         // ReSharper disable once SuggestBaseTypeForParameter
-        public SystemInformationController(ILogger<SystemInformationController> logger)
+        public SystemInformationController(ILogger<SystemInformationController> logger, IConfiguration config)
         {
-            _systemInfo = new SystemInformation(logger);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                _systemInfo = new SystemInformation(logger);
+            else
+                _systemInfo = new SystemInformation(logger,
+                    new SshCredentials("192.168.0.155", "root", config["Ssh:RootPass"]));
         }
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
@@ -57,16 +65,25 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
         [HttpGet("disks-info")]
         [Produces("application/json")]
-        public ActionResult<IEnumerable<DiskInfo>> GetDisksInfo() { return Ok(_systemInfo.GetDisksInfo()); }
+        public ActionResult<IEnumerable<LsblkDiskInfo>> GetDisksInfo() { return Ok(_systemInfo.GetDisksInfo()); }
+
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
-        [HttpGet("disk-info/{diskName}")]
+        [HttpGet("mounted-partitions")]
         [Produces("application/json")]
-        public ActionResult<DiskInfo> GetDiskInfo(string diskName) { return Ok(_systemInfo.GetDiskInfo(diskName)); }
+        public ActionResult<IEnumerable<DfPartitionInfo>> GetMountedPartitionsInfo() { return Ok(_systemInfo.GetMountedPartitionsInfo()); }
+
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        [HttpGet("mounted-partition/{diskName}")]
+        [Produces("application/json")]
+        public ActionResult<DfPartitionInfo> GetMountedPartitionInfo(string diskName) { return Ok(_systemInfo.GetMountedPartitionInfo(diskName)); }
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>

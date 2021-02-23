@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
+using OSCommander.Dtos;
 using OSCommander.Services;
 using OSCommander.Models;
+using OSCommander.Models.PartitionInfo;
 
+// ReSharper disable IdentifierTypo
 // ReSharper disable CommentTypo
 // ReSharper disable StringLiteralTypo
 
@@ -16,8 +20,16 @@ namespace OSCommander
     {
 
         private readonly ISystemService _service;
+
+        /// <summary>Attach logger, and execute commands on SSH target</summary>
         /// <param name="logger">Logger for detailed information about failed commands</param>
+        /// <param name="ssh">Ssh connection credentials</param>
+        public SystemInformation(ILogger logger, SshCredentials ssh) { _service = new SystemService(logger, ssh); }
+        /// <summary>Attach logger, and execute commands on current system</summary>
         public SystemInformation(ILogger logger) { _service = new SystemService(logger); }
+        /// <summary>Execute commands on SSH target</summary>
+        public SystemInformation(SshCredentials ssh) { _service = new SystemService(ssh); }
+        /// <summary>Execute commands on current system</summary>
         public SystemInformation() { _service = new SystemService(); }
         internal SystemInformation(ISystemService service) { _service = service; }
 
@@ -116,10 +128,70 @@ namespace OSCommander
             }
         }
 
+        /// <summary>
+        /// Get all disks+partitions info.
+        /// This command will not spin up the disks (lsblk).
+        /// </summary>
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
+        /// <exception cref="T:System.ArgumentNullException"></exception>
+        /// <exception cref="T:OSCommander.CommandResponseParsingException">Condition.</exception>
+        public IEnumerable<LsblkDiskInfo> GetDisksInfo()
+        {
+            var lsblk = _service.GetLsblk();
+            if (lsblk == null) throw new CommandResponseParsingException("Lsblk is null!");
+            var devices = lsblk.BlockDevices
+                .Where(c => c.MountPoint == null && !c.Ro);
+            var result = new List<LsblkDiskInfo>();
+            try
+            {
+                foreach (var device in devices)
+                {
+                    var dMultiplier = GetSizeMultiplierOfLsblk(device.Size);
+                    var dClearSize = decimal.Parse(
+                        Regex.Replace(device.Size, "[^0-9.]", ""),
+                        CultureInfo.InvariantCulture
+                    );
+                    var disk = new LsblkDiskInfo
+                    {
+                        Name = device.Name,
+                        MemoryInMB = (int)(dClearSize * dMultiplier),
+                        Partitions = new List<LsblkPartitionInfo>()
+                    };
+                    foreach (var partition in device.Children)
+                    {
+                        var pMultiplier = GetSizeMultiplierOfLsblk(partition.Size);
+                        var pClearSize = decimal.Parse(
+                            Regex.Replace(partition.Size, "[^0-9.]", ""),
+                            CultureInfo.InvariantCulture
+                        );
+                        disk.Partitions.Add(new LsblkPartitionInfo()
+                        {
+                            Name = partition.Name,
+                            MountingPoint = partition.MountPoint,
+                            MemoryInMB = (int)(pClearSize * pMultiplier)
+                        });
+                    }
+                    result.Add(disk);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new CommandResponseParsingException(ex);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Get mounted partitions info.
+        /// This command will not spin up the disks (df).
+        /// </summary>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
-        public IEnumerable<DiskInfo> GetDisksInfo()
+        public IEnumerable<DfPartitionInfo> GetMountedPartitionsInfo()
         {
             var df = _service.GetDf();
             try
@@ -142,7 +214,7 @@ namespace OSCommander
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
-        public DiskInfo GetDiskInfo(string diskName)
+        public DfPartitionInfo GetMountedPartitionInfo(string diskName)
         {
             var df = _service.GetDf();
             try
@@ -236,7 +308,7 @@ namespace OSCommander
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
-        private static DiskInfo GetDiskInfoByLine(string line)
+        private static DfPartitionInfo GetDiskInfoByLine(string line)
         {
             try
             {
@@ -247,9 +319,9 @@ namespace OSCommander
                     .Where(c => c.Trim() != string.Empty)
                     .ToList();
 
-                return new DiskInfo()
+                return new DfPartitionInfo()
                 {
-                    IsMain = parts.Last().Equals("/"),
+                    MountingPoint = parts.Last(),
                     MemoryInMB = int.Parse(parts[1]) / 1024,
                     Name = parts[0],
                     UsedMemoryInMB = int.Parse(parts[2]) / 1024
@@ -309,6 +381,19 @@ namespace OSCommander
             {
                 throw new CommandResponseParsingException(ex);
             }
+        }
+
+        private static decimal GetSizeMultiplierOfLsblk(string size)
+        {
+            var lastCharOfSize = size.Last().ToString().ToUpper();
+            return lastCharOfSize switch
+            {
+                "T" => 1000000,
+                "G" => 1000,
+                "M" => 1,
+                "K" => 0.001M,
+                _ => 0
+            };
         }
 
     }

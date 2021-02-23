@@ -1,5 +1,7 @@
 ﻿using System.IO;
+using System.Text.Json;
 using Moq;
+using OSCommander.Dtos;
 using OSCommander.Repositories;
 using OSCommander.Services;
 
@@ -20,6 +22,9 @@ namespace OSCommanderTests.Services
         /// <exception cref="T:System.NotSupportedException"> is in an invalid format.</exception>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:System.Text.Json.JsonException">The JSON is invalid.
+        /// There is remaining data in the string beyond a single JSON value.</exception>
+        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
         internal static ISystemService GetGood()
         {
             var mockRepo = new Mock<ISystemService>();
@@ -64,11 +69,16 @@ namespace OSCommanderTests.Services
                 .Setup(obj => obj.GetUpTime())
                 .Returns(File.ReadAllText("MockData/uptime.txt"));
 
+            mockRepo
+                .Setup(obj => obj.GetLsblk())
+                .Returns(JsonSerializer.Deserialize<Lsblk>(File.ReadAllText("MockData/lsblk.txt")));
+
             return mockRepo.Object;
         }
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
         internal static ISystemService GetWithCommandException()
         {
             var mockRepo = new Mock<ISystemService>();
@@ -113,11 +123,16 @@ namespace OSCommanderTests.Services
                 .Setup(obj => obj.GetUpTime())
                 .Throws(new CommandFailException("err"));
 
+            mockRepo
+                .Setup(obj => obj.GetLsblk())
+                .Throws(new CommandFailException("err"));
+
             return mockRepo.Object;
         }
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
         internal static ISystemService GetWithEmptyResponses()
         {
             var mockRepo = new Mock<ISystemService>();
@@ -161,6 +176,10 @@ namespace OSCommanderTests.Services
             mockRepo
                 .Setup(obj => obj.GetUpTime())
                 .Returns(string.Empty);
+
+            mockRepo
+                .Setup(obj => obj.GetLsblk())
+                .Returns((Lsblk)null);
 
             return mockRepo.Object;
         }

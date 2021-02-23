@@ -1,5 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { smoothHeight } from 'src/app/components/shared/animations';
+import { SmoothHeightAnimDirective } from 'src/app/components/shared/smooth-height.directive';
+import { AppService } from 'src/app/services/app.service';
 import { SystemInformationService } from 'src/app/services/system-information.service';
 
 export const REFRESH_OFF_VALUE = 10000;
@@ -7,7 +10,8 @@ export const REFRESH_OFF_VALUE = 10000;
 @Component({
   selector: 'app-sys-info',
   templateUrl: './sys-info.component.html',
-  styleUrls: ['./sys-info.component.scss']
+  styleUrls: ['./sys-info.component.scss'],
+  animations: [smoothHeight]
 })
 export class SysInfoComponent implements OnInit, OnDestroy {
 
@@ -25,8 +29,9 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   private isNgDestroyed = false;
   constructor(
-    private sysInfo: SystemInformationService,
-    public translate: TranslateService
+    public readonly appService: AppService,
+    private readonly sysInfo: SystemInformationService,
+    public readonlytranslate: TranslateService
   ) { }
 
   public async ngOnInit(): Promise<void> {
@@ -125,7 +130,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   private async loadDiskInfo(): Promise<void> {
     try {
-      const disks = await this.sysInfo.getDisksInfo();
+      const disks = await this.sysInfo.getMountedPartitionsInfo();
       const mainDisk = disks.find(c => c.isMain);
       const perc = (mainDisk.usedMemoryInMB / mainDisk.memoryInMB) * 100;
       this.osDiskUsage = parseFloat(perc.toFixed(2));

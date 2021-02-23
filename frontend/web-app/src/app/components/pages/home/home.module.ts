@@ -12,11 +12,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { SmoothHeightAnimDirective } from '../../shared/smooth-height.directive';
 
 @NgModule({
     declarations: [
         HomeComponent,
-        SysInfoComponent
+        SysInfoComponent,
+        SmoothHeightAnimDirective
     ],
     imports: [
         CommonModule,

@@ -1,6 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Text.Json;
+using Microsoft.Extensions.Logging;
+using OSCommander.Dtos;
 using OSCommander.Repositories;
 
+// ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo
 // ReSharper disable CommentTypo
 
@@ -10,8 +14,10 @@ namespace OSCommander.Services
     {
 
         private readonly CommandRepository _commandRepo;
+        internal SystemService(SshCredentials ssh) { _commandRepo = new CommandRepository(ssh); }
         internal SystemService() { _commandRepo = new CommandRepository(); }
         internal SystemService(ILogger logger) { _commandRepo = new CommandRepository(logger); }
+        internal SystemService(ILogger logger, SshCredentials ssh) { _commandRepo = new CommandRepository(logger, ssh); }
 
         /// <summary>
         /// Implementation of https://askubuntu.com/a/854029
@@ -24,6 +30,21 @@ namespace OSCommander.Services
             return _commandRepo.Execute("paste <(cat /sys/class/thermal/thermal_zone*/type) " +
                               "<(cat /sys/class/thermal/thermal_zone*/temp) " +
                               @"| column -s $'\t' -t | sed 's/\(.\)..$/.\1/'");
+        }
+
+        /// <summary>
+        /// Returns devices list.
+        /// NOTICE: This command will NOT spin up disks.
+        /// </summary>
+        /// <returns> Result of "lsblk -J". </returns>
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
+        public Lsblk GetLsblk()
+        {
+            var json = _commandRepo.Execute("lsblk -J");
+            try { return JsonSerializer.Deserialize<Lsblk>(json); }
+            catch (Exception ex) { throw new JsonParsingException(ex); }
         }
 
         /// <summary>
@@ -40,6 +61,7 @@ namespace OSCommander.Services
 
         /// <summary>
         /// The 'df' command stands for “disk filesystem“, it is used to get a full summary of available and used disk space usage of the file system on Linux system.
+        /// NOTICE: This command will NOT spin up disks.
         /// </summary>
         /// <returns> Result of "df". </returns>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
@@ -126,4 +148,15 @@ namespace OSCommander.Services
         }
 
     }
+
+    /// <summary>
+    /// Wrapper exception for JSON parsing fail.
+    /// </summary>
+    [Serializable]
+    public class JsonParsingException : Exception
+    {
+        public JsonParsingException(string name) : base(name) { }
+        public JsonParsingException(Exception innerEx) : base(innerEx.Message, innerEx) { }
+    }
+
 }

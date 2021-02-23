@@ -3,7 +3,9 @@
 		"reportProblem": "Zgłoś błąd",
 		"language": "Język",
 		"polish": "Polski",
-		"english": "Angielski"
+		"english": "Angielski",
+		"tweak": "Dostrój",
+		"normalMode": "Tryb normalny"
 	},
 	"httpErrors": {
 		"error0Title": "Czas minął!",

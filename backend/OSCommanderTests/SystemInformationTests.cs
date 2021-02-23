@@ -18,6 +18,10 @@ namespace OSCommanderTests
         private readonly SystemInformation _exception;
         private readonly SystemInformation _empty;
 
+        /// <exception cref="T:System.ArgumentException">is a zero-length string, contains only white space, or contains one or more invalid characters as defined by <see cref="F:System.IO.Path.InvalidPathChars" />.</exception>
+        /// <exception cref="T:System.ArgumentNullException">is <see langword="null" />.</exception>
+        /// <exception cref="T:System.IO.PathTooLongException">The specified path, file name, or both exceed the system-defined maximum length.</exception>
+        /// <exception cref="T:System.NotSupportedException">is in an invalid format.</exception>
         public SystemInformationTests()
         {
             _good = new SystemInformation(SystemServiceMock.GetGood());
@@ -72,6 +76,7 @@ namespace OSCommanderTests
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:Xunit.Sdk.ThrowsException">Thrown when an exception was not thrown, or when an exception of the incorrect type is thrown</exception>
         [Fact]
         public void GetKernelNameTest_Bad_Exception()
         {
@@ -140,9 +145,9 @@ namespace OSCommanderTests
         /// <exception cref="T:System.ArgumentNullException">is <see langword="null" />.</exception>
         /// <exception cref="T:System.InvalidOperationException">The source sequence is empty.</exception>
         [Fact]
-        public void GetDisksInfoTest_Good()
+        public void GetMountedPartitionsInfoTest_Good()
         {
-            var res = _good.GetDisksInfo().ToList();
+            var res = _good.GetMountedPartitionsInfo().ToList();
             Assert.Single(res);
             var disk = res.First();
             Assert.Equal("/dev/mmcblk0p1", disk.Name);
@@ -154,26 +159,26 @@ namespace OSCommanderTests
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         [Fact]
-        public void GetDisksInfoTest_Bad_EmptyResult()
+        public void GetMountedPartitionsInfoTest_Bad_EmptyResult()
         {
-            Assert.Throws<CommandResponseParsingException>(() => _empty.GetDisksInfo());
+            Assert.Throws<CommandResponseParsingException>(() => _empty.GetMountedPartitionsInfo());
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         [Fact]
-        public void GetDisksInfoTest_Bad_Exception()
+        public void GetMountedPartitionsInfoTest_Bad_Exception()
         {
-            Assert.Throws<CommandFailException>(() => _exception.GetDisksInfo());
+            Assert.Throws<CommandFailException>(() => _exception.GetMountedPartitionsInfo());
         }
 
         // ---
 
         [Fact]
-        public void GetDiskInfoTest_Good()
+        public void GetMountedPartitionInfoTest_Good()
         {
-            var disk = _good.GetDiskInfo("/dev/mmcblk0p1");
+            var disk = _good.GetMountedPartitionInfo("/dev/mmcblk0p1");
             Assert.Equal("/dev/mmcblk0p1", disk.Name);
             Assert.Equal(14767, disk.MemoryInMB);
             Assert.Equal(1658, disk.UsedMemoryInMB);
@@ -184,27 +189,27 @@ namespace OSCommanderTests
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         [Fact]
-        public void GetDiskInfoTest_NotPresent()
+        public void GetMountedPartitionInfoTest_NotPresent()
         {
-            Assert.Throws<CommandResponseParsingException>(() => _good.GetDiskInfo("/dev/mmcblk0p1337"));
+            Assert.Throws<CommandResponseParsingException>(() => _good.GetMountedPartitionInfo("/dev/mmcblk0p1337"));
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         [Fact]
-        public void GetDiskInfoTest_Bad_EmptyResult()
+        public void GetMountedPartitionInfoTest_Bad_EmptyResult()
         {
-            Assert.Throws<CommandResponseParsingException>(() => _empty.GetDiskInfo("/dev/mmcblk0p1"));
+            Assert.Throws<CommandResponseParsingException>(() => _empty.GetMountedPartitionInfo("/dev/mmcblk0p1"));
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         [Fact]
-        public void GetDiskInfoTest_Bad_Exception()
+        public void GetMountedPartitionInfoTest_Bad_Exception()
         {
-            Assert.Throws<CommandFailException>(() => _exception.GetDiskInfo("/dev/mmcblk0p1"));
+            Assert.Throws<CommandFailException>(() => _exception.GetMountedPartitionInfo("/dev/mmcblk0p1"));
         }
 
         // ---
@@ -262,6 +267,67 @@ namespace OSCommanderTests
         public void GetStartTimeTest_Bad_Exception()
         {
             Assert.Throws<CommandFailException>(() => _exception.GetStartTime());
+        }
+
+        // ---
+
+        /// <exception cref="T:System.ArgumentNullException">is <see langword="null" />.</exception>
+        /// <exception cref="T:System.InvalidOperationException">No element satisfies the condition in.  
+        ///  -or-  
+        ///  More than one element satisfies the condition in  
+        ///  -or-  
+        ///  The source sequence is empty.</exception>
+        [Fact]
+        public void GetDisksInfoTest_Good()
+        {
+            var res = _good.GetDisksInfo().ToList();
+            Assert.Equal(4, res.Count);
+
+            var disk1 = res.Single(c => c.Name.Equals("sda"));
+            Assert.Single(disk1.Partitions);
+            Assert.Equal(1800000, disk1.MemoryInMB);
+            var disk1P1 = disk1.Partitions.Single(c => c.Name == "sda1");
+            Assert.Equal(1800000, disk1P1.MemoryInMB);
+            Assert.Null(disk1P1.MountingPoint);
+
+            var disk2 = res.Single(c => c.Name.Equals("mmcblk1"));
+            Assert.Equal(2, disk2.Partitions.Count);
+            Assert.Equal(29000, disk2.MemoryInMB);
+            var disk2P1 = disk2.Partitions.Single(c => c.Name == "mmcblk1p1");
+            Assert.Equal(128, disk2P1.MemoryInMB);
+            Assert.Null(disk1P1.MountingPoint);
+            var disk2P2 = disk2.Partitions.Single(c => c.Name == "mmcblk1p2");
+            Assert.Equal(28900, disk2P2.MemoryInMB);
+            Assert.Null(disk2P2.MountingPoint);
+
+            var disk3 = res.Single(c => c.Name.Equals("mmcblk0"));
+            Assert.Single(disk3.Partitions);
+            Assert.Equal(14700, disk3.MemoryInMB);
+            var disk3P1 = disk3.Partitions.Single(c => c.Name == "mmcblk0p1");
+            Assert.Equal(14700, disk3P1.MemoryInMB);
+            Assert.Equal("/", disk3P1.MountingPoint);
+        }
+
+        /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
+        /// <exception cref="T:System.ArgumentNullException"></exception>
+        [Fact]
+        public void GetDisksInfoTest_Bad_EmptyResult()
+        {
+            Assert.Throws<CommandResponseParsingException>(() => _empty.GetDisksInfo());
+        }
+
+        /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
+        /// <exception cref="T:System.ArgumentNullException"></exception>
+        [Fact]
+        public void GetDisksInfoTest_Bad_Exception()
+        {
+            Assert.Throws<CommandFailException>(() => _exception.GetDisksInfo());
         }
 
     }

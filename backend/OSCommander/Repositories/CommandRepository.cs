@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using Microsoft.Extensions.Logging;
+using OSCommander.Dtos;
+using Renci.SshNet;
 
 namespace OSCommander.Repositories
 {
@@ -9,8 +11,14 @@ namespace OSCommander.Repositories
     {
 
         private readonly ILogger _logger;
+        private bool UsingSsh => _ssh != null;
+        private readonly SshCredentials _ssh;
+
         internal CommandRepository() { }
+        internal CommandRepository(SshCredentials ssh) { _ssh = ssh; }
         internal CommandRepository(ILogger logger) { _logger = logger; }
+        internal CommandRepository(ILogger logger, SshCredentials ssh) { _logger = logger; _ssh = ssh; }
+
 
         /// <summary>
         /// Execute Linux command.
@@ -24,8 +32,37 @@ namespace OSCommander.Repositories
         /// </exception>
         internal string Execute(string command)
         {
-            if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                throw new CommandFailException("Commands can be executed in Linux only.");
+            var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+            return isLinux switch
+            {
+                false when !UsingSsh => throw new CommandFailException(
+                    "Commands can be executed in Linux or in Windows with Linux SSH credentials."),
+                true => ExecuteLinuxCommand(command),
+                _ => ExecuteSshLinuxCommand(command)
+            };
+        }
+
+        private string ExecuteSshLinuxCommand(string command)
+        {
+            try
+            {
+                using var client = new SshClient(_ssh.Host, _ssh.Username, _ssh.Password);
+                client.Connect();
+                var res = client.RunCommand(command);
+                client.Disconnect();
+                if (res.Error != string.Empty || res.Result == string.Empty)
+                    throw new CommandFailException("SSH Command execution failed. {command} => {ex.Message}");
+                return res.Result;
+            }
+            catch (Exception ex) // lets reduce amount of OS related exceptions (about 10) to 1
+            {
+                _logger?.LogError($"SSH Command execution failed. {command} => {ex.Message}");
+                throw new CommandFailException(ex);
+            }
+        }
+
+        private string ExecuteLinuxCommand(string command)
+        {
             try
             {
                 using var proc = new Process
@@ -52,7 +89,6 @@ namespace OSCommander.Repositories
                 _logger?.LogError($"Command execution failed. {command} => {ex.Message}");
                 throw new CommandFailException(ex);
             }
-
         }
 
     }

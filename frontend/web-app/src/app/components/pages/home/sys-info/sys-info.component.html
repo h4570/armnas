@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-12">
-        <div class="row">
-            <div class="col-9"></div>
-            <div class="col-3">
+        <div class="row" [smoothHeight]="appService.isInTweakMode">
+            <div class="col-9" *ngIf="appService.isInTweakMode"></div>
+            <div class="col-3" *ngIf="appService.isInTweakMode">
                 <mat-slider [(ngModel)]="refreshInterval" (ngModelChange)="onRefreshIntervalChange()" thumbLabel
                     [displayWith]="formatRefreshIntervalLabel" tickInterval="100" min="100" [max]="refreshOffValue">
                 </mat-slider>

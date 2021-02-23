@@ -1,0 +1,29 @@
+﻿{
+   "blockdevices": [
+      {"name":"sda", "maj:min":"8:0", "rm":false, "size":"1.8T", "ro":false, "type":"disk", "mountpoint":null,
+         "children": [
+            {"name":"sda1", "maj:min":"8:1", "rm":false, "size":"1.8T", "ro":false, "type":"part", "mountpoint":null}
+         ]
+      },
+      {"name":"sdb", "maj:min":"8:16", "rm":false, "size":"1.8T", "ro":false, "type":"disk", "mountpoint":null,
+         "children": [
+            {"name":"sdb1", "maj:min":"8:17", "rm":false, "size":"1.8T", "ro":false, "type":"part", "mountpoint":null}
+         ]
+      },
+      {"name":"mmcblk1", "maj:min":"179:0", "rm":false, "size":"29G", "ro":false, "type":"disk", "mountpoint":null,
+         "children": [
+            {"name":"mmcblk1p1", "maj:min":"179:1", "rm":false, "size":"128M", "ro":false, "type":"part", "mountpoint":null},
+            {"name":"mmcblk1p2", "maj:min":"179:2", "rm":false, "size":"28.9G", "ro":false, "type":"part", "mountpoint":null}
+         ]
+      },
+      {"name":"mmcblk0", "maj:min":"179:16", "rm":false, "size":"14.7G", "ro":false, "type":"disk", "mountpoint":null,
+         "children": [
+            {"name":"mmcblk0p1", "maj:min":"179:17", "rm":false, "size":"14.7G", "ro":false, "type":"part", "mountpoint":"/"}
+         ]
+      },
+      {"name":"mmcblk0boot0", "maj:min":"179:32", "rm":false, "size":"4M", "ro":true, "type":"disk", "mountpoint":null},
+      {"name":"mmcblk0boot1", "maj:min":"179:48", "rm":false, "size":"4M", "ro":true, "type":"disk", "mountpoint":null},
+      {"name":"zram0", "maj:min":"253:0", "rm":false, "size":"995.2M", "ro":false, "type":"disk", "mountpoint":"[SWAP]"},
+      {"name":"zram1", "maj:min":"253:1", "rm":false, "size":"50M", "ro":false, "type":"disk", "mountpoint":"/var/log"}
+   ]
+}

@@ -1,6 +1,6 @@
-export interface DiskInfo {
+export interface PartitionInfo {
     name: string;
+    mountingPoint: string;
     isMain: boolean;
     memoryInMB: number;
-    usedMemoryInMB: number;
 }

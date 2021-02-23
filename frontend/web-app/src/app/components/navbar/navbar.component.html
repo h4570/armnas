@@ -21,6 +21,15 @@
         </button>
 
         <mat-menu #settings="matMenu">
+
+          <button mat-menu-item *ngIf="appService.isInTweakMode" (click)="onNormalModeClick()">
+            <mat-icon>all_out</mat-icon>
+            <span>{{ 'navbar.normalMode' | translate }}</span>
+          </button>
+          <button mat-menu-item *ngIf="!appService.isInTweakMode" (click)="onTweakClick()">
+            <mat-icon>build_circle</mat-icon>
+            <span>{{ 'navbar.tweak' | translate }}</span>
+          </button>
           <button mat-menu-item>
             <mat-icon>bug_report</mat-icon>
             <span>{{ 'navbar.reportProblem' | translate }}</span>

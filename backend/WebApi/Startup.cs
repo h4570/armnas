@@ -13,7 +13,6 @@ namespace WebApi
 
     public class Startup
     {
-
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
@@ -23,6 +22,7 @@ namespace WebApi
         public IConfiguration Configuration { get; }
         public IWebHostEnvironment Environment { get; }
 
+        /// <exception cref="T:System.AppDomainUnloadedException">The operation is attempted on an unloaded application domain.</exception>
         public void ConfigureServices(IServiceCollection services)
         {
             var config = Configuration.GetSection("configuration").Get<Configuration>();

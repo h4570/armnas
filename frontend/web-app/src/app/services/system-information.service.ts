@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { CPUInfo } from '../models/os-commander/cpu-info.model';
-import { DiskInfo } from '../models/os-commander/disk-info.model';
 import { RAMInfo } from '../models/os-commander/ram-info.model';
+import { LsblkDiskInfo } from '../models/os-commander/lsblk-disk-info.model';
+import { DfPartitionInfo } from '../models/os-commander/partition-info/df-partition-info.model';
 
 @Injectable()
 export class SystemInformationService {
@@ -38,15 +39,21 @@ export class SystemInformationService {
             .toPromise();
     }
 
-    public async getDisksInfo(): Promise<DiskInfo[]> {
+    public async getDisksInfo(): Promise<LsblkDiskInfo[]> { // todo nazwy w komponencie
         return this.http
-            .get<DiskInfo[]>(`${this.url}/disks-info`)
+            .get<LsblkDiskInfo[]>(`${this.url}/disks-info`)
             .toPromise();
     }
 
-    public async getDiskInfo(diskName: string): Promise<DiskInfo> {
+    public async getMountedPartitionsInfo(): Promise<DfPartitionInfo[]> {
         return this.http
-            .get<DiskInfo>(`${this.url}/disk-info/${encodeURIComponent(diskName)}`)
+            .get<DfPartitionInfo[]>(`${this.url}/mounted-partitions`)
+            .toPromise();
+    }
+
+    public async getMountedPartitionInfo(diskName: string): Promise<DfPartitionInfo> {
+        return this.http
+            .get<DfPartitionInfo>(`${this.url}/mounted-partition/${encodeURIComponent(diskName)}`)
             .toPromise();
     }
 

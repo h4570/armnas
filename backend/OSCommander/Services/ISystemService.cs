@@ -1,4 +1,8 @@
-﻿// ReSharper disable CommentTypo
+﻿using OSCommander.Dtos;
+
+// ReSharper disable CommentTypo
+// ReSharper disable IdentifierTypo
+
 namespace OSCommander.Services
 {
     internal interface ISystemService
@@ -21,7 +25,18 @@ namespace OSCommander.Services
         string GetFdisk();
 
         /// <summary>
+        /// Returns devices list.
+        /// NOTICE: This command will NOT spin up disks.
+        /// </summary>
+        /// <returns> Result of "lsblk -J". </returns>
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
+        public Lsblk GetLsblk();
+
+        /// <summary>
         /// The 'df' command stands for “disk filesystem“, it is used to get a full summary of available and used disk space usage of the file system on Linux system.
+        /// NOTICE: This command will NOT spin up disks.
         /// </summary>
         /// <returns> Result of "df". </returns>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.

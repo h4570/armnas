@@ -281,7 +281,7 @@ namespace OSCommanderTests
         public void GetDisksInfoTest_Good()
         {
             var res = _good.GetDisksInfo().ToList();
-            Assert.Equal(4, res.Count);
+            Assert.Equal(5, res.Count);
 
             var disk1 = res.Single(c => c.Name.Equals("sda"));
             Assert.Single(disk1.Partitions);

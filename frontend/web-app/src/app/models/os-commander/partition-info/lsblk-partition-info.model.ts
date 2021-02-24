@@ -1,3 +1,5 @@
 import { PartitionInfo } from './partition-info.model';
 
-export type LsblkPartitionInfo = PartitionInfo;
+export interface LsblkPartitionInfo extends PartitionInfo {
+    uuid: string;
+}

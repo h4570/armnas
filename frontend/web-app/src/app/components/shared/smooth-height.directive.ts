@@ -9,8 +9,9 @@ import { Directive, OnChanges, Input, HostBinding, ElementRef } from '@angular/c
 export class SmoothHeightAnimDirective implements OnChanges {
 
     @Input() smoothHeight: boolean;
-    public pulse: boolean;
-    public startHeight: number;
+    private pulse: boolean;
+    private startHeight: number;
+    private lastHeight: number;
 
     constructor(private element: ElementRef) { }
 
@@ -19,13 +20,11 @@ export class SmoothHeightAnimDirective implements OnChanges {
         return { value: this.pulse, params: { startHeight: this.startHeight } };
     }
 
-    public setStartHeight(): void {
-        this.startHeight = this.element.nativeElement.clientHeight;
-    }
-
     public ngOnChanges(): void {
-        this.setStartHeight();
-        this.pulse = !this.pulse;
+        this.startHeight = this.element.nativeElement.clientHeight;
+        if (this.lastHeight !== this.startHeight)
+            this.pulse = !this.pulse;
+        this.lastHeight = this.startHeight;
     }
 
 }

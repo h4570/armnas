@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-12" [smoothHeight]="loading || disksRefresh">
+        <h3>Disks:</h3>
+
+        <ng-container *ngIf="loading">
+            <p-skeleton width="85%" height="3.2rem"></p-skeleton>
+            <div style="width:1px;height:1rem"></div>
+            <p-skeleton width="95%" height="3rem"></p-skeleton>
+            <div style="width:1px;height:.5rem"></div>
+            <p-skeleton width="70%" height="2.5rem"></p-skeleton>
+        </ng-container>
+
+        <div *ngIf="!loading">
+            <div *ngFor="let disk of disks">
+                <div *ngFor="let partition of disk.partitions">
+
+                    <div class="row partition mat-elevation-z1 rounded">
+                        <div class="col-1-sm">
+                            <img src="/assets/img/icons/hard-disk.png" width="30px" height="auto" />
+                        </div>
+                        <div class="col-4-sm partition-text">
+                            <span *ngIf="partition.isInEditMode">
+                                <mat-form-field class="display-name-input">
+                                    <mat-label>Display name</mat-label>
+                                    <input matInput [(ngModel)]="partition.displayName">
+                                </mat-form-field>
+                            </span>
+                            <span class="font-heavy" *ngIf="!partition.isInEditMode">
+                                <span *ngIf="!partition.displayName">{{partition.name}}</span>
+                                <span *ngIf="partition.displayName">{{partition.displayName}}</span>
+                            </span>
+                            <button mat-icon-button *ngIf="!partition.isInEditMode && appService.isInTweakMode"
+                                (click)="onEditClick(partition)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button *ngIf="partition.isInEditMode" (click)="onSaveClick(partition)">
+                                <mat-icon>save</mat-icon>
+                            </button>
+                            <button mat-icon-button *ngIf="partition.isInEditMode"
+                                (click)="onCancelEditClick(partition)">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </div>
+                        <div class="col-2-sm partition-text">
+                            <span class="font-light" *ngIf="partition.mountingPoint">
+                                &nbsp;
+                                Size: {{partition.memoryInMB | size}}
+                            </span>
+                        </div>
+                        <div class="col-3-sm partition-text">
+                            <span class="font-light" *ngIf="partition.mountingPoint">
+                                &nbsp;
+                                Mount:
+                                {{partition.mountingPoint}}
+                            </span>
+                        </div>
+                        <div class="col-2-sm flex-center">
+                            <button mat-stroked-button *ngIf="!partition.mountingPoint"
+                                (click)="onMountClick(partition)">Mount</button>
+                            <button mat-stroked-button *ngIf="partition.mountingPoint"
+                                (click)="onUnmountClick(partition)" [disabled]="partition.isMain"
+                                color="warn">Unmount</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="small-spacer"></div>

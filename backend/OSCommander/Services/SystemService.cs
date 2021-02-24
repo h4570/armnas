@@ -36,13 +36,13 @@ namespace OSCommander.Services
         /// Returns devices list.
         /// NOTICE: This command will NOT spin up disks.
         /// </summary>
-        /// <returns> Result of "lsblk -J". </returns>
+        /// <returns> Result of "lsblk -JO". </returns>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
         public Lsblk GetLsblk()
         {
-            var json = _commandRepo.Execute("lsblk -J");
+            var json = _commandRepo.Execute("lsblk -JO");
             try { return JsonSerializer.Deserialize<Lsblk>(json); }
             catch (Exception ex) { throw new JsonParsingException(ex); }
         }

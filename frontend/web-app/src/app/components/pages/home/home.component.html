@@ -1,7 +1,22 @@
 <div class="container">
     <div class="row">
+        <div class="col-12">
+            <div class="row" [smoothHeight]="appService.isInTweakMode">
+                <div class="col-3 flex-center font-heavy tweak-header" *ngIf="appService.isInTweakMode">
+                    Refresh interval:
+                </div>
+                <div class="col-9" *ngIf="appService.isInTweakMode">
+                    <mat-slider [(ngModel)]="refreshInterval" (ngModelChange)="onRefreshIntervalChange()" thumbLabel
+                        [displayWith]="formatRefreshIntervalLabel" tickInterval="100" min="100" [max]="refreshOffValue">
+                    </mat-slider>
+                </div>
+            </div>
+        </div>
         <div class="col-12 mat-elevation-z3 rounded">
-            <app-sys-info></app-sys-info>
+            <app-sys-info [refreshInterval]="refreshInterval"></app-sys-info>
+        </div>
+        <div class="col-12 mat-elevation-z3 rounded">
+            <app-disks [refreshInterval]="refreshInterval"></app-disks>
         </div>
     </div>
 </div>

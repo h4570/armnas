@@ -1,0 +1,37 @@
+.main {
+    padding: 10px;
+}
+
+h4,
+p {
+    padding: 0;
+    margin: 0;
+}
+
+.mat-icon {
+    vertical-align: middle;
+}
+
+.tiny-spacer {
+    width: 1px;
+    height: 5px;
+}
+
+.partition {
+    margin: 10px 0 10px 0;
+    padding: 10px;
+
+    .partition-text {
+        font-size: 1.1rem;
+        height: 32px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .display-name-input {
+            width: 120px
+        }
+
+    }
+
+}

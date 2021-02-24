@@ -13,12 +13,17 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SmoothHeightAnimDirective } from '../../shared/smooth-height.directive';
+import { DisksComponent } from './disks/disks.component';
+import { SizePipe } from '../../shared/size-pipe';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
     declarations: [
         HomeComponent,
         SysInfoComponent,
-        SmoothHeightAnimDirective
+        DisksComponent,
+        SmoothHeightAnimDirective,
+        SizePipe
     ],
     imports: [
         CommonModule,
@@ -26,6 +31,7 @@ import { SmoothHeightAnimDirective } from '../../shared/smooth-height.directive'
         SkeletonModule,
         RouterModule,
         TranslateModule,
+        MatInputModule,
         MatIconModule,
         MatButtonModule,
         MatProgressBarModule,

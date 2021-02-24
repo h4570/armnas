@@ -1,11 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { smoothHeight } from 'src/app/components/shared/animations';
-import { SmoothHeightAnimDirective } from 'src/app/components/shared/smooth-height.directive';
 import { AppService } from 'src/app/services/app.service';
 import { SystemInformationService } from 'src/app/services/system-information.service';
-
-export const REFRESH_OFF_VALUE = 10000;
+import { REFRESH_OFF_VALUE } from '../home.component';
 
 @Component({
   selector: 'app-sys-info',
@@ -15,22 +13,23 @@ export const REFRESH_OFF_VALUE = 10000;
 })
 export class SysInfoComponent implements OnInit, OnDestroy {
 
+  @Input() public refreshInterval: number;
+
   public distro = 'Loading';
   public kernel = 'Loading';
-  public cpuTemp = 'Loading';
+  public cpuTemp = 0;
   public cpuUsage = 0;
   public ramUsage = 0;
   public osDiskUsage = 0;
   public ip = 'Loading';
   public upTime = 'Loading';
   public loading = true;
-  public refreshInterval = 5000;
-  public refreshOffValue = REFRESH_OFF_VALUE;
 
   private isNgDestroyed = false;
+
   constructor(
     public readonly appService: AppService,
-    private readonly sysInfo: SystemInformationService,
+    private readonly sysInfoService: SystemInformationService,
     public readonlytranslate: TranslateService
   ) { }
 
@@ -40,7 +39,6 @@ export class SysInfoComponent implements OnInit, OnDestroy {
     promises.push(this.loadDynamic());
     await Promise.all(promises);
     this.loading = false;
-    this.loadRefreshSettings();
     setTimeout(async () => await this.refresh(), this.refreshInterval);
   }
 
@@ -53,25 +51,6 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.isNgDestroyed = true;
-  }
-
-  public onRefreshIntervalChange(): void {
-    this.saveRefreshSettings();
-  }
-
-  public formatRefreshIntervalLabel(value: number) {
-    if (value === REFRESH_OFF_VALUE) return 'off';
-    return (value / 1000).toFixed(1) + 's';
-  }
-
-  private saveRefreshSettings(): void {
-    localStorage.setItem('sys-info-refresh-interval', this.refreshInterval.toString());
-  }
-
-  private loadRefreshSettings(): void {
-    const refInterval = localStorage.getItem('sys-info-refresh-interval');
-    if (refInterval)
-      this.refreshInterval = parseInt(refInterval, 10);
   }
 
   private async loadStatic(): Promise<void> {
@@ -93,7 +72,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   private async loadDistro(): Promise<void> {
     try {
-      this.distro = await this.sysInfo.getDistributionName();
+      this.distro = await this.sysInfoService.getDistributionName();
     } catch {
       this.distro = 'Error';
     }
@@ -101,7 +80,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   private async loadKernel(): Promise<void> {
     try {
-      this.kernel = await this.sysInfo.getKernelName();
+      this.kernel = await this.sysInfoService.getKernelName();
     } catch {
       this.kernel = 'Error';
     }
@@ -109,18 +88,18 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   private async loadCPUInfo(): Promise<void> {
     try {
-      const cpuInfo = await this.sysInfo.getCPUInfo();
-      this.cpuTemp = `${cpuInfo.temperature}C`;
+      const cpuInfo = await this.sysInfoService.getCPUInfo();
+      this.cpuTemp = cpuInfo.temperature;
       this.cpuUsage = cpuInfo.percentageUsage;
     } catch {
-      this.cpuTemp = 'Error';
+      this.cpuTemp = 0;
       this.cpuUsage = 0;
     }
   }
 
   private async loadRAMInfo(): Promise<void> {
     try {
-      const ramInfo = await this.sysInfo.getRAMInfo();
+      const ramInfo = await this.sysInfoService.getRAMInfo();
       const perc = ((ramInfo.totalInMB - ramInfo.freeInMB) / ramInfo.totalInMB) * 100;
       this.ramUsage = parseFloat(perc.toFixed(2));
     } catch {
@@ -130,7 +109,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   private async loadDiskInfo(): Promise<void> {
     try {
-      const disks = await this.sysInfo.getMountedPartitionsInfo();
+      const disks = await this.sysInfoService.getMountedPartitionsInfo();
       const mainDisk = disks.find(c => c.isMain);
       const perc = (mainDisk.usedMemoryInMB / mainDisk.memoryInMB) * 100;
       this.osDiskUsage = parseFloat(perc.toFixed(2));
@@ -141,7 +120,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   private async loadIP(): Promise<void> {
     try {
-      this.ip = await this.sysInfo.getIP();
+      this.ip = await this.sysInfoService.getIP();
     } catch {
       this.ip = 'Error';
     }
@@ -149,7 +128,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   private async loadUpTime(): Promise<void> {
     try {
-      const start = await this.sysInfo.getStartTime();
+      const start = await this.sysInfoService.getStartTime();
       const now = new Date();
       const diff = start.difference(now, 1000 * 60);
       this.upTime = `${Math.floor(diff / 60)}h ${diff % 60}m`;

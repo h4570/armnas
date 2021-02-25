@@ -23,6 +23,7 @@ namespace WebApi.Controllers
             _context = new AppDbContext(options);
         }
 
+        /// <exception cref="T:System.ArgumentNullException">.</exception>
         [HttpGet]
         [Route("table/{tableId}")]
         public async Task<ActionResult<List<AppHistory>>> GetAll(AppTable tableId)
@@ -34,6 +35,7 @@ namespace WebApi.Controllers
                 .ToListAsync();
         }
 
+        /// <exception cref="T:System.ArgumentNullException">.</exception>
         [HttpGet]
         [Route("table/{tableId}/element/{elementId}")]
         public async Task<ActionResult<List<AppHistory>>> GetAll(AppTable tableId, int elementId)

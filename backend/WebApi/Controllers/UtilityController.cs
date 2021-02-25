@@ -24,12 +24,15 @@ namespace WebApi.Controllers
     public class UtilityController : ControllerBase
     {
 
+        /// <exception cref="T:System.Reflection.AmbiguousMatchException">More than one of the requested attributes was found.</exception>
+        /// <exception cref="T:System.ArgumentNullException"></exception>
         [HttpGet("/app-info")]
         [EnableCors]
         public ActionResult<ActionResult<object>> GetAppInfo()
         {
-            var appInfo = Assembly.GetEntryAssembly().GetCustomAttribute<AppInfoAttribute>();
-            return Ok(new { version = appInfo.Version });
+            var appInfo = Assembly.GetEntryAssembly()!.GetCustomAttribute<AppInfoAttribute>();
+            if (appInfo != null) return Ok(new { version = appInfo.Version });
+            return NotFound();
         }
 
     }

@@ -30,7 +30,7 @@
     "karma-junit-reporter": "^2.0.1",
     "primeicons": "^4.1.0",
     "primeng": "^11.2.3",
-    "rxjs": "^6.6.3",
+    "rxjs": "^6.6.6",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.3"
   },

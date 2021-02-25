@@ -7,8 +7,15 @@
         public ConfigEnvironment Prd { get; set; }
     }
 
+    public class SshCredentials
+    {
+        public string Username { get; set; }
+        public string Host { get; set; }
+    }
+
     public class ConfigEnvironment
     {
+        public SshCredentials Ssh { get; set; }
         public string SqlliteDbName { get; set; }
         public Urls Urls { get; set; }
         public Paths Paths { get; set; }

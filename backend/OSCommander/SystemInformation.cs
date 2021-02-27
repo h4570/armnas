@@ -171,7 +171,7 @@ namespace OSCommander
                             Name = partition.Name,
                             MountingPoint = partition.MountPoint,
                             MemoryInMB = (int)(pClearSize * pMultiplier),
-                            Uuid = partition.PartUuid
+                            Uuid = partition.Uuid
                         });
                     }
                     result.Add(disk);

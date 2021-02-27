@@ -7,8 +7,7 @@ namespace WebApi
 
     public enum AppTable
     {
-        Shelfs = 0,
-        ShelfsCategories = 1
+        Partitions = 0
     }
 
     public class AppDbContext : DbContext
@@ -16,10 +15,8 @@ namespace WebApi
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        // ---
-
+        public DbSet<Partition> Partitions { get; set; }
         public DbSet<AppHistory> AppHistory { get; set; }
-
 
     }
 }

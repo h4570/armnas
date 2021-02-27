@@ -3,8 +3,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { smoothHeight } from 'src/app/components/shared/animations';
 import { getLsblkDiskInfoViewModels, LsblkDiskInfoView } from 'src/app/components/view-models/os-commander/lsblk-disk-info.view-model';
 import { LsblkPartitionInfoView } from 'src/app/components/view-models/os-commander/partition-info/lsblk-partition-info.view-model';
-import { LsblkPartitionInfo } from 'src/app/models/os-commander/partition-info/lsblk-partition-info.model';
+import { Partition } from 'src/app/models/odata/partition.model';
 import { AppService } from 'src/app/services/app.service';
+import { ODataService } from 'src/app/services/odata.service';
 import { SystemInformationService } from 'src/app/services/system-information.service';
 import { REFRESH_OFF_VALUE } from '../home.component';
 
@@ -25,12 +26,14 @@ export class DisksComponent implements OnInit, OnDestroy {
 
   constructor(
     public readonly appService: AppService,
+    public readonly translate: TranslateService,
     private readonly sysInfoService: SystemInformationService,
-    public readonly translate: TranslateService
+    private readonly odata: ODataService
   ) { }
 
   public async ngOnInit(): Promise<void> {
     await this.load();
+    await this.getDisplayNames(['TEST']);
     setTimeout(async () => await this.refresh(), this.refreshInterval);
   }
 
@@ -81,6 +84,18 @@ export class DisksComponent implements OnInit, OnDestroy {
       this.disks = disks;
     }
     this.loading = false;
+  }
+
+  private async getDisplayNames(uuids: string[]): Promise<Partition[]> {
+    const partitions = this.odata.partitions.entities();
+    const filterArg: { uuid: string }[] = [];
+    uuids.forEach(uuid => filterArg.push({ uuid }));
+    const res = partitions
+      .filter(filterArg)
+      .get()
+      .toPromise()
+      .then(c => c.entities);
+    return await res;
   }
 
 }

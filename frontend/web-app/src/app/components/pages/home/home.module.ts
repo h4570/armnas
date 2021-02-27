@@ -16,6 +16,7 @@ import { SmoothHeightAnimDirective } from '../../shared/smooth-height.directive'
 import { DisksComponent } from './disks/disks.component';
 import { SizePipe } from '../../shared/size-pipe';
 import { MatInputModule } from '@angular/material/input';
+import { ODataService } from 'src/app/services/odata.service';
 
 @NgModule({
     declarations: [
@@ -42,7 +43,8 @@ import { MatInputModule } from '@angular/material/input';
         HomeComponent
     ],
     providers: [
-        SystemInformationService
+        SystemInformationService,
+        ODataService
     ]
 })
 export class HomeModule { }

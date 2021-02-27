@@ -1,12 +1,17 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.OData;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
+using OData.Swagger.Services;
+using WebApi.Models.Internal;
 
 namespace WebApi
 {
@@ -49,9 +54,21 @@ namespace WebApi
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
             services.Configure<ConfigEnvironment>(Configuration.GetSection("configuration:" + envName));
-            services.AddMvc().AddNewtonsoftJson();
-            services.AddSwaggerGen(c => c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArmNas", Version = "v1" }));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
+            services.AddOData(opt =>
+                opt.AddModel("odata", GetEdmModel())
+                    .Select()
+                    .Expand()
+                    .Filter()
+                    .Count()
+                    .OrderBy()
+                );
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArmNas", Version = "v1" });
+                c.DocInclusionPredicate((name, api) => api.HttpMethod != null); // oData fix
+            });
+            services.AddOdataSwaggerSupport();
         }
 
         public void Configure(IApplicationBuilder app) // , IWebHostEnvironment env
@@ -62,7 +79,16 @@ namespace WebApi
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
+        }
+
+        private static IEdmModel GetEdmModel()
+        {
+            var builder = new ODataConventionModelBuilder();
+            builder.EnableLowerCamelCase();
+            builder.EntitySet<Partition>("Partition");
+            builder.EntitySet<AppHistory>("AppHistory");
+            return builder.GetEdmModel();
         }
 
     }

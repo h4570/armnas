@@ -13,6 +13,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from 'src/environments/environment';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { ODataModule } from 'angular-odata';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,9 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
+    }),
+    ODataModule.forRoot({
+      serviceRootUrl: `${environment.urls.api}odata`
     }),
     HomeModule,
     AppRoutingModule,

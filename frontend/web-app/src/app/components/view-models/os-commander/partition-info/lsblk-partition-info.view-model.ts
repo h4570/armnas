@@ -3,7 +3,13 @@ import { LsblkPartitionInfo } from 'src/app/models/os-commander/partition-info/l
 export const getLsblkPartitionInfoViewModels = (models: LsblkPartitionInfo[]): LsblkPartitionInfoView[] => {
     const result: LsblkPartitionInfoView[] = [];
     models.forEach(model => {
-        const viewModel = model as LsblkPartitionInfoView;
+        const viewModel = new LsblkPartitionInfoView();
+        viewModel.uuid = model.uuid;
+        viewModel.name = model.name;
+        viewModel.mountingPoint = model.mountingPoint;
+        viewModel.isMain = model.isMain;
+        viewModel.memoryInMB = model.memoryInMB;
+
         viewModel.displayName = undefined;
         viewModel.isInEditMode = false;
         result.push(viewModel);
@@ -11,9 +17,24 @@ export const getLsblkPartitionInfoViewModels = (models: LsblkPartitionInfo[]): L
     return result;
 };
 
-export interface LsblkPartitionInfoView extends LsblkPartitionInfo {
+export class LsblkPartitionInfoView implements LsblkPartitionInfo {
+    public uuid: string;
+    public name: string;
+    public mountingPoint: string;
+    public isMain: boolean;
+    public memoryInMB: number;
+
+    // ---
+
     /** Edit mode can be triggered after clicking on edit button in tweak mode. */
-    isInEditMode: boolean;
-    /** Display name which was set in edit mode. */
-    displayName: string;
+    public isInEditMode: boolean;
+    /** Usefull to know if we will edit or create new entry in db.  */
+    public dbId: number;
+    public displayName: string;
+
+    private _cachedDisplayName: string;
+    public get cachedDisplayName(): string { return this._cachedDisplayName; };
+    /** Set current display name to cached display name */
+    public updateCachedDisplayName(): void { this._cachedDisplayName = this.displayName; }
+
 }

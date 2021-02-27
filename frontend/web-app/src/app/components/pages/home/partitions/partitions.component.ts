@@ -1,0 +1,152 @@
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
+import { assert } from 'src/app/assert';
+import { smoothHeight } from 'src/app/components/shared/animations';
+import { getLsblkDiskInfoViewModels, LsblkDiskInfoView } from 'src/app/components/view-models/os-commander/lsblk-disk-info.view-model';
+import { LsblkPartitionInfoView } from 'src/app/components/view-models/os-commander/partition-info/lsblk-partition-info.view-model';
+import { Partition } from 'src/app/models/odata/partition.model';
+import { AppService } from 'src/app/services/app.service';
+import { ODataService } from 'src/app/services/odata.service';
+import { SystemInformationService } from 'src/app/services/system-information.service';
+import { REFRESH_OFF_VALUE } from '../home.component';
+
+@Component({
+  selector: 'app-partitions',
+  templateUrl: './partitions.component.html',
+  styleUrls: ['./partitions.component.scss'],
+  animations: [smoothHeight]
+})
+export class PartitionsComponent implements OnInit, OnDestroy {
+
+  @Input() public refreshInterval: number;
+
+  public disks: LsblkDiskInfoView[];
+  public loading = true;
+  public partitionsRefresh = false;
+  private isNgDestroyed = false;
+
+  constructor(
+    public readonly appService: AppService,
+    public readonly translate: TranslateService,
+    private readonly snackbar: MatSnackBar,
+    private readonly sysInfoService: SystemInformationService,
+    private readonly odata: ODataService
+  ) { }
+
+  public async ngOnInit(): Promise<void> {
+    await this.load();
+    setTimeout(async () => await this.refresh(), this.refreshInterval);
+  }
+
+  public async refresh(): Promise<void> {
+    if (!this.isNgDestroyed && this.refreshInterval !== REFRESH_OFF_VALUE)
+      await this.load();
+    setTimeout(() => this.refresh(), this.refreshInterval);
+  }
+
+  public ngOnDestroy(): void {
+    this.isNgDestroyed = true;
+  }
+
+  public async onEditClick(partition: LsblkPartitionInfoView): Promise<void> {
+    partition.isInEditMode = true;
+  }
+
+  public async onSaveClick(partition: LsblkPartitionInfoView): Promise<void> {
+    await this.updateDisplayNameInDb(partition);
+    partition.updateCachedDisplayName();
+    partition.isInEditMode = false;
+    this.snackbar.open('Done!', 'OK', { duration: 2000 });
+  }
+
+  public async onCancelEditClick(partition: LsblkPartitionInfoView): Promise<void> {
+    partition.displayName = partition.cachedDisplayName;
+    partition.isInEditMode = false;
+  }
+
+  public async onMountClick(partition: LsblkPartitionInfoView): Promise<void> {
+
+  }
+
+  public async onUnmountClick(partition: LsblkPartitionInfoView): Promise<void> {
+
+  }
+
+  private async load(): Promise<void> {
+    const newDisks = getLsblkDiskInfoViewModels(await this.sysInfoService.getDisksInfo());
+    if (!this.disks) {
+      this.disks = newDisks;
+      await this.fillAllPartitionDisplayNamesFromDb();
+    }
+    else if (this.disks && newDisks.length !== this.disks.length) {
+      this.partitionsRefresh = !this.partitionsRefresh;
+      this.fillAllPartitionDisplayNamesFromOldData(newDisks);
+      this.disks = newDisks;
+      await this.fillAllPartitionDisplayNamesFromDb();
+    }
+    this.loading = false;
+  }
+
+  private get partitions(): LsblkPartitionInfoView[] {
+    return this.disks.reduce((acc, c) => acc.concat(c.partitions), [] as LsblkPartitionInfoView[]); // flat map
+  }
+
+  /** Fill display name from already downloaded disks to new disks partitions that dont have partition name. */
+  private fillAllPartitionDisplayNamesFromOldData(newDisks: LsblkDiskInfoView[]): void {
+    assert(this.disks && this.disks.length > 0);
+    newDisks.forEach(newDisk => newDisk.partitions.forEach(partition => {
+      if (!partition.displayName) {
+        const cache = this.partitions.find(c => c.uuid === partition.uuid);
+        if (cache)
+          partition.displayName = cache.displayName;
+      }
+    }));
+  }
+
+  /** Fill display name from database to partitions that dont have partition name. */
+  private async fillAllPartitionDisplayNamesFromDb(): Promise<void> {
+    assert(this.disks && this.disks.length > 0);
+    const payload = this.partitions.map(c => c.uuid);
+    const dbParts = await this.getDisplayNamesFromDb(payload);
+    this.disks.forEach(disk => disk.partitions.forEach(partition => {
+      if (!partition.displayName) {
+        const dbPart = dbParts.find(c => c.uuid === partition.uuid);
+        if (dbPart) {
+          partition.displayName = dbPart.displayName;
+          partition.dbId = dbPart.id;
+          partition.updateCachedDisplayName();
+        }
+      }
+    }));
+  }
+
+  private async getDisplayNamesFromDb(uuids: string[]): Promise<Partition[]> {
+    const partitions = this.odata.partitions.entities();
+    const filterArg: { uuid: string }[] = [];
+    uuids.forEach(uuid => filterArg.push({ uuid }));
+    const res = partitions
+      .filter({ or: filterArg })
+      .get()
+      .toPromise()
+      .then(c => c.entities);
+    return await res;
+  }
+
+  /** If display name exist in db -> update it, otherwise -> add */
+  private async updateDisplayNameInDb(partition: LsblkPartitionInfoView): Promise<void> {
+    const payload: Partition = { id: 0, uuid: partition.uuid, displayName: partition.displayName };
+    const partitions = this.odata.partitions.entities();
+    if (partition.dbId) {
+      const ref = partitions.entity(partition.dbId);
+      await ref.patch(payload)
+        .toPromise();
+    } else {
+      const res = await partitions
+        .post(payload)
+        .toPromise();
+      partition.dbId = res.entity.id;
+    }
+  }
+
+}

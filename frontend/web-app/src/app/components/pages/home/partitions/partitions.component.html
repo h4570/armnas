@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="col-12" [smoothHeight]="loading || disksRefresh">
-        <h3>Disks:</h3>
+    <div class="col-12" [smoothHeight]="loading || partitionsRefresh">
+        <h3>Partitions:</h3>
 
         <ng-container *ngIf="loading">
             <p-skeleton width="85%" height="3.2rem"></p-skeleton>
@@ -42,7 +42,7 @@
                             </button>
                         </div>
                         <div class="col-2-sm partition-text">
-                            <span class="font-light" *ngIf="partition.mountingPoint">
+                            <span class="font-light">
                                 &nbsp;
                                 Size: {{partition.memoryInMB | size}}
                             </span>

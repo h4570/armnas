@@ -43,9 +43,8 @@ export class SysInfoComponent implements OnInit, OnDestroy {
   }
 
   public async refresh(): Promise<void> {
-    if (this.isNgDestroyed || this.refreshInterval === REFRESH_OFF_VALUE)
-      return;
-    await this.loadDynamic();
+    if (!this.isNgDestroyed && this.refreshInterval !== REFRESH_OFF_VALUE)
+      await this.loadDynamic();
     setTimeout(() => this.refresh(), this.refreshInterval);
   }
 

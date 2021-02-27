@@ -10,6 +10,7 @@ publish/
 # sqlite
 *.db-shm
 *.db-wal
+*.db
 
 # Visual Studio Code
 .vscode

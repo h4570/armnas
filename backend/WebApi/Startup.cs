@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.OData;
@@ -66,13 +67,14 @@ namespace WebApi
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArmNas", Version = "v1" });
-                c.DocInclusionPredicate((name, api) => api.HttpMethod != null); // oData fix
+                c.DocInclusionPredicate((_, api) => api.HttpMethod != null); // oData fix
             });
             services.AddOdataSwaggerSupport();
         }
 
         public void Configure(IApplicationBuilder app) // , IWebHostEnvironment env
         {
+            InitializeDatabase(app);
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArmNas"));
@@ -80,6 +82,13 @@ namespace WebApi
             app.UseAuthorization();
             app.UseCors();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
+        }
+
+        private static void InitializeDatabase(IApplicationBuilder app)
+        {
+            using var scope = app.ApplicationServices.GetService<IServiceScopeFactory>()?.CreateScope();
+            Debug.Assert(scope != null, nameof(scope) + " != null");
+            scope.ServiceProvider.GetRequiredService<AppDbContext>().Database.Migrate();
         }
 
         private static IEdmModel GetEdmModel()

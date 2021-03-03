@@ -35,14 +35,24 @@ export class PartitionsComponent implements OnInit, OnDestroy {
   ) { }
 
   public async ngOnInit(): Promise<void> {
-    await this.load();
+    try {
+      await this.load();
+    } catch {
+      this.loading = false;
+      // do nothing
+    }
     setTimeout(async () => await this.refresh(), this.refreshInterval);
   }
 
   public async refresh(): Promise<void> {
-    if (!this.isNgDestroyed && this.refreshInterval !== REFRESH_OFF_VALUE)
-      await this.load();
-    setTimeout(() => this.refresh(), this.refreshInterval);
+    try {
+      if (!this.isNgDestroyed && this.refreshInterval !== REFRESH_OFF_VALUE)
+        await this.load();
+      setTimeout(() => this.refresh(), this.refreshInterval);
+    } catch {
+      this.loading = false;
+      // do nothing
+    }
   }
 
   public ngOnDestroy(): void {

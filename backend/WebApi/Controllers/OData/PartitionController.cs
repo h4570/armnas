@@ -31,6 +31,10 @@ namespace WebApi.Controllers.OData
             return Ok(_context.Partitions.AsQueryable().FirstOrDefault(c => c.Id == key));
         }
 
+        /// <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateException">An error is encountered while saving to the database.</exception>
+        /// <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException">A concurrency violation is encountered while saving to the database.
+        ///                 A concurrency violation occurs when an unexpected number of rows are affected during save.
+        ///                 This is usually because the data in the database has been modified since it was loaded into memory.</exception>
         [HttpPost]
         [EnableQuery]
         public async Task<IActionResult> Post([FromBody] Partition payload)

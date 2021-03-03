@@ -11,6 +11,9 @@
         </ng-container>
 
         <div *ngIf="!loading">
+            <div *ngIf="!disks || disks.length===0">
+                There was an error with resolving disks info.
+            </div>
             <div *ngFor="let disk of disks">
                 <div *ngFor="let partition of disk.partitions">
 

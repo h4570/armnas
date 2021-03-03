@@ -159,21 +159,22 @@ namespace OSCommander
                         MemoryInMB = (int)(dClearSize * dMultiplier),
                         Partitions = new List<LsblkPartitionInfo>()
                     };
-                    foreach (var partition in device.Children)
-                    {
-                        var pMultiplier = GetSizeMultiplierOfLsblk(partition.Size);
-                        var pClearSize = decimal.Parse(
-                            Regex.Replace(partition.Size, "[^0-9.]", ""),
-                            CultureInfo.InvariantCulture
-                        );
-                        disk.Partitions.Add(new LsblkPartitionInfo()
+                    if (device.Children != null)
+                        foreach (var partition in device.Children)
                         {
-                            Name = partition.Name,
-                            MountingPoint = partition.MountPoint,
-                            MemoryInMB = (int)(pClearSize * pMultiplier),
-                            Uuid = partition.Uuid
-                        });
-                    }
+                            var pMultiplier = GetSizeMultiplierOfLsblk(partition.Size);
+                            var pClearSize = decimal.Parse(
+                                Regex.Replace(partition.Size, "[^0-9.]", ""),
+                                CultureInfo.InvariantCulture
+                            );
+                            disk.Partitions.Add(new LsblkPartitionInfo()
+                            {
+                                Name = partition.Name,
+                                MountingPoint = partition.MountPoint,
+                                MemoryInMB = (int)(pClearSize * pMultiplier),
+                                Uuid = partition.Uuid
+                            });
+                        }
                     result.Add(disk);
                 }
 

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OSCommander;
-using OSCommander.Dtos;
 using OSCommander.Models;
 using OSCommander.Models.PartitionInfo;
 
@@ -68,6 +66,7 @@ namespace WebApi.Controllers
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
+        /// <exception cref="T:System.ArgumentNullException"></exception>
         [HttpGet("disks-info")]
         [Produces("application/json")]
         public ActionResult<IEnumerable<LsblkDiskInfo>> GetDisksInfo() { return Ok(_systemInfo.GetDisksInfo()); }

@@ -16,6 +16,7 @@
 		"error500Subtitle": "Critical error occured. If the problem still persists, report this incident via GitHub issue."
 	},
 	"common": {
+		"error": "Error",
 		"yes": "Yes",
 		"no": "No",
 		"cancel": "Cancel",

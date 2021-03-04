@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -6,6 +7,11 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Models.Internal;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using OSCommander;
+using WebApi.Services;
 
 namespace WebApi.Controllers.OData
 {
@@ -15,10 +21,24 @@ namespace WebApi.Controllers.OData
     {
 
         private readonly AppDbContext _context;
+        private readonly PartitionService _service;
 
-        public PartitionController(DbContextOptions<AppDbContext> options)
+        public PartitionController(
+            DbContextOptions<AppDbContext> options,
+            ILogger<SystemInformationController> logger,
+            IConfiguration config,
+            IOptions<ConfigEnvironment> envOpt
+            )
         {
             _context = new AppDbContext(options);
+            var env = envOpt.Value;
+            SystemInformation sysInfo;
+            if (env.Ssh != null)
+                sysInfo = new SystemInformation(logger,
+                    new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]));
+            else
+                sysInfo = new SystemInformation(logger);
+            _service = new PartitionService(sysInfo, _context);
         }
 
         [EnableQuery]
@@ -65,6 +85,20 @@ namespace WebApi.Controllers.OData
             obj.Uuid = payload.Uuid;
             await _context.SaveChangesAsync();
             return Updated(payload);
+        }
+
+        [HttpPost("/partition/mount/{uuid}")]
+        public async Task<IActionResult> Mount(string uuid)
+        {
+            var res = await _service.Mount(uuid);
+            return res.Succeed ? Ok(res.Result) : StatusCode(res.StatusCode, res.ErrorMessage);
+        }
+
+        [HttpPost("unmount/{uuid}")]
+        public async Task<IActionResult> Unmount(string uuid)
+        {
+            var res = await _service.Unmount(uuid);
+            return res.Succeed ? Ok(res.Result) : StatusCode(res.StatusCode, res.ErrorMessage);
         }
 
     }

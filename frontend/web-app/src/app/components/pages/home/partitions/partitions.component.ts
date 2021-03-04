@@ -10,6 +10,10 @@ import { ODataService } from 'src/app/services/odata.service';
 import { SystemInformationService } from 'src/app/services/system-information.service';
 import { REFRESH_OFF_VALUE } from '../home.component';
 import { getLsblkDiskInfoViewModels, LsblkDiskInfoView } from './view-models/lsblk-disk-info.view-model';
+import { PartitionService } from 'src/app/services/partition.service';
+import { FastDialogService } from 'src/app/services/fast-dialog.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { DialogButtonType, DialogType } from 'src/app/components/shared/fast-dialog/fast-dialog.component';
 
 @Component({
   selector: 'app-partitions',
@@ -31,6 +35,8 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     public readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
     private readonly sysInfoService: SystemInformationService,
+    private readonly partitionService: PartitionService,
+    private readonly fastDialog: FastDialogService,
     private readonly odata: ODataService
   ) { }
 
@@ -44,11 +50,12 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     setTimeout(async () => await this.refresh(), this.refreshInterval);
   }
 
-  public async refresh(): Promise<void> {
+  public async refresh(onDemand: boolean = false): Promise<void> {
     try {
       if (!this.isNgDestroyed && this.refreshInterval !== REFRESH_OFF_VALUE)
         await this.load();
-      setTimeout(() => this.refresh(), this.refreshInterval);
+      if (!onDemand)
+        setTimeout(() => this.refresh(), this.refreshInterval);
     } catch {
       this.loading = false;
       // do nothing
@@ -82,10 +89,29 @@ export class PartitionsComponent implements OnInit, OnDestroy {
       partition.isInEditMode = true;
       return;
     }
+    try {
+      await this.partitionService.mount(partition.uuid);
+      await this.refresh(true);
+      this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
+    } catch (raw) {
+      const err = raw as HttpErrorResponse;
+      const title = this.translate.instant('common.error') as string;
+      const text = [this.translate.instant(err.error) as string];
+      await this.fastDialog.open(DialogType.error, DialogButtonType.ok, title, text);
+    }
   }
 
   public async onUnmountClick(partition: LsblkPartitionInfoView): Promise<void> {
-
+    try {
+      await this.partitionService.unmount(partition.uuid);
+      await this.refresh(true);
+      this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
+    } catch (raw) {
+      const err = raw as HttpErrorResponse;
+      const title = this.translate.instant('common.error') as string;
+      const text = [this.translate.instant(err.error) as string];
+      await this.fastDialog.open(DialogType.error, DialogButtonType.ok, title, text);
+    }
   }
 
   private async load(): Promise<void> {

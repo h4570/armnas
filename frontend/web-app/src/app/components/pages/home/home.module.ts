@@ -18,6 +18,7 @@ import { SizePipe } from '../../shared/size-pipe';
 import { MatInputModule } from '@angular/material/input';
 import { ODataService } from 'src/app/services/odata.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { PartitionService } from 'src/app/services/partition.service';
 
 @NgModule({
     declarations: [
@@ -46,6 +47,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     providers: [
         SystemInformationService,
         MatSnackBar,
+        PartitionService,
         ODataService
     ]
 })

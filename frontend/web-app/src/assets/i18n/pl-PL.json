@@ -16,6 +16,7 @@
 		"error500Subtitle": "Wystąpił błąd krytyczny. Jeśli problem nadal występuje, zgłoś błąd za pomocą GitHub issue."
 	},
 	"common": {
+		"error": "Błąd",
 		"yes": "Tak",
 		"no": "Nie",
 		"cancel": "Anuluj",

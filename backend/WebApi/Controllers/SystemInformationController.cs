@@ -20,7 +20,6 @@ namespace WebApi.Controllers
 
         private readonly SystemInformation _systemInfo;
 
-        // ReSharper disable once SuggestBaseTypeForParameter
         public SystemInformationController(ILogger<SystemInformationController> logger, IConfiguration config, IOptions<ConfigEnvironment> envOpt)
         {
             var env = envOpt.Value;

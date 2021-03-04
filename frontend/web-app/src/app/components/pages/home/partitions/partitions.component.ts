@@ -3,13 +3,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { assert } from 'src/app/assert';
 import { smoothHeight } from 'src/app/components/shared/animations';
-import { getLsblkDiskInfoViewModels, LsblkDiskInfoView } from 'src/app/components/view-models/os-commander/lsblk-disk-info.view-model';
-import { LsblkPartitionInfoView } from 'src/app/components/view-models/os-commander/partition-info/lsblk-partition-info.view-model';
+import { LsblkPartitionInfoView } from 'src/app/components/pages/home/partitions/view-models/lsblk-partition-info.view-model';
 import { Partition } from 'src/app/models/odata/partition.model';
 import { AppService } from 'src/app/services/app.service';
 import { ODataService } from 'src/app/services/odata.service';
 import { SystemInformationService } from 'src/app/services/system-information.service';
 import { REFRESH_OFF_VALUE } from '../home.component';
+import { getLsblkDiskInfoViewModels, LsblkDiskInfoView } from './view-models/lsblk-disk-info.view-model';
 
 @Component({
   selector: 'app-partitions',
@@ -76,7 +76,12 @@ export class PartitionsComponent implements OnInit, OnDestroy {
   }
 
   public async onMountClick(partition: LsblkPartitionInfoView): Promise<void> {
-
+    if (!partition.displayName) {
+      this.snackbar.open('Please set display name first!', 'Got it!', { duration: 3000 });
+      this.appService.isInTweakMode = true;
+      partition.isInEditMode = true;
+      return;
+    }
   }
 
   public async onUnmountClick(partition: LsblkPartitionInfoView): Promise<void> {

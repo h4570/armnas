@@ -90,10 +90,13 @@ export class PartitionsComponent implements OnInit, OnDestroy {
       return;
     }
     try {
+      partition.isFreezed = true;
       await this.partitionService.mount(partition.uuid);
       await this.refresh(true);
       this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
+      partition.isFreezed = false;
     } catch (raw) {
+      partition.isFreezed = false;
       const err = raw as HttpErrorResponse;
       const title = this.translate.instant('common.error') as string;
       const text = [this.translate.instant(err.error) as string];
@@ -103,10 +106,13 @@ export class PartitionsComponent implements OnInit, OnDestroy {
 
   public async onUnmountClick(partition: LsblkPartitionInfoView): Promise<void> {
     try {
+      partition.isFreezed = true;
       await this.partitionService.unmount(partition.uuid);
       await this.refresh(true);
       this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
+      partition.isFreezed = false;
     } catch (raw) {
+      partition.isFreezed = false;
       const err = raw as HttpErrorResponse;
       const title = this.translate.instant('common.error') as string;
       const text = [this.translate.instant(err.error) as string];

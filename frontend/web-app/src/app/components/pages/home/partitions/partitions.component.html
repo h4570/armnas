@@ -58,9 +58,9 @@
                             </span>
                         </div>
                         <div class="col-2-sm flex-center">
-                            <button mat-stroked-button *ngIf="!partition.mountingPoint"
+                            <button mat-stroked-button [disabled]="partition.isFreezed" *ngIf="!partition.mountingPoint"
                                 (click)="onMountClick(partition)">Mount</button>
-                            <button mat-stroked-button *ngIf="partition.mountingPoint"
+                            <button mat-stroked-button [disabled]="partition.isFreezed" *ngIf="partition.mountingPoint"
                                 (click)="onUnmountClick(partition)" [disabled]="partition.isMain"
                                 color="warn">Unmount</button>
                         </div>

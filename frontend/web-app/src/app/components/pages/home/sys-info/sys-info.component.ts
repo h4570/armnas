@@ -99,7 +99,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
   private async loadRAMInfo(): Promise<void> {
     try {
       const ramInfo = await this.sysInfoService.getRAMInfo();
-      const perc = ((ramInfo.totalInMB - ramInfo.freeInMB) / ramInfo.totalInMB) * 100;
+      const perc = (ramInfo.usedInMB / ramInfo.totalInMB) * 100;
       this.ramUsage = parseFloat(perc.toFixed(2));
     } catch {
       this.ramUsage = 0;

@@ -1,4 +1,4 @@
 export interface RAMInfo {
     totalInMB: number;
-    freeInMB: number;
+    usedInMB: number;
 }

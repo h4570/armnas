@@ -119,7 +119,7 @@ namespace OSCommander
                 return new RAMInfo
                 {
                     TotalInMB = decimal.Parse(parts[3], CultureInfo.InvariantCulture),
-                    FreeInMB = decimal.Parse(parts[5], CultureInfo.InvariantCulture)
+                    UsedInMB = decimal.Parse(parts[7], CultureInfo.InvariantCulture)
                 };
             }
             catch (Exception ex)

@@ -94,7 +94,7 @@ namespace WebApi.Controllers.OData
             return res.Succeed ? Ok(res.Result) : StatusCode(res.StatusCode, res.ErrorMessage);
         }
 
-        [HttpPost("unmount/{uuid}")]
+        [HttpPost("/partition/unmount/{uuid}")]
         public async Task<IActionResult> Unmount(string uuid)
         {
             var res = await _service.Unmount(uuid);

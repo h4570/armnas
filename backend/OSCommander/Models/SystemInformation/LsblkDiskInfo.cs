@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using OSCommander.Models.PartitionInfo;
+using OSCommander.Models.SystemInformation.PartitionInfo;
 
-namespace OSCommander.Models
+namespace OSCommander.Models.SystemInformation
 {
     public class LsblkDiskInfo
     {

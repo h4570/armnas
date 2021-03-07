@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { CPUInfo } from '../models/os-commander/cpu-info.model';
-import { RAMInfo } from '../models/os-commander/ram-info.model';
-import { LsblkDiskInfo } from '../models/os-commander/lsblk-disk-info.model';
-import { DfPartitionInfo } from '../models/os-commander/partition-info/df-partition-info.model';
+import { RAMInfo } from '../models/os-commander/system-information/ram-info.model';
+import { CPUInfo } from '../models/os-commander/system-information/cpu-info.model';
+import { LsblkDiskInfo } from '../models/os-commander/system-information/lsblk-disk-info.model';
+import { DfPartitionInfo } from '../models/os-commander/system-information/partition-info/df-partition-info.model';
 
 @Injectable()
 export class SystemInformationService {

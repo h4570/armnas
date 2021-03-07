@@ -10,89 +10,14 @@ using OSCommander.Repositories;
 
 namespace OSCommander.Services
 {
-    internal class SystemService : ISystemService
+    public class SystemService : ISystemService
     {
 
         private readonly CommandRepository _commandRepo;
-        internal SystemService(SshCredentials ssh) { _commandRepo = new CommandRepository(ssh); }
-        internal SystemService() { _commandRepo = new CommandRepository(); }
-        internal SystemService(ILogger logger) { _commandRepo = new CommandRepository(logger); }
-        internal SystemService(ILogger logger, SshCredentials ssh) { _commandRepo = new CommandRepository(logger, ssh); }
-
-        /// <summary>
-        /// Add Cron Job
-        /// </summary>
-        /// <param name="cron">Cron</param>
-        /// <param name="command">Command</param>
-        /// <param name="user">Cron user</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void AddCronJob(string cron, string command, string user = "root")
-        {
-            _commandRepo.Execute($"(crontab -u {user} -l ; echo \"{cron} {command}\") | crontab -u {user} -", true);
-        }
-
-        /// <summary>
-        /// Remove cron job by command
-        /// </summary>
-        /// <param name="command">Command</param>
-        /// <param name="user">Cron user</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void RemoveCronJob(string command, string user = "root")
-        {
-            _commandRepo.Execute($"crontab -u {user} -l | grep -v '{command}' | crontab -u {user} -", true);
-        }
-
-        /// <summary>
-        /// Check if cron job with provided command exist.
-        /// </summary>
-        /// <param name="cron">Cron</param>
-        /// <param name="command">Command</param>
-        /// <param name="user">Cron user</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public bool CheckCronJob(string cron, string command, string user = "root")
-        {
-            var res = _commandRepo.Execute($"crontab -u {user} -l | grep -c '{cron} {command}'");
-            try
-            {
-                var count = int.Parse(res);
-                return count > 0;
-            }
-            catch (Exception ex) { throw new CommandFailException(ex); }
-        }
-
-        /// Mount partition. If mount directory not exist, it is automatically created.
-        /// <param name="uuid">Partition uuid.</param>
-        /// <param name="directoryName">Directory name. Example: disk1, so partition will be mounted to /mnt/armnas/disk1</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void MountByUuid(string uuid, string directoryName)
-        {
-            _commandRepo.Execute($"mkdir -p /mnt/armnas/{directoryName}", true); // create dir
-            _commandRepo.Execute($"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{directoryName}", true);
-        }
-
-        /// Mount partition. If mount directory not exist, it is automatically created.
-        /// <param name="device">Partition name. Example: /dev/sda1</param>
-        /// <param name="directoryName">Directory name. Example: disk1, so partition will be mounted to /mnt/armnas/disk1</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void MountByDevice(string device, string directoryName)
-        {
-            _commandRepo.Execute($"mkdir -p /mnt/armnas/{directoryName}", true); // create dir
-            _commandRepo.Execute($"mount -t auto {device} /mnt/armnas/{directoryName}", true);
-        }
-
-        /// Unmount partition.
-        /// <param name="directoryName">Directory name. Example: disk1, so unmount will be on: /mnt/armnas/disk1</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void Unmount(string directoryName)
-        {
-            _commandRepo.Execute($"umount /mnt/armnas/{directoryName}", true);
-        }
+        public SystemService(SshCredentials ssh) { _commandRepo = new CommandRepository(ssh); }
+        public SystemService() { _commandRepo = new CommandRepository(); }
+        public SystemService(ILogger logger) { _commandRepo = new CommandRepository(logger); }
+        public SystemService(ILogger logger, SshCredentials ssh) { _commandRepo = new CommandRepository(logger, ssh); }
 
         /// <summary>
         /// Implementation of https://askubuntu.com/a/854029
@@ -223,15 +148,4 @@ namespace OSCommander.Services
         }
 
     }
-
-    /// <summary>
-    /// Wrapper exception for JSON parsing fail.
-    /// </summary>
-    [Serializable]
-    public class JsonParsingException : Exception
-    {
-        public JsonParsingException(string name) : base(name) { }
-        public JsonParsingException(Exception innerEx) : base(innerEx.Message, innerEx) { }
-    }
-
 }

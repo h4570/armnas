@@ -6,8 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OSCommander;
-using OSCommander.Models;
-using OSCommander.Models.PartitionInfo;
+using OSCommander.Models.SystemInformation;
+using OSCommander.Models.SystemInformation.PartitionInfo;
 
 namespace WebApi.Controllers
 {

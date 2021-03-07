@@ -1,4 +1,4 @@
-import { LsblkPartitionInfo } from 'src/app/models/os-commander/partition-info/lsblk-partition-info.model';
+import { LsblkPartitionInfo } from "src/app/models/os-commander/system-information/partition-info/lsblk-partition-info.model";
 
 export const getLsblkPartitionInfoViewModels = (models: LsblkPartitionInfo[]): LsblkPartitionInfoView[] => {
     const result: LsblkPartitionInfoView[] = [];

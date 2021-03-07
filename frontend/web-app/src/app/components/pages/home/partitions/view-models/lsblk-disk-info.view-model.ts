@@ -1,4 +1,4 @@
-import { LsblkDiskInfo } from 'src/app/models/os-commander/lsblk-disk-info.model';
+import { LsblkDiskInfo } from 'src/app/models/os-commander/system-information/lsblk-disk-info.model';
 import { getLsblkPartitionInfoViewModels, LsblkPartitionInfoView } from './lsblk-partition-info.view-model';
 
 export const getLsblkDiskInfoViewModels = (models: LsblkDiskInfo[]): LsblkDiskInfoView[] => {

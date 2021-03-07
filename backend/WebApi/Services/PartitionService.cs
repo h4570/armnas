@@ -1,6 +1,6 @@
 ﻿using System;
+using Microsoft.Extensions.Logging;
 using OSCommander;
-using OSCommander.Services;
 using WebApi.Dtos.Internal;
 using WebApi.Models.Internal;
 using WebApi.Utilities;
@@ -11,11 +11,19 @@ namespace WebApi.Services
     public class PartitionService
     {
 
-        private readonly ISystemService _sysService;
+        private readonly Mount _mount;
+        private readonly Cron _cron;
 
-        public PartitionService(SystemInformation sysInfo)
+        public PartitionService(ILogger logger)
         {
-            _sysService = sysInfo.Service;
+            _mount = new Mount(logger);
+            _cron = new Cron(logger);
+        }
+
+        public PartitionService(ILogger logger, OSCommander.Dtos.SshCredentials ssh)
+        {
+            _mount = new Mount(logger, ssh);
+            _cron = new Cron(logger, ssh);
         }
 
         /// <summary>
@@ -27,7 +35,7 @@ namespace WebApi.Services
             {
                 var result = new EndpointResult<bool>();
                 var kebabDisplayName = partition.DisplayName.ToKebabCase();
-                var res = _sysService.CheckCronJob("@reboot", $"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
+                var res = _cron.Check("@reboot", $"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
                 result.Succeed = true;
                 result.Result = res;
                 return result;
@@ -52,7 +60,7 @@ namespace WebApi.Services
             {
                 var result = new EndpointResult<string>();
                 var kebabDisplayName = partition.DisplayName.ToKebabCase();
-                _sysService.AddCronJob("@reboot", $"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
+                _cron.Add("@reboot", $"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
                 result.Succeed = true;
                 result.Result = "Partition auto mount enabled.";
                 return result;
@@ -77,7 +85,7 @@ namespace WebApi.Services
             {
                 var result = new EndpointResult<string>();
                 var kebabDisplayName = partition.DisplayName.ToKebabCase();
-                _sysService.RemoveCronJob($"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
+                _cron.Remove($"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
                 result.Succeed = true;
                 result.Result = "Partition auto mount disabled.";
                 return result;
@@ -102,7 +110,7 @@ namespace WebApi.Services
             {
                 var result = new EndpointResult<string>();
                 var kebabDisplayName = partition.DisplayName.ToKebabCase();
-                _sysService.MountByUuid(uuid, kebabDisplayName);
+                _mount.MountByUuid(uuid, kebabDisplayName);
                 result.Succeed = true;
                 result.Result = "Partition mounted";
                 return result;
@@ -127,7 +135,7 @@ namespace WebApi.Services
             {
                 var result = new EndpointResult<string>();
                 var kebabDisplayName = partition.DisplayName.ToKebabCase();
-                _sysService.Unmount(kebabDisplayName);
+                _mount.Unmount(kebabDisplayName);
                 result.Succeed = true;
                 return result;
             }

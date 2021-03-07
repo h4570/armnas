@@ -1,4 +1,4 @@
-﻿namespace OSCommander.Models
+﻿namespace OSCommander.Models.SystemInformation
 {
     public class CPUInfo
     {

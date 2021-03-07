@@ -31,13 +31,11 @@ namespace WebApi.Controllers.OData
         {
             _context = new AppDbContext(options);
             var env = envOpt.Value;
-            SystemInformation sysInfo;
-            if (env.Ssh != null)
-                sysInfo = new SystemInformation(logger,
-                    new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]));
-            else
-                sysInfo = new SystemInformation(logger);
-            _service = new PartitionService(sysInfo);
+            _service =
+                env.Ssh != null
+                    ? new PartitionService(logger,
+                        new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]))
+                    : new PartitionService(logger);
         }
 
         [EnableQuery]

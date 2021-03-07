@@ -9,55 +9,6 @@ namespace OSCommander.Services
     {
 
         /// <summary>
-        /// Add Cron Job
-        /// </summary>
-        /// <param name="cron">Cron</param>
-        /// <param name="command">Command</param>
-        /// <param name="user">Cron user</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void AddCronJob(string cron, string command, string user = "root");
-
-        /// <summary>
-        /// Check if cron job with provided command exist.
-        /// </summary>
-        /// <param name="cron">Cron</param>
-        /// <param name="command">Command</param>
-        /// <param name="user">Cron user</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public bool CheckCronJob(string cron, string command, string user = "root");
-
-        /// <summary>
-        /// Remove cron job by command
-        /// </summary>
-        /// <param name="command">Command</param>
-        /// <param name="user">Cron user</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void RemoveCronJob(string command, string user = "root");
-
-        /// Mount partition. If mount directory not exist, it is automatically created.
-        /// <param name="uuid">Partition uuid</param>
-        /// <param name="directoryName">Directory name. Example: disk1, so partition will be mounted to /mnt/armnas/disk1</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void MountByUuid(string uuid, string directoryName);
-
-        /// Mount partition. If mount directory not exist, it is automatically created.
-        /// <param name="device">Partition name. Example: /dev/sda1</param>
-        /// <param name="directoryName">Directory name. Example: disk1, so partition will be mounted to /mnt/armnas/disk1</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void MountByDevice(string device, string directoryName);
-
-        /// Unmount partition.
-        /// <param name="directoryName">Directory name. Example: disk1, so unmount will be on: /mnt/armnas/disk1</param>
-        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
-        /// Detailed information can be checked in provided logger.</exception>
-        public void Unmount(string directoryName);
-
-        /// <summary>
         /// Implementation of https://askubuntu.com/a/854029
         /// </summary>
         /// <returns> List with CPU cores temperatures and GPU core temperature. </returns>

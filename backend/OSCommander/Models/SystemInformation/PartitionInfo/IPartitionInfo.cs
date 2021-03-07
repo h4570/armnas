@@ -1,4 +1,4 @@
-﻿namespace OSCommander.Models.PartitionInfo
+﻿namespace OSCommander.Models.SystemInformation.PartitionInfo
 {
     public interface IPartitionInfo
     {

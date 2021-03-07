@@ -19,19 +19,19 @@ namespace OSCommander
     public class SystemInformation
     {
 
-        private readonly ISystemService _service;
+        public readonly ISystemService Service;
 
         /// <summary>Attach logger, and execute commands on SSH target</summary>
         /// <param name="logger">Logger for detailed information about failed commands</param>
         /// <param name="ssh">Ssh connection credentials</param>
-        public SystemInformation(ILogger logger, SshCredentials ssh) { _service = new SystemService(logger, ssh); }
+        public SystemInformation(ILogger logger, SshCredentials ssh) { Service = new SystemService(logger, ssh); }
         /// <summary>Attach logger, and execute commands on current system</summary>
-        public SystemInformation(ILogger logger) { _service = new SystemService(logger); }
+        public SystemInformation(ILogger logger) { Service = new SystemService(logger); }
         /// <summary>Execute commands on SSH target</summary>
-        public SystemInformation(SshCredentials ssh) { _service = new SystemService(ssh); }
+        public SystemInformation(SshCredentials ssh) { Service = new SystemService(ssh); }
         /// <summary>Execute commands on current system</summary>
-        public SystemInformation() { _service = new SystemService(); }
-        internal SystemInformation(ISystemService service) { _service = service; }
+        public SystemInformation() { Service = new SystemService(); }
+        internal SystemInformation(ISystemService service) { Service = service; }
 
         /// <summary> Get distribution name </summary>
         /// <returns>Pretty distribution name from /etc/os-release or "Error" on fail</returns>
@@ -40,7 +40,7 @@ namespace OSCommander
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         public string GetDistributionName()
         {
-            var osRelease = _service.GetOsRelease();
+            var osRelease = Service.GetOsRelease();
             try
             {
                 const string beginning = "PRETTY_NAME=";
@@ -66,7 +66,7 @@ namespace OSCommander
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         public string GetKernelName()
         {
-            var uname = _service.GetUname();
+            var uname = Service.GetUname();
             var parts = uname.Split(" ");
             if (parts.Length < 3) throw new CommandResponseParsingException("Uname returned too short string");
             return parts[2];
@@ -81,9 +81,9 @@ namespace OSCommander
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         public CPUInfo GetCPUInfo()
         {
-            var cpuInfo = _service.GetCpuInfo();
-            var tempInfo = _service.GetTempInfo();
-            var top = _service.GetTop();
+            var cpuInfo = Service.GetCpuInfo();
+            var tempInfo = Service.GetTempInfo();
+            var top = Service.GetTop();
 
             return new CPUInfo()
             {
@@ -102,7 +102,7 @@ namespace OSCommander
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         public RAMInfo GetRAMInfo()
         {
-            var top = _service.GetTop();
+            var top = Service.GetTop();
             try
             {
                 var cpuLine = top
@@ -139,7 +139,7 @@ namespace OSCommander
         /// <exception cref="T:OSCommander.CommandResponseParsingException">Condition.</exception>
         public IEnumerable<LsblkDiskInfo> GetDisksInfo()
         {
-            var lsblk = _service.GetLsblk();
+            var lsblk = Service.GetLsblk();
             if (lsblk == null) throw new CommandResponseParsingException("Lsblk is null!");
             var devices = lsblk.BlockDevices
                 .Where(c => c.MountPoint == null && !c.Ro);
@@ -195,7 +195,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public IEnumerable<DfPartitionInfo> GetMountedPartitionsInfo()
         {
-            var df = _service.GetDf();
+            var df = Service.GetDf();
             try
             {
                 var lines = df
@@ -218,7 +218,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public DfPartitionInfo GetMountedPartitionInfo(string diskName)
         {
-            var df = _service.GetDf();
+            var df = Service.GetDf();
             try
             {
                 var line = df
@@ -239,7 +239,7 @@ namespace OSCommander
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         public string GetIP()
         {
-            var ip = _service.GetIpAddresses();
+            var ip = Service.GetIpAddresses();
             try
             {
                 var line = ip.Split("\n");
@@ -267,7 +267,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public DateTime GetStartTime()
         {
-            var startTime = _service.GetUpTime();
+            var startTime = Service.GetUpTime();
 
             if (string.IsNullOrWhiteSpace(startTime))
                 throw new CommandResponseParsingException("Returned date from uptime is empty.");

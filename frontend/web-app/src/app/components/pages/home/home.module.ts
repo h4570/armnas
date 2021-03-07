@@ -17,8 +17,10 @@ import { PartitionsComponent } from './partitions/partitions.component';
 import { SizePipe } from '../../shared/size-pipe';
 import { MatInputModule } from '@angular/material/input';
 import { ODataService } from 'src/app/services/odata.service';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { PartitionService } from 'src/app/services/partition.service';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -35,6 +37,8 @@ import { PartitionService } from 'src/app/services/partition.service';
         RouterModule,
         TranslateModule,
         MatInputModule,
+        MatCheckboxModule,
+        MatTooltipModule,
         MatIconModule,
         MatButtonModule,
         MatProgressBarModule,

@@ -32,6 +32,7 @@ export class LsblkPartitionInfoView implements LsblkPartitionInfo {
     /** Usefull to know if we will edit or create new entry in db.  */
     public dbId: number;
     public displayName: string;
+    public isAutoMountEnabled: boolean | undefined;
     public isFreezed: boolean;
 
     private _cachedDisplayName: string;

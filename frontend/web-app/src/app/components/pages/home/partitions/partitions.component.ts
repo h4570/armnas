@@ -82,6 +82,24 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     partition.isInEditMode = false;
   }
 
+  public async onAutoMountChange(event: boolean, partition: LsblkPartitionInfoView): Promise<void> {
+    try {
+      partition.isFreezed = true;
+      if (event)
+        await this.partitionService.enableAutoMount(partition.uuid);
+      else
+        await this.partitionService.disableAutoMount(partition.uuid);
+      this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
+      partition.isFreezed = false;
+    } catch (raw) {
+      partition.isFreezed = false;
+      const err = raw as HttpErrorResponse;
+      const title = this.translate.instant('common.error') as string;
+      const text = [this.translate.instant(err.error) as string];
+      await this.fastDialog.open(DialogType.error, DialogButtonType.ok, title, text);
+    }
+  }
+
   public async onMountClick(partition: LsblkPartitionInfoView): Promise<void> {
     if (!partition.displayName) {
       this.snackbar.open('Please set display name first!', 'Got it!', { duration: 3000 });
@@ -130,6 +148,7 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     if (!this.disks) {
       this.disks = newDisks;
       await this.fillAllPartitionDisplayNamesFromDb();
+      await this.fillAllAutoMountChecksFromDb();
       this.loading = false;
       return;
     }
@@ -138,12 +157,13 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     if (this.disks && (newDisks.length !== this.disks.length || oldMounts !== newMounts)) {
       this.partitionsRefresh = !this.partitionsRefresh;
       this.fillAllPartitionDisplayNamesFromOldData(newDisks);
+      this.fillAllAutoMountChecksFromOldData(newDisks);
       this.disks = newDisks;
       await this.fillAllPartitionDisplayNamesFromDb();
+      await this.fillAllAutoMountChecksFromDb();
     }
     this.loading = false;
   }
-
 
   /** Fill display name from already downloaded disks to new disks partitions that dont have partition name. */
   private fillAllPartitionDisplayNamesFromOldData(newDisks: LsblkDiskInfoView[]): void {
@@ -170,6 +190,30 @@ export class PartitionsComponent implements OnInit, OnDestroy {
           partition.dbId = dbPart.id;
           partition.updateCachedDisplayName();
         }
+      }
+    }));
+  }
+
+  /** Fill auto mount checks from already downloaded disks to new disks partitions that dont auto mount check filled. */
+  private fillAllAutoMountChecksFromOldData(newDisks: LsblkDiskInfoView[]): void {
+    assert(this.disks && this.disks.length > 0);
+    newDisks.forEach(newDisk => newDisk.partitions.forEach(partition => {
+      if (partition.isAutoMountEnabled === undefined) {
+        const cache = this.partitions.find(c => c.uuid === partition.uuid);
+        if (cache)
+          partition.isAutoMountEnabled = cache.isAutoMountEnabled;
+      }
+    }));
+  }
+
+  /** Fill auto mount checks from database to partitions that dont have auto mount check filled. */
+  private async fillAllAutoMountChecksFromDb(): Promise<void> {
+    assert(this.disks && this.disks.length > 0);
+    const payload = this.partitions.map(c => c.uuid);
+    this.disks.forEach(async disk => await disk.partitions.forEach(async partition => {
+      if (partition.isAutoMountEnabled === undefined) {
+        const check = await this.partitionService.checkAutoMount(partition.uuid);
+        partition.isAutoMountEnabled = check;
       }
     }));
   }

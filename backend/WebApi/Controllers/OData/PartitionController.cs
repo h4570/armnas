@@ -88,6 +88,39 @@ namespace WebApi.Controllers.OData
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        [HttpGet("/partition/check-auto-mount/{uuid}")]
+        public async Task<IActionResult> CheckAutoMount(string uuid)
+        {
+            var dbPartition = await _context.Partitions.AsQueryable().SingleOrDefaultAsync(c => c.Uuid.Equals(uuid));
+            if (dbPartition == null) return StatusCode(404, "http.partitionNotFoundByUuidInDb");
+            var res = _service.CheckAutoMount(uuid, dbPartition);
+            return res.Succeed ? Ok(new { Message = res.Result }) : StatusCode(res.StatusCode, res.ErrorMessage);
+        }
+
+        /// <exception cref="T:System.ArgumentNullException"></exception>
+        /// <exception cref="T:System.InvalidOperationException"></exception>
+        [HttpPost("/partition/enable-auto-mount/{uuid}")]
+        public async Task<IActionResult> EnableAutoMount(string uuid)
+        {
+            var dbPartition = await _context.Partitions.AsQueryable().SingleOrDefaultAsync(c => c.Uuid.Equals(uuid));
+            if (dbPartition == null) return StatusCode(404, "http.partitionNotFoundByUuidInDb");
+            var res = _service.EnableAutoMount(uuid, dbPartition);
+            return res.Succeed ? Ok(new { Message = res.Result }) : StatusCode(res.StatusCode, res.ErrorMessage);
+        }
+
+        /// <exception cref="T:System.ArgumentNullException"></exception>
+        /// <exception cref="T:System.InvalidOperationException"></exception>
+        [HttpPost("/partition/disable-auto-mount/{uuid}")]
+        public async Task<IActionResult> DisableAutoMount(string uuid)
+        {
+            var dbPartition = await _context.Partitions.AsQueryable().SingleOrDefaultAsync(c => c.Uuid.Equals(uuid));
+            if (dbPartition == null) return StatusCode(404, "http.partitionNotFoundByUuidInDb");
+            var res = _service.DisableAutoMount(uuid, dbPartition);
+            return res.Succeed ? Ok(new { Message = res.Result }) : StatusCode(res.StatusCode, res.ErrorMessage);
+        }
+
+        /// <exception cref="T:System.ArgumentNullException"></exception>
+        /// <exception cref="T:System.InvalidOperationException"></exception>
         [HttpPost("/partition/mount/{uuid}")]
         public async Task<IActionResult> Mount(string uuid)
         {

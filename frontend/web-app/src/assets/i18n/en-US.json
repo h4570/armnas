@@ -9,6 +9,9 @@
 	},
 	"http": {
 		"partitionNotFoundByUuidInDb": "Partition was not found in database.",
+		"autoMountCheckError": "Partition auto mount check error. Detailed information can be found in application log file.",
+		"autoMountEnableError": "Partition auto mount enable error. Detailed information can be found in application log file.",
+		"autoMountDisableError": "Partition auto disable error. Detailed information can be found in application log file.",
 		"unmountError": "Partition unmount error. Detailed information can be found in application log file.",
 		"mountError": "Partition mount error. Detailed information can be found in application log file."
 	},

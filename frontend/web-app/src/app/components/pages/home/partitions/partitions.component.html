@@ -21,7 +21,7 @@
                         <div class="col-1-sm">
                             <img src="/assets/img/icons/hard-disk.png" width="30px" height="auto" />
                         </div>
-                        <div class="col-4-sm partition-text">
+                        <div class="col-3-sm partition-text">
                             <span *ngIf="partition.isInEditMode">
                                 <mat-form-field class="display-name-input">
                                     <mat-label>Display name</mat-label>
@@ -51,16 +51,24 @@
                             </span>
                         </div>
                         <div class="col-3-sm partition-text">
-                            <span class="font-light" *ngIf="partition.mountingPoint">
+                            <mat-progress-bar *ngIf="partition.isFreezed" mode="indeterminate"></mat-progress-bar>
+                            <span class="font-light" *ngIf="!partition.isFreezed && partition.mountingPoint">
                                 {{partition.mountingPoint}}
                             </span>
                         </div>
-                        <div class="col-2-sm flex-center">
-                            <button mat-stroked-button [disabled]="partition.isFreezed" *ngIf="!partition.mountingPoint"
-                                (click)="onMountClick(partition)">Mount</button>
-                            <button mat-stroked-button [disabled]="partition.isFreezed" *ngIf="partition.mountingPoint"
-                                (click)="onUnmountClick(partition)" [disabled]="partition.isMain"
-                                color="warn">Unmount</button>
+                        <div class="col-3-sm flex-center">
+                            <button mat-stroked-button matTooltip="Mount" [disabled]="partition.isFreezed"
+                                *ngIf="!partition.mountingPoint" (click)="onMountClick(partition)">
+                                <mat-icon>login</mat-icon>
+                            </button>
+                            <button mat-stroked-button matTooltip="Unmount" [disabled]="partition.isFreezed"
+                                *ngIf="partition.mountingPoint" (click)="onUnmountClick(partition)"
+                                [disabled]="partition.isMain" color="warn">
+                                <mat-icon>logout</mat-icon>
+                            </button>
+                            <mat-checkbox (ngModelChange)="onAutoMountChange($event,partition)"
+                                [(ngModel)]="partition.isAutoMountEnabled" class="auto-mount-btn"
+                                matTooltip="Auto mount"></mat-checkbox>
                         </div>
                     </div>
 

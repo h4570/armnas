@@ -9,6 +9,9 @@
 	},
 	"http": {
 		"partitionNotFoundByUuidInDb": "Partycja nie została znalezione w bazie danych.",
+		"autoMountCheckError": "Błąd sprawdzenia auto montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
+		"autoMountEnableError": "Błąd włączenia auto montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
+		"autoMountDisableError": "Błąd wyłączenia auto montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
 		"unmountError": "Błąd odmontowywania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
 		"mountError": "Błąd montowania partycji. Sprawdź dodatkowe informacje w pliku z logami."
 	},

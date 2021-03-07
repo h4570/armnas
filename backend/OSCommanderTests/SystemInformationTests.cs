@@ -118,7 +118,7 @@ namespace OSCommanderTests
         public void GetRAMInfoTest_Good()
         {
             var res = _good.GetRAMInfo();
-            Assert.Equal(1485.4M, res.FreeInMB);
+            Assert.Equal(274.6M, res.UsedInMB);
             Assert.Equal(1990.4M, res.TotalInMB);
         }
 

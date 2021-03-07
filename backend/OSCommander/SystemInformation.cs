@@ -32,7 +32,7 @@ namespace OSCommander
         public SystemInformation(SshCredentials ssh) { _service = new SystemService(ssh); }
         /// <summary>Execute commands on current system</summary>
         public SystemInformation() { _service = new SystemService(); }
-        public SystemInformation(ISystemService service) { _service = service; }
+        internal SystemInformation(ISystemService service) { _service = service; }
 
         /// <summary> Get distribution name </summary>
         /// <returns>Pretty distribution name from /etc/os-release or "Error" on fail</returns>

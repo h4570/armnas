@@ -10,7 +10,7 @@ using OSCommander.Repositories;
 
 namespace OSCommander.Services
 {
-    public class SambaService
+    public class SambaService : ISambaService
     {
 
         private readonly CommandRepository _commandRepo;

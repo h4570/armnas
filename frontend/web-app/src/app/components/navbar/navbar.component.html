@@ -12,6 +12,23 @@
 
         <div class="nav-spacer"></div>
 
+        <button class="nav-btn" matTooltip="Home" mat-raised-button routerLink="/home">
+          <mat-icon>home</mat-icon>
+          <span *ngIf="!isScreenSmall">Home</span>
+        </button>
+
+        <button class="nav-btn" matTooltip="Modules" mat-raised-button [matMenuTriggerFor]="modules">
+          <mat-icon>inventory</mat-icon>
+          <span *ngIf="!isScreenSmall">Modules</span>
+        </button>
+
+        <mat-menu #modules="matMenu">
+          <button class="nav-btn" matTooltip="Samba" mat-menu-item routerLink="/samba">
+            <mat-icon>dynamic_form</mat-icon>
+            <span *ngIf="!isScreenSmall">Samba</span>
+          </button>
+        </mat-menu>
+
         <button mat-icon-button [matMenuTriggerFor]="notifications">
           <mat-icon matBadge="4" matBadgeOverlap="true" matBadgeColor="accent">notifications</mat-icon>
         </button>

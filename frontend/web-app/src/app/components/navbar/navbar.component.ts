@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/services/app.service';
 
@@ -10,12 +10,18 @@ import { AppService } from 'src/app/services/app.service';
 export class NavbarComponent {
 
   public isWinterTime = true;
+  public isScreenSmall: boolean;
 
   constructor(
     public readonly translate: TranslateService,
     public readonly appService: AppService
   ) {
     this.setWinterTime();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  public onResize(event: Event): void {
+    this.updateIsScreenSmallVariable();
   }
 
   public changeLang(language: string): void {
@@ -29,6 +35,10 @@ export class NavbarComponent {
 
   public onNormalModeClick(): void {
     this.appService.isInTweakMode = false;
+  }
+
+  private updateIsScreenSmallVariable(): void {
+    this.isScreenSmall = window.innerWidth <= 720;
   }
 
   private setWinterTime(): void {

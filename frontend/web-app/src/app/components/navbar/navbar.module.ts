@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -18,6 +19,7 @@ import { MatBadgeModule } from '@angular/material/badge';
         MatButtonModule,
         MatIconModule,
         MatBadgeModule,
+        MatTooltipModule,
         MatMenuModule,
         RouterModule,
     ],

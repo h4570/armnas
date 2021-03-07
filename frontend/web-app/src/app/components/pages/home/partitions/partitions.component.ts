@@ -120,13 +120,22 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     }
   }
 
+  private get partitions(): LsblkPartitionInfoView[] {
+    return this.disks.reduce((acc, c) => acc.concat(c.partitions), [] as LsblkPartitionInfoView[]); // flat map
+  }
+
   private async load(): Promise<void> {
     const newDisks = getLsblkDiskInfoViewModels(await this.sysInfoService.getDisksInfo());
+    const newPartitions = newDisks.reduce((acc, c) => acc.concat(c.partitions), [] as LsblkPartitionInfoView[]); // flat map
     if (!this.disks) {
       this.disks = newDisks;
       await this.fillAllPartitionDisplayNamesFromDb();
+      this.loading = false;
+      return;
     }
-    else if (this.disks && newDisks.length !== this.disks.length) {
+    const oldMounts = this.partitions.map(c => c.mountingPoint).filter(c => !!c).length;
+    const newMounts = newPartitions.map(c => c.mountingPoint).filter(c => !!c).length;
+    if (this.disks && (newDisks.length !== this.disks.length || oldMounts !== newMounts)) {
       this.partitionsRefresh = !this.partitionsRefresh;
       this.fillAllPartitionDisplayNamesFromOldData(newDisks);
       this.disks = newDisks;
@@ -135,9 +144,6 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  private get partitions(): LsblkPartitionInfoView[] {
-    return this.disks.reduce((acc, c) => acc.concat(c.partitions), [] as LsblkPartitionInfoView[]); // flat map
-  }
 
   /** Fill display name from already downloaded disks to new disks partitions that dont have partition name. */
   private fillAllPartitionDisplayNamesFromOldData(newDisks: LsblkDiskInfoView[]): void {

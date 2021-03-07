@@ -7,6 +7,11 @@
 		"tweak": "Dostrój",
 		"normalMode": "Tryb normalny"
 	},
+	"http": {
+		"partitionNotFoundByUuidInDb": "Partycja nie została znalezione w bazie danych.",
+		"unmountError": "Błąd odmontowywania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
+		"mountError": "Błąd montowania partycji. Sprawdź dodatkowe informacje w pliku z logami."
+	},
 	"httpErrors": {
 		"error0Title": "Czas minął!",
 		"error0Subtitle": "Aplikacja nie ma połączenia z serwerem. Proszę sprawdź swoje połączenie z internetem.",

@@ -25,24 +25,25 @@ namespace OSCommander.Repositories
         /// If command fail (there will be stderr), exception is thrown
         /// </summary>
         /// <param name="command">Linux command</param>
+        /// <param name="isEmptyOk">If true, exception is thrown when output is NOT empty</param>
         /// <returns>Stdout of Linux command</returns>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">
         /// If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.
         /// </exception>
-        internal string Execute(string command)
+        internal string Execute(string command, bool isEmptyOk = false)
         {
             var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
             return isLinux switch
             {
                 false when !UsingSsh => throw new CommandFailException(
                     "Commands can be executed in Linux or in Windows with Linux SSH credentials."),
-                true => ExecuteLinuxCommand(command),
-                _ => ExecuteSshLinuxCommand(command)
+                true => ExecuteLinuxCommand(command, isEmptyOk),
+                _ => ExecuteSshLinuxCommand(command, isEmptyOk)
             };
         }
 
-        private string ExecuteSshLinuxCommand(string command)
+        private string ExecuteSshLinuxCommand(string command, bool isEmptyOk)
         {
             try
             {
@@ -50,18 +51,21 @@ namespace OSCommander.Repositories
                 client.Connect();
                 var res = client.RunCommand(command);
                 client.Disconnect();
-                if (res.Error != string.Empty || res.Result == string.Empty)
-                    throw new CommandFailException("SSH Command execution failed. {command} => {ex.Message}");
+                if (res.Error != string.Empty)
+                    throw new CommandFailException($"SSH Command execution failed (stderr) - {res.Error}");
+                var isStdoutEmpty = res.Result == string.Empty;
+                if ((isStdoutEmpty && !isEmptyOk) || (!isStdoutEmpty && isEmptyOk))
+                    throw new CommandFailException($"SSH Command execution failed (stdout) - {res.Result}");
                 return res.Result;
             }
             catch (Exception ex) // lets reduce amount of OS related exceptions (about 10) to 1
             {
-                _logger?.LogError($"SSH Command execution failed. {command} => {ex.Message}");
+                _logger?.LogError($"Command: {command} => {ex.Message}");
                 throw new CommandFailException(ex);
             }
         }
 
-        private string ExecuteLinuxCommand(string command)
+        private string ExecuteLinuxCommand(string command, bool isEmptyOk)
         {
             try
             {
@@ -80,13 +84,17 @@ namespace OSCommander.Repositories
                 var stdout = proc.StandardOutput.ReadToEnd();
                 var stderr = proc.StandardError.ReadToEnd();
                 proc.WaitForExit();
+
                 if (stderr != string.Empty)
-                    throw new CommandFailException(stderr);
+                    throw new CommandFailException($"Command execution failed (stderr) - {stderr}");
+                var isStdoutEmpty = stdout == string.Empty;
+                if ((isStdoutEmpty && !isEmptyOk) || (!isStdoutEmpty && isEmptyOk))
+                    throw new CommandFailException($"Command execution failed (stdout) - {stdout}");
                 return stdout;
             }
             catch (Exception ex) // lets reduce amount of OS related exceptions (about 10) to 1
             {
-                _logger?.LogError($"Command execution failed. {command} => {ex.Message}");
+                _logger?.LogError($"Command: {command} => {ex.Message}");
                 throw new CommandFailException(ex);
             }
         }

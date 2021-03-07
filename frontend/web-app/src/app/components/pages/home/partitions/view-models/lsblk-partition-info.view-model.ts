@@ -19,6 +19,7 @@ export const getLsblkPartitionInfoViewModels = (models: LsblkPartitionInfo[]): L
 
 export class LsblkPartitionInfoView implements LsblkPartitionInfo {
     public uuid: string;
+    public fullName: string;
     public name: string;
     public mountingPoint: string;
     public isMain: boolean;

@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -38,7 +37,7 @@ namespace WebApi.Controllers.OData
                     new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]));
             else
                 sysInfo = new SystemInformation(logger);
-            _service = new PartitionService(sysInfo, _context);
+            _service = new PartitionService(sysInfo);
         }
 
         [EnableQuery]
@@ -87,18 +86,26 @@ namespace WebApi.Controllers.OData
             return Updated(payload);
         }
 
+        /// <exception cref="T:System.ArgumentNullException"></exception>
+        /// <exception cref="T:System.InvalidOperationException"></exception>
         [HttpPost("/partition/mount/{uuid}")]
         public async Task<IActionResult> Mount(string uuid)
         {
-            var res = await _service.Mount(uuid);
-            return res.Succeed ? Ok(res.Result) : StatusCode(res.StatusCode, res.ErrorMessage);
+            var dbPartition = await _context.Partitions.AsQueryable().SingleOrDefaultAsync(c => c.Uuid.Equals(uuid));
+            if (dbPartition == null) return StatusCode(404, "http.partitionNotFoundByUuidInDb");
+            var res = _service.Mount(uuid, dbPartition);
+            return res.Succeed ? Ok(new { Message = res.Result }) : StatusCode(res.StatusCode, res.ErrorMessage);
         }
 
+        /// <exception cref="T:System.ArgumentNullException"></exception>
+        /// <exception cref="T:System.InvalidOperationException"></exception>
         [HttpPost("/partition/unmount/{uuid}")]
         public async Task<IActionResult> Unmount(string uuid)
         {
-            var res = await _service.Unmount(uuid);
-            return res.Succeed ? Ok(res.Result) : StatusCode(res.StatusCode, res.ErrorMessage);
+            var dbPartition = await _context.Partitions.AsQueryable().SingleOrDefaultAsync(c => c.Uuid.Equals(uuid));
+            if (dbPartition == null) return StatusCode(404, "http.partitionNotFoundByUuidInDb");
+            var res = _service.Unmount(dbPartition);
+            return res.Succeed ? Ok(new { Message = res.Result }) : StatusCode(res.StatusCode, res.ErrorMessage);
         }
 
     }

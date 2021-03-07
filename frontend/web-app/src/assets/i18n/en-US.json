@@ -7,6 +7,11 @@
 		"tweak": "Tweak",
 		"normalMode": "Normal mode"
 	},
+	"http": {
+		"partitionNotFoundByUuidInDb": "Partition was not found in database.",
+		"unmountError": "Partition unmount error. Detailed information can be found in application log file.",
+		"mountError": "Partition mount error. Detailed information can be found in application log file."
+	},
 	"httpErrors": {
 		"error0Title": "Timeout!",
 		"error0Subtitle": "Application don't have connection to server. Please check your internet connection.",

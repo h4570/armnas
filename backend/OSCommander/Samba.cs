@@ -31,16 +31,58 @@ namespace OSCommander
             try
             {
                 var text = _sambaService.Get();
-                var parts = text
+                var lines = text
                     .Split('\n')
                     .Where(c => c[0] != '#' && c[0] != ';' && c[0] != '\r'); // skip comments and carriage returns
                 var result = new List<SambaEntry>();
+                SambaEntry currentEntry = null;
+                foreach (var line in lines)
+                {
+                    if (EntryCheck(line) is var entryCheck && entryCheck != null)
+                    {
+                        if (currentEntry != null)
+                            result.Add(currentEntry);
+                        currentEntry = new SambaEntry(entryCheck);
+                        continue;
+                    }
+                    if (ParamCheck(line) is var paramCheck && paramCheck.Key != null)
+                        currentEntry?.Params.Add(paramCheck);
+                }
+                if (currentEntry != null)
+                    result.Add(currentEntry);
                 return result;
             }
             catch (Exception ex)
             {
                 throw new CommandResponseParsingException(ex);
             }
+        }
+
+        /// <summary>
+        /// Check if line is entry (ex [global]). If it is, return entry name
+        /// </summary>
+        /// <param name="line">smb.conf line</param>
+        /// <returns>Entry name or null</returns>
+        private static string EntryCheck(string line)
+        {
+            if (line.Contains('[') && line.Contains(']') is var isEntry && isEntry)
+                return line.Trim('[', ']', '\r').Trim();
+            return null;
+        }
+
+        /// <summary>
+        /// Check if line is param. If it is, return param info
+        /// </summary>
+        /// <param name="line">smb.conf line</param>
+        /// <returns>Parameter info (key and value) or null</returns>
+        private static KeyValuePair<string, string> ParamCheck(string line)
+        {
+            if (line.Contains("   ") && line.Contains('=') is var isParam && !isParam)
+                return new KeyValuePair<string, string>(null, null);
+            var parts = line.Split('=');
+            var key = parts[0].Trim();
+            var value = parts[1].Trim('\r').Trim();
+            return new KeyValuePair<string, string>(key, value);
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Linq;
+using Xunit;
 using OSCommander;
 using OSCommander.Repositories;
 using OSCommanderTests.Services;
@@ -27,23 +28,32 @@ namespace OSCommanderTests
             _empty = new Samba(SambaServiceMock.GetWithEmptyResponses());
         }
 
+        /// <exception cref="T:System.ArgumentNullException"></exception>
+        /// <exception cref="T:System.OverflowException"></exception>
+        /// <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         [Fact]
-        public void GetDistributionNameTest_Good()
+        public void GetTest_Good()
         {
-            var res = _good.Get();
-            Assert.Equal("Armbian 21.02.2 Focal", null); // TODO
+            var res = _good.Get().ToList();
+            Assert.Equal(3, res.Count());
+            Assert.Equal("global", res[0].Name);
+            Assert.Equal(14, res[0].Params.Count);
+            Assert.Equal("printers", res[1].Name);
+            Assert.Equal(7, res[1].Params.Count);
+            Assert.Equal("print$", res[2].Name);
+            Assert.Equal(5, res[2].Params.Count);
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         [Fact]
-        public void GetDistributionNameTest_Bad_EmptyResult()
+        public void GetTest_Bad_EmptyResult()
         {
             Assert.Throws<CommandResponseParsingException>(() => _empty.Get());
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         [Fact]
-        public void GetDistributionNameTest_Bad_Exception()
+        public void GetTest_Bad_Exception()
         {
             Assert.Throws<CommandFailException>(() => _exception.Get());
         }

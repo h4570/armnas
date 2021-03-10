@@ -70,7 +70,6 @@ namespace WebApi.Controllers
         [Produces("application/json")]
         public ActionResult<IEnumerable<LsblkDiskInfo>> GetDisksInfo() { return Ok(_systemInfo.GetDisksInfo()); }
 
-
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>

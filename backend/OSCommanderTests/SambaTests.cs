@@ -29,13 +29,12 @@ namespace OSCommanderTests
         }
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
-        /// <exception cref="T:System.OverflowException"></exception>
         /// <exception cref="T:System.ArgumentOutOfRangeException"></exception>
         [Fact]
         public void GetTest_Good()
         {
             var res = _good.Get().ToList();
-            Assert.Equal(3, res.Count());
+            Assert.Equal(3, res.Count);
             Assert.Equal("global", res[0].Name);
             Assert.Equal(14, res[0].Params.Count);
             Assert.Equal("printers", res[1].Name);

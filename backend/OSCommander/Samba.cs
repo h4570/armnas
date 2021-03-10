@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using Microsoft.Extensions.Logging;
 using OSCommander.Dtos;
 using OSCommander.Models.Samba;
@@ -33,7 +35,10 @@ namespace OSCommander
                 var text = _sambaService.Get();
                 var lines = text
                     .Split('\n')
-                    .Where(c => c[0] != '#' && c[0] != ';' && c[0] != '\r'); // skip comments and carriage returns
+                    .Where(c => c.Trim() != string.Empty
+                                && c[0] != '#'
+                                && c[0] != ';'
+                                && c[0] != '\r'); // skip comments and carriage returns
                 var result = new List<SambaEntry>();
                 SambaEntry currentEntry = null;
                 foreach (var line in lines)
@@ -56,6 +61,15 @@ namespace OSCommander
             {
                 throw new CommandResponseParsingException(ex);
             }
+        }
+
+        /// <summary>
+        /// Update content of smb.conf file
+        /// </summary>
+        /// <exception cref="T:OSCommander.Services.SambaUpdateException">When smb.conf update fail.</exception>
+        public void Update(IEnumerable<SambaEntry> sambaContent)
+        {
+            _sambaService.Update(sambaContent);
         }
 
         /// <summary>

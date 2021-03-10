@@ -3,12 +3,12 @@
 namespace OSCommander.Services
 {
     /// <summary>
-    /// Wrapper exception for JSON parsing fail.
+    /// Wrapper exception for smb.conf update fail.
     /// </summary>
     [Serializable]
-    public class JsonParsingException : Exception
+    public class SambaUpdateException : Exception
     {
-        public JsonParsingException(string name) : base(name) { }
-        public JsonParsingException(Exception innerEx) : base(innerEx.Message, innerEx) { }
+        public SambaUpdateException(string name) : base(name) { }
+        public SambaUpdateException(Exception innerEx) : base(innerEx.Message, innerEx) { }
     }
 }

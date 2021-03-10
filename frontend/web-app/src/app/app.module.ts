@@ -14,6 +14,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { environment } from 'src/environments/environment';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ODataModule } from 'angular-odata';
+import { SambaModule } from './components/pages/samba/samba.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ODataModule } from 'angular-odata';
       serviceRootUrl: `${environment.urls.api}odata`
     }),
     HomeModule,
+    SambaModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,

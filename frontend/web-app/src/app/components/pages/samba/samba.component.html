@@ -1,5 +1,41 @@
 <div class="container">
-    <div class="col-12">
-        Test
+
+    <div class="row">
+        <div class="col-10">
+        </div>
+        <div class="col-2">
+            <button mat-stroked-button>
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
     </div>
+
+    <div class="row">
+        <div class="col-12">
+            <div class="mat-elevation-z4 rounded entry-container">
+
+                <ng-container *ngIf="loading">
+                    <p-skeleton width="75%" height="3.7rem"></p-skeleton>
+                    <div style="width:1px;height:1rem"></div>
+                    <p-skeleton width="85%" height="2rem"></p-skeleton>
+                    <div style="width:1px;height:.5rem"></div>
+                    <p-skeleton width="45%" height="2.5rem"></p-skeleton>
+                    <div style="width:1px;height:.5rem"></div>
+                    <p-skeleton width="97%" height="2.2rem"></p-skeleton>
+                </ng-container>
+
+                <ng-container *ngIf="!loading">
+                    <div *ngFor="let entry of entries" class="entry mat-elevation-z2 rounded">
+                        <h4> {{entry.model.name}}</h4>
+                        <div class="small-spacer"></div>
+                        <div *ngFor="let param of entry.model.params" class="param">
+                            {{param.key}} = {{param.value}}
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+
 </div>

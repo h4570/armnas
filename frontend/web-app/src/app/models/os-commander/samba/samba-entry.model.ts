@@ -1,4 +1,4 @@
-export class SambaEntry {
-    public name: string;
-    public params: { key: string; value: string }[];
+export interface SambaEntry {
+    name: string;
+    params: { key: string; value: string }[];
 }

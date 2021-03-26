@@ -1,17 +1,22 @@
 <div class="container">
 
     <div class="row">
-        <div class="col-10">
+        <div class="col-9-sm">
         </div>
-        <div class="col-2">
-            <button mat-stroked-button>
+        <div class="col-1-sm">
+            <button mat-stroked-button (click)="onAddClick()">
                 <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div class="col-1-sm">
+            <button mat-stroked-button style="margin-left:5px;" (click)="onSaveClick()">
+                <mat-icon>save</mat-icon>
             </button>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-12-sm">
             <div class="mat-elevation-z4 rounded entry-container">
 
                 <ng-container *ngIf="loading">
@@ -26,10 +31,45 @@
 
                 <ng-container *ngIf="!loading">
                     <div *ngFor="let entry of entries" class="entry mat-elevation-z2 rounded">
-                        <h4> {{entry.model.name}}</h4>
+
+                        <mat-form-field>
+                            <mat-label>Share name</mat-label>
+                            <input matInput [(ngModel)]="entry.model.name">
+                        </mat-form-field>
+
+                        <button mat-stroked-button style="margin-left:5px;" (click)="onAddParamClick(entry)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+
+                        <button mat-stroked-button style="margin-left:5px;" (click)="onDeleteClick(entry)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+
                         <div class="small-spacer"></div>
-                        <div *ngFor="let param of entry.model.params" class="param">
-                            {{param.key}} = {{param.value}}
+                        <div *ngFor="let param of entry.model.params" class="row param">
+                            <div class="col-5-sm">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Key</mat-label>
+                                    <input type="text" matInput [(ngModel)]="param.key" [matAutocomplete]="auto">
+                                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                        <mat-option *ngFor="let suggestion of keySuggestions" [value]="suggestion">
+                                            {{suggestion}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-5-sm">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Value</mat-label>
+                                    <input matInput [(ngModel)]="param.value">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-2-sm">
+                                <button mat-stroked-button style="margin-left:5px;"
+                                    (click)="onDeleteParamClick(entry, param)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </ng-container>

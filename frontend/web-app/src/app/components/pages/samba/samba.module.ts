@@ -6,6 +6,8 @@ import { SambaService } from 'src/app/services/samba.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SkeletonModule } from 'primeng/skeleton';
+import { MatInputModule } from '@angular/material/input';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { SkeletonModule } from 'primeng/skeleton';
     CommonModule,
     MatIconModule,
     SkeletonModule,
+    MatInputModule,
+    MatAutocompleteModule,
     MatButtonModule,
     FormsModule,
   ],

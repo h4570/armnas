@@ -8,16 +8,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
-    SambaComponent
+    SambaComponent,
   ],
   imports: [
     CommonModule,
     MatIconModule,
+    SharedModule,
     SkeletonModule,
     MatInputModule,
+    MatProgressBarModule,
+    MatSnackBarModule,
     MatAutocompleteModule,
     MatButtonModule,
     FormsModule,
@@ -26,7 +32,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     SambaComponent
   ],
   providers: [
-    SambaService
+    SambaService,
+    MatSnackBar,
   ]
 })
 export class SambaModule { }

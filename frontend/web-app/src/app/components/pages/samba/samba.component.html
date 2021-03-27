@@ -2,21 +2,22 @@
 
     <div class="row">
         <div class="col-9-sm">
+            <mat-progress-bar style="margin-top:15px;" *ngIf="isSaving" mode="indeterminate"></mat-progress-bar>
         </div>
         <div class="col-1-sm">
-            <button mat-stroked-button (click)="onAddClick()">
+            <button mat-stroked-button [disabled]="isSaving" (click)="onAddClick()">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
         <div class="col-1-sm">
-            <button mat-stroked-button style="margin-left:5px;" (click)="onSaveClick()">
+            <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving" (click)="onSaveClick()">
                 <mat-icon>save</mat-icon>
             </button>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-12-sm">
+        <div class="col-12-sm" [smoothHeight]="loading">
             <div class="mat-elevation-z4 rounded entry-container">
 
                 <ng-container *ngIf="loading">
@@ -34,23 +35,26 @@
 
                         <mat-form-field>
                             <mat-label>Share name</mat-label>
-                            <input matInput [(ngModel)]="entry.model.name">
+                            <input matInput [disabled]="isSaving" [(ngModel)]="entry.model.name">
                         </mat-form-field>
 
-                        <button mat-stroked-button style="margin-left:5px;" (click)="onAddParamClick(entry)">
+                        <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving"
+                            (click)="onAddParamClick(entry)">
                             <mat-icon>add</mat-icon>
                         </button>
 
-                        <button mat-stroked-button style="margin-left:5px;" (click)="onDeleteClick(entry)">
+                        <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving"
+                            (click)="onDeleteClick(entry)">
                             <mat-icon>delete</mat-icon>
                         </button>
 
                         <div class="small-spacer"></div>
-                        <div *ngFor="let param of entry.model.params" class="row param">
+                        <div *ngFor="let param of entry.model.params" class="row">
                             <div class="col-5-sm">
                                 <mat-form-field class="full-width">
                                     <mat-label>Key</mat-label>
-                                    <input type="text" matInput [(ngModel)]="param.key" [matAutocomplete]="auto">
+                                    <input type="text" matInput [disabled]="isSaving" [(ngModel)]="param.key"
+                                        [matAutocomplete]="auto">
                                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
                                         <mat-option *ngFor="let suggestion of keySuggestions" [value]="suggestion">
                                             {{suggestion}}
@@ -61,11 +65,11 @@
                             <div class="col-5-sm">
                                 <mat-form-field class="full-width">
                                     <mat-label>Value</mat-label>
-                                    <input matInput [(ngModel)]="param.value">
+                                    <input matInput [disabled]="isSaving" [(ngModel)]="param.value">
                                 </mat-form-field>
                             </div>
                             <div class="col-2-sm">
-                                <button mat-stroked-button style="margin-left:5px;"
+                                <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving"
                                     (click)="onDeleteParamClick(entry, param)">
                                     <mat-icon>delete</mat-icon>
                                 </button>

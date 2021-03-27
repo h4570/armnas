@@ -1,19 +1,23 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/services/app.service';
 import { FastDialogService } from 'src/app/services/fast-dialog.service';
 import { SambaService } from 'src/app/services/samba.service';
+import { smoothHeight } from '../../shared/animations';
 import { SambaEntryViewModel } from './view-models/samba-entry.view-model';
 
 @Component({
   selector: 'app-samba',
   templateUrl: './samba.component.html',
-  styleUrls: ['./samba.component.scss']
+  styleUrls: ['./samba.component.scss'],
+  animations: [smoothHeight]
 })
 export class SambaComponent implements OnInit {
 
   public entries: SambaEntryViewModel[] = [];
   public loading = true;
+  public isSaving = false;
 
   public keySuggestions: string[] = [
     'comment',
@@ -49,6 +53,7 @@ export class SambaComponent implements OnInit {
     private readonly fdService: FastDialogService,
     public readonly appService: AppService,
     private readonly translate: TranslateService,
+    private readonly snackbar: MatSnackBar,
     private readonly samba: SambaService,
   ) { }
 
@@ -81,11 +86,15 @@ export class SambaComponent implements OnInit {
   }
 
   public async onSaveClick(): Promise<void> {
+    this.isSaving = true;
     try {
       await this.samba.update(this.entries.map(c => c.model));
-      // TODO snackbar
+      this.snackbar.open('Done!', 'OK', { duration: 2000 });
+      this.isSaving = false;
     } catch (err) {
-      // TODO check err
+      this.isSaving = false;
+      this.snackbar.open('Saving failed!', '🙄', { duration: 2000 });
+      await this.refresh();
     }
   }
 

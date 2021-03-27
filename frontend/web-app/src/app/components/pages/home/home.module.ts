@@ -27,12 +27,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         HomeComponent,
         SysInfoComponent,
         PartitionsComponent,
-        SmoothHeightAnimDirective,
         SizePipe
     ],
     imports: [
         CommonModule,
         FormsModule,
+        SharedModule,
         SkeletonModule,
         RouterModule,
         TranslateModule,

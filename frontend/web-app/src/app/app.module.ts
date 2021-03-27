@@ -18,7 +18,7 @@ import { SambaModule } from './components/pages/samba/samba.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     TranslateModule.forRoot({

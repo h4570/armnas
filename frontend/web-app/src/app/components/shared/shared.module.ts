@@ -9,11 +9,13 @@ import { FastDialogService } from './../../services/fast-dialog.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { SmoothHeightAnimDirective } from './smooth-height.directive';
 
 @NgModule({
     declarations: [
         ScreenLoaderComponent,
-        FastDialogComponent
+        FastDialogComponent,
+        SmoothHeightAnimDirective,
     ],
     imports: [
         TranslateModule,
@@ -25,7 +27,8 @@ import { MatIconModule } from '@angular/material/icon';
         MatIconModule,
     ],
     exports: [
-        ScreenLoaderComponent
+        ScreenLoaderComponent,
+        SmoothHeightAnimDirective
     ],
     providers: [
         FastDialogService

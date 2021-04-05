@@ -18,7 +18,7 @@
                 <div *ngFor="let partition of disk.partitions">
 
                     <div class="row partition mat-elevation-z1 rounded">
-                        <div class="col-1-sm">
+                        <div class="col-1-sm hidden-sm">
                             <img src="/assets/img/icons/hard-disk.png" width="30px" height="auto" />
                         </div>
                         <div class="col-3-sm partition-text">
@@ -52,7 +52,7 @@
                         </div>
                         <div class="col-3-sm partition-text">
                             <mat-progress-bar *ngIf="partition.isFreezed" mode="indeterminate"></mat-progress-bar>
-                            <span class="font-light" *ngIf="!partition.isFreezed && partition.mountingPoint">
+                            <span class="font-light hidden-sm" *ngIf="!partition.isFreezed && partition.mountingPoint">
                                 {{partition.mountingPoint}}
                             </span>
                         </div>

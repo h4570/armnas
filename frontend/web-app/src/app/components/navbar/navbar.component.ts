@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/services/app.service';
 
@@ -7,7 +7,7 @@ import { AppService } from 'src/app/services/app.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 
   public isWinterTime = true;
   public isScreenSmall: boolean;
@@ -21,6 +21,10 @@ export class NavbarComponent {
 
   @HostListener('window:resize', ['$event'])
   public onResize(event: Event): void {
+    this.updateIsScreenSmallVariable();
+  }
+
+  public ngOnInit(): void {
     this.updateIsScreenSmallVariable();
   }
 

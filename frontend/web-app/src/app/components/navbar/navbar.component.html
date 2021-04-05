@@ -3,7 +3,8 @@
   <div class="header-container">
 
     <div class="app-name-area">
-      <img src="/assets/img/logo/color/text_m.png">
+      <img src="/assets/img/logo/color/text_m.png" *ngIf="!isScreenSmall">
+      <img src="/assets/img/logo/color/icon_m.png" style="width:auto;height:32px" *ngIf="isScreenSmall">
     </div>
 
     <div class="user-area">
@@ -25,7 +26,7 @@
         <mat-menu #modules="matMenu">
           <button class="nav-btn" matTooltip="Samba" mat-menu-item routerLink="/samba">
             <mat-icon>dynamic_form</mat-icon>
-            <span *ngIf="!isScreenSmall">Samba</span>
+            <span>Samba</span>
           </button>
         </mat-menu>
 

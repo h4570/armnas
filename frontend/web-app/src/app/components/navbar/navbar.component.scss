@@ -15,7 +15,7 @@ header {
 
     .header-container {
         display: grid;
-        grid-template-columns: 200px auto;
+        grid-template-columns: 50px auto;
         padding: 10px;
 
         .app-name-area {
@@ -23,7 +23,7 @@ header {
             justify-content: flex-start;
             align-items: center;
             font-size: 22px;
-            padding: 0 20px 0 30px;
+            padding: 0 0 0 20px;
 
             img {
                 width: 100px;

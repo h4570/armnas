@@ -1,18 +1,19 @@
-<div class="container">
+<div class="container mat-elevation-z3 rounded">
 
     <div class="row">
-        <div class="col-9-sm">
-            <mat-progress-bar style="margin-top:15px;" *ngIf="isSaving" mode="indeterminate"></mat-progress-bar>
+        <div class="col-3-sm">
+            <h3 *ngIf="!isSaving">Samba</h3>
+            <mat-progress-bar class="progress-bar" *ngIf="isSaving" mode="indeterminate"></mat-progress-bar>
         </div>
-        <div class="col-1-sm">
-            <button mat-stroked-button [disabled]="isSaving" (click)="onAddClick()">
-                <mat-icon>add</mat-icon>
-            </button>
-        </div>
-        <div class="col-1-sm">
-            <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving" (click)="onSaveClick()">
-                <mat-icon>save</mat-icon>
-            </button>
+        <div class="col-9-sm" style="padding-top:10px">
+            <div style="float:right;">
+                <button mat-stroked-button [disabled]="isSaving" (click)="onAddClick()">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving" (click)="onSaveClick()">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -37,24 +38,24 @@
                 <ng-container *ngIf="!loading">
                     <div *ngFor="let entry of entries" class="entry mat-elevation-z2 rounded">
 
-                        <mat-form-field>
+                        <mat-form-field class="share-name">
                             <mat-label>Share name</mat-label>
                             <input matInput [disabled]="isSaving" [(ngModel)]="entry.model.name">
                         </mat-form-field>
 
-                        <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving"
+                        <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
                             (click)="onAddParamClick(entry)">
                             <mat-icon>add</mat-icon>
                         </button>
 
-                        <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving"
+                        <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
                             (click)="onDeleteClick(entry)">
                             <mat-icon>delete</mat-icon>
                         </button>
 
                         <div class="small-spacer"></div>
                         <div *ngFor="let param of entry.model.params" class="row">
-                            <div class="col-5-sm">
+                            <div class="col-4-sm">
                                 <mat-form-field class="full-width">
                                     <mat-label>Key</mat-label>
                                     <input type="text" matInput [disabled]="isSaving" [(ngModel)]="param.key"
@@ -66,14 +67,14 @@
                                     </mat-autocomplete>
                                 </mat-form-field>
                             </div>
-                            <div class="col-5-sm">
+                            <div class="col-6-sm">
                                 <mat-form-field class="full-width">
                                     <mat-label>Value</mat-label>
                                     <input matInput [disabled]="isSaving" [(ngModel)]="param.value">
                                 </mat-form-field>
                             </div>
                             <div class="col-2-sm">
-                                <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving"
+                                <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
                                     (click)="onDeleteParamClick(entry, param)">
                                     <mat-icon>delete</mat-icon>
                                 </button>

@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ODataModule } from 'angular-odata';
 import { SambaModule } from './components/pages/samba/samba.module';
+import { TransmissionModule } from './components/pages/transmission/transmission.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { SambaModule } from './components/pages/samba/samba.module';
     }),
     HomeModule,
     SambaModule,
+    TransmissionModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,

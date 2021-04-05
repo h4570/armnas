@@ -42,7 +42,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Services.SambaUpdateException">When smb.conf update fail.</exception>
         [HttpPost]
         [Produces("application/json")]
-        public ActionResult<IEnumerable<SambaEntry>> GetSambaEntries([FromBody] IEnumerable<SambaEntry> sambaEntries)
+        public ActionResult<IEnumerable<SambaEntry>> UpdateSambaEntries([FromBody] IEnumerable<SambaEntry> sambaEntries)
         {
             _samba.Update(sambaEntries);
             return Ok(new { Message = "success" });

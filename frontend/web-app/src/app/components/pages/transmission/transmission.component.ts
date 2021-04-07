@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-transmission',
@@ -7,9 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TransmissionComponent implements OnInit {
 
-  constructor() { }
+  public readonly transmissionUrl: string;
 
-  ngOnInit(): void {
+  constructor() {
+    this.transmissionUrl = environment.urls.transmission;
+    console.log(this.transmissionUrl);
+  }
+
+  public ngOnInit(): void {
   }
 
 }

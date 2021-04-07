@@ -1,5 +1,4 @@
 <!-- 
-TODO0: iframe address from env
 TODO1: api for service start/stop/restart (here for transmission-daemon)
 TODO2: daemon autostart
 TODO3: config 
@@ -8,7 +7,7 @@ TODO3: config
 <div class="container">
     <div class="row">
         <div class="col-12-sm transmission-app">
-            <iframe title="Transmission" width="100%" height="100%" src="http://armnas.site:9091"></iframe>
+            <iframe title="Transmission" width="100%" height="100%" [src]="transmissionUrl | safe"></iframe>
         </div>
     </div>
 </div>

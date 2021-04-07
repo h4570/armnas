@@ -13,7 +13,10 @@
 		"autoMountEnableError": "Błąd włączenia auto montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
 		"autoMountDisableError": "Błąd wyłączenia auto montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
 		"unmountError": "Błąd odmontowywania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
-		"mountError": "Błąd montowania partycji. Sprawdź dodatkowe informacje w pliku z logami."
+		"mountError": "Błąd montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
+		"serviceStartFailed": "Błąd startowania serwisu. Sprawdź dodatkowe informacje w pliku z logami.",
+		"serviceStopFailed": "Błąd zatrzymania serwisu. Sprawdź dodatkowe informacje w pliku z logami.",
+		"serviceRestartFailed": "Błąd restartowania serwisu. Sprawdź dodatkowe informacje w pliku z logami."
 	},
 	"httpErrors": {
 		"error0Title": "Czas minął!",

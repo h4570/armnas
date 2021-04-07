@@ -13,7 +13,10 @@
 		"autoMountEnableError": "Partition auto mount enable error. Detailed information can be found in application log file.",
 		"autoMountDisableError": "Partition auto disable error. Detailed information can be found in application log file.",
 		"unmountError": "Partition unmount error. Detailed information can be found in application log file.",
-		"mountError": "Partition mount error. Detailed information can be found in application log file."
+		"mountError": "Partition mount error. Detailed information can be found in application log file.",
+		"serviceStartFailed": "Service start failed. Detailed information can be found in application log file.",
+		"serviceStopFailed": "Service stop failed. Detailed information can be found in application log file.",
+		"serviceRestartFailed": "Service restart failed. Detailed information can be found in application log file."
 	},
 	"httpErrors": {
 		"error0Title": "Timeout!",

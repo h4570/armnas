@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 
-namespace WebApi.Controllers.OData
+namespace WebApi.Controllers
 {
 
     [EnableCors]

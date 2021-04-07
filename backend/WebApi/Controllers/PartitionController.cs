@@ -9,10 +9,9 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using OSCommander;
 using WebApi.Services;
 
-namespace WebApi.Controllers.OData
+namespace WebApi.Controllers
 {
 
     [EnableCors]

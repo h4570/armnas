@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { assert } from 'src/app/assert';
 import { smoothHeight } from 'src/app/components/shared/animations';
 import { LsblkPartitionInfoView } from 'src/app/components/pages/home/partitions/view-models/lsblk-partition-info.view-model';
-import { Partition } from 'src/app/models/odata/partition.model';
+import { Partition } from 'src/app/models/partition.model';
 import { AppService } from 'src/app/services/app.service';
 import { ODataService } from 'src/app/services/odata.service';
 import { SystemInformationService } from 'src/app/services/system-information.service';

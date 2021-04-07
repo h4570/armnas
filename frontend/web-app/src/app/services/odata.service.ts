@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ODataEntitySetService, ODataServiceFactory } from 'angular-odata';
 import { AppHistory } from '../models/app-history.model';
-import { Partition } from '../models/odata/partition.model';
+import { Partition } from '../models/partition.model';
 
 @Injectable()
 export class ODataService {

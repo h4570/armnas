@@ -26,7 +26,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public void Start(string name)
         {
-            _commandRepo.Execute($"service {name} start");
+            _commandRepo.Execute($"service {name} start", true);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public void Stop(string name)
         {
-            _commandRepo.Execute($"service {name} stop");
+            _commandRepo.Execute($"service {name} stop", true);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public void Restart(string name)
         {
-            _commandRepo.Execute($"service {name} restart");
+            _commandRepo.Execute($"service {name} restart", true);
         }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public void Enable(string name)
         {
-            _commandRepo.Execute($"systemctl enable {name}");
+            _commandRepo.Execute($"systemctl enable {name}", true);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public void Disable(string name)
         {
-            _commandRepo.Execute($"systemctl disable {name}");
+            _commandRepo.Execute($"systemctl disable {name}", true);
         }
 
     }

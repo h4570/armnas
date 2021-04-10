@@ -43,7 +43,7 @@ namespace WebApi.Controllers
                 _service.Start(name);
                 return Ok(new { Message = "Ok" });
             }
-            catch { return StatusCode(404, "http.serviceStartFailed"); }
+            catch { return StatusCode(461, "http.serviceStartFailed"); }
         }
 
         [HttpPost("stop/{name}")]
@@ -51,10 +51,10 @@ namespace WebApi.Controllers
         {
             try
             {
-                _service.Start(name);
+                _service.Stop(name);
                 return Ok(new { Message = "Ok" });
             }
-            catch { return StatusCode(404, "http.serviceStopFailed"); }
+            catch { return StatusCode(461, "http.serviceStopFailed"); }
         }
 
         [HttpPost("restart/{name}")]
@@ -62,10 +62,10 @@ namespace WebApi.Controllers
         {
             try
             {
-                _service.Start(name);
+                _service.Restart(name);
                 return Ok(new { Message = "Ok" });
             }
-            catch { return StatusCode(404, "http.serviceRestartFailed"); }
+            catch { return StatusCode(461, "http.serviceRestartFailed"); }
         }
 
     }

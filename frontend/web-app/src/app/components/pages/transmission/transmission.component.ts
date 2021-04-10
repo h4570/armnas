@@ -12,9 +12,10 @@ import { DialogButtonType, DialogType } from '../../shared/fast-dialog/fast-dial
   templateUrl: './transmission.component.html',
   styleUrls: ['./transmission.component.scss']
 })
-export class TransmissionComponent implements OnInit {
+export class TransmissionComponent {
 
   public readonly transmissionUrl: string;
+  public isRestarting: boolean;
 
   constructor(
     private readonly serviceService: ServiceService,
@@ -23,13 +24,16 @@ export class TransmissionComponent implements OnInit {
     private readonly translate: TranslateService,
   ) {
     this.transmissionUrl = environment.urls.transmission;
+    this.isRestarting = false;
   }
 
-  public ngOnInit(): void {
-
+  public async onRestartClick(): Promise<void> {
+    this.isRestarting = true;
+    await this.restartTransmissionService();
+    this.isRestarting = false;
   }
 
-  public async restartTransmissionService(): Promise<void> {
+  private async restartTransmissionService(): Promise<void> {
     try {
       await this.serviceService.restart('transmission-daemon');
       this.snackbar.open('Done!', 'Ok!', { duration: 3000 });

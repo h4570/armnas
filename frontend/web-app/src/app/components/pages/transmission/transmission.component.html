@@ -1,11 +1,13 @@
-<!-- 
-TODO3: config 
--->
-
-<div class="container">
-    <div class="row">
-        <div class="col-12-sm transmission-app">
-            <iframe title="Transmission" width="100%" height="100%" [src]="transmissionUrl | safe"></iframe>
-        </div>
+<div class="row">
+    <div class="col-12-sm transmission-app">
+        <iframe title="Transmission" width="100%" height="100%" [src]="transmissionUrl | safe"></iframe>
     </div>
+</div>
+<div class="row">
+    <div class="col-2-sm">
+        <button mat-raised-button color="warn" [disabled]="isRestarting" (click)="onRestartClick()">
+            Restart
+        </button>
+    </div>
+    <div class="col-10-sm"></div>
 </div>

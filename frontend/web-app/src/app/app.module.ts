@@ -16,6 +16,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ODataModule } from 'angular-odata';
 import { SambaModule } from './components/pages/samba/samba.module';
 import { TransmissionModule } from './components/pages/transmission/transmission.module';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
   declarations: [
@@ -32,12 +33,13 @@ import { TransmissionModule } from './components/pages/transmission/transmission
     ODataModule.forRoot({
       serviceRootUrl: `${environment.urls.api}odata`
     }),
+    BrowserModule,
+    BrowserAnimationsModule,
     HomeModule,
     SambaModule,
     TransmissionModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule,
     SharedModule,
     NavbarModule,
   ],

@@ -6,6 +6,7 @@ import { SafePipe } from '../../shared/safe-pipe';
 import { ServiceService } from 'src/app/services/service.service';
 import { FastDialogService } from 'src/app/services/fast-dialog.service';
 import { MatButtonModule } from '@angular/material/button';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     MatButtonModule
   ],
   exports: [

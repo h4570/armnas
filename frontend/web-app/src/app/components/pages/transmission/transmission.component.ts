@@ -2,15 +2,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
+import { AppService } from 'src/app/services/app.service';
 import { FastDialogService } from 'src/app/services/fast-dialog.service';
 import { ServiceService } from 'src/app/services/service.service';
 import { environment } from 'src/environments/environment';
+import { smoothHeight } from '../../shared/animations';
 import { DialogButtonType, DialogType } from '../../shared/fast-dialog/fast-dialog.component';
 
 @Component({
   selector: 'app-transmission',
   templateUrl: './transmission.component.html',
-  styleUrls: ['./transmission.component.scss']
+  styleUrls: ['./transmission.component.scss'],
+  animations: [smoothHeight]
 })
 export class TransmissionComponent {
 
@@ -18,6 +21,7 @@ export class TransmissionComponent {
   public isRestarting: boolean;
 
   constructor(
+    public readonly appService: AppService,
     private readonly serviceService: ServiceService,
     private readonly snackbar: MatSnackBar,
     private readonly fastDialog: FastDialogService,

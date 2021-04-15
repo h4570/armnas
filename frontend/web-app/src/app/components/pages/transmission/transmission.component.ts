@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/services/app.service';
 import { FastDialogService } from 'src/app/services/fast-dialog.service';
 import { ServiceService } from 'src/app/services/service.service';
+import { TransmissionService } from 'src/app/services/transmission.service';
 import { environment } from 'src/environments/environment';
 import { smoothHeight } from '../../shared/animations';
 import { DialogButtonType, DialogType } from '../../shared/fast-dialog/fast-dialog.component';
@@ -15,26 +16,41 @@ import { DialogButtonType, DialogType } from '../../shared/fast-dialog/fast-dial
   styleUrls: ['./transmission.component.scss'],
   animations: [smoothHeight]
 })
-export class TransmissionComponent {
+export class TransmissionComponent implements OnInit {
 
+  public incompletedDir = 'Loading...';
+  public completedDir = 'Loading...';
   public readonly transmissionUrl: string;
-  public isRestarting: boolean;
+  public isFreezed: boolean;
 
   constructor(
     public readonly appService: AppService,
     private readonly serviceService: ServiceService,
+    private readonly transmissionService: TransmissionService,
     private readonly snackbar: MatSnackBar,
     private readonly fastDialog: FastDialogService,
     private readonly translate: TranslateService,
   ) {
     this.transmissionUrl = environment.urls.transmission;
-    this.isRestarting = false;
+    this.isFreezed = false;
+  }
+
+  public async ngOnInit(): Promise<void> {
+    await this.getLatestConfig();
   }
 
   public async onRestartClick(): Promise<void> {
-    this.isRestarting = true;
+    this.isFreezed = true;
     await this.restartTransmissionService();
-    this.isRestarting = false;
+    this.isFreezed = false;
+  }
+
+  public async onSaveClick(): Promise<void> {
+    this.isFreezed = true;
+    await this.transmissionService.updateConfig({ completedDir: this.completedDir, incompletedDir: this.incompletedDir });
+    await this.restartTransmissionService();
+    await this.getLatestConfig();
+    this.isFreezed = false;
   }
 
   private async restartTransmissionService(): Promise<void> {
@@ -47,6 +63,12 @@ export class TransmissionComponent {
       const text = [this.translate.instant(err.error) as string];
       await this.fastDialog.open(DialogType.error, DialogButtonType.ok, title, text);
     }
+  }
+
+  private async getLatestConfig(): Promise<void> {
+    const res = await this.transmissionService.getConfig();
+    this.completedDir = res.completedDir;
+    this.incompletedDir = res.incompletedDir;
   }
 
 }

@@ -1,6 +1,22 @@
+<mat-progress-bar mode="indeterminate" *ngIf="isFreezed"></mat-progress-bar>
+
 <div class="row" [smoothHeight]="appService.isInTweakMode">
     <div class="col-12 flex-center font-heavy" *ngIf="appService.isInTweakMode">
-        Nothing to tweak here!
+
+        <mat-form-field>
+            <mat-label>Completed directory</mat-label>
+            <input matInput [disabled]="isFreezed" [(ngModel)]="completedDir">
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Incompleted directory</mat-label>
+            <input matInput [disabled]="isFreezed" [(ngModel)]="incompletedDir">
+        </mat-form-field>
+
+        <button mat-icon-button [disabled]="isFreezed" (click)="onSaveClick()">
+            <mat-icon>save</mat-icon>
+        </button>
+
     </div>
 </div>
 
@@ -14,7 +30,7 @@
 
 <div class="row">
     <div class="col-2-sm">
-        <button mat-raised-button color="warn" [disabled]="isRestarting" (click)="onRestartClick()">
+        <button mat-raised-button color="warn" [disabled]="isFreezed" (click)="onRestartClick()">
             Restart
         </button>
     </div>

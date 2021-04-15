@@ -64,8 +64,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
-        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
-        /// <exception cref="T:System.ArgumentNullException"></exception>
+        /// <exception cref="T:OSCommander.Services.SambaUpdateException">When JSON parsing fail.</exception>
         [HttpGet("disks-info")]
         [Produces("application/json")]
         public ActionResult<IEnumerable<LsblkDiskInfo>> GetDisksInfo() { return Ok(_systemInfo.GetDisksInfo()); }

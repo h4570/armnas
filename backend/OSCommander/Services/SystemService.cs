@@ -2,6 +2,8 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using OSCommander.Dtos;
+using OSCommander.Exceptions;
+using OSCommander.Models;
 using OSCommander.Repositories;
 
 // ReSharper disable IdentifierTypo
@@ -39,7 +41,7 @@ namespace OSCommander.Services
         /// <returns> Result of "lsblk -JO". </returns>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
-        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
+        /// <exception cref="T:OSCommander.Exceptions.JsonParsingException">When JSON parsing fail.</exception>
         public Lsblk GetLsblk()
         {
             var json = _commandRepo.Execute("lsblk -JO");

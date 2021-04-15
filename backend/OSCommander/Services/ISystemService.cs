@@ -1,4 +1,4 @@
-﻿using OSCommander.Dtos;
+﻿using OSCommander.Models;
 
 // ReSharper disable CommentTypo
 // ReSharper disable IdentifierTypo
@@ -32,7 +32,7 @@ namespace OSCommander.Services
         /// <returns> Result of "lsblk -JO". </returns>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
-        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
+        /// <exception cref="T:OSCommander.Services.SambaUpdateException">When JSON parsing fail.</exception>
         public Lsblk GetLsblk();
 
         /// <summary>

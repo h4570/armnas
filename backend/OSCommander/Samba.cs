@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 using Microsoft.Extensions.Logging;
 using OSCommander.Dtos;
 using OSCommander.Models.Samba;
@@ -66,7 +64,7 @@ namespace OSCommander
         /// <summary>
         /// Update content of smb.conf file
         /// </summary>
-        /// <exception cref="T:OSCommander.Services.SambaUpdateException">When smb.conf update fail.</exception>
+        /// <exception cref="T:OSCommander.Exceptions.SambaUpdateException">When smb.conf update fail.</exception>
         public void Update(IEnumerable<SambaEntry> sambaContent)
         {
             _sambaService.Update(sambaContent);

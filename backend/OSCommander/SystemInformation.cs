@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.Logging;
 using OSCommander.Dtos;
-using OSCommander.Services;
-using OSCommander.Models;
 using OSCommander.Models.SystemInformation;
 using OSCommander.Models.SystemInformation.PartitionInfo;
+using OSCommander.Services;
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable CommentTypo
@@ -135,8 +134,7 @@ namespace OSCommander
         /// </summary>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
-        /// <exception cref="T:OSCommander.Services.JsonParsingException">When JSON parsing fail.</exception>
-        /// <exception cref="T:System.ArgumentNullException"></exception>
+        /// <exception cref="T:OSCommander.Services.SambaUpdateException">When JSON parsing fail.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">Condition.</exception>
         public IEnumerable<LsblkDiskInfo> GetDisksInfo()
         {

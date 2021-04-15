@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OSCommander.Services
+namespace OSCommander.Exceptions
 {
     /// <summary>
     /// Wrapper exception for JSON parsing fail.

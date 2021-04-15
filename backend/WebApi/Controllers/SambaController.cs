@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -7,8 +6,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OSCommander;
 using OSCommander.Models.Samba;
-using OSCommander.Models.SystemInformation;
-using OSCommander.Models.SystemInformation.PartitionInfo;
 
 namespace WebApi.Controllers
 {
@@ -39,7 +36,7 @@ namespace WebApi.Controllers
             return Ok(_samba.Get());
         }
 
-        /// <exception cref="T:OSCommander.Services.SambaUpdateException">When smb.conf update fail.</exception>
+        /// <exception cref="T:OSCommander.Exceptions.SambaUpdateException">When smb.conf update fail.</exception>
         [HttpPost]
         [Produces("application/json")]
         public ActionResult<IEnumerable<SambaEntry>> UpdateSambaEntries([FromBody] IEnumerable<SambaEntry> sambaEntries)

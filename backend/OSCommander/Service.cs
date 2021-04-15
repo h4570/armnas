@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using OSCommander.Dtos;
 using OSCommander.Repositories;
-using OSCommander.Services;
 
 // ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo

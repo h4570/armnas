@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 // ReSharper disable IdentifierTypo
 // ReSharper disable StringLiteralTypo
 
-namespace OSCommander.Dtos
+namespace OSCommander.Models
 {
 
     public class Lsblk

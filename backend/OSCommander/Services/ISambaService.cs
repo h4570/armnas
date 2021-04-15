@@ -5,6 +5,7 @@ namespace OSCommander.Services
 {
     public interface ISambaService
     {
+
         /// <summary>
         /// Get content of smb.conf file
         /// </summary>
@@ -15,7 +16,7 @@ namespace OSCommander.Services
         /// <summary>
         /// Update content of smb.conf file
         /// </summary>
-        /// <exception cref="T:OSCommander.Services.SambaUpdateException">When smb.conf update fail.</exception>
+        /// <exception cref="T:OSCommander.Exceptions.SambaUpdateException">When smb.conf update fail.</exception>
         public void Update(IEnumerable<SambaEntry> sambaContent);
 
     }

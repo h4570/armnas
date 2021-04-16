@@ -70,7 +70,11 @@ export class SambaComponent implements OnInit {
   }
 
   public async onAddClick(): Promise<void> {
-    this.entries.unshift(new SambaEntryViewModel({ name: '', params: [] }));
+    const entry = new SambaEntryViewModel({ name: '', params: [] });
+    this.entries.unshift(entry);
+    entry.model.params.unshift({ key: 'path', value: '/mnt/armnas/share-name' });
+    entry.model.params.unshift({ key: 'read only', value: 'no' });
+    entry.model.params.unshift({ key: 'browsable', value: 'yes' });
   }
 
   public async onDeleteClick(entry: SambaEntryViewModel): Promise<void> {

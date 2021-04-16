@@ -3,4 +3,4 @@
 3. Cron commands with modification
 4. Translation
 5. Installation
-6. Readme
+6. Readme with test/lint/quality badges

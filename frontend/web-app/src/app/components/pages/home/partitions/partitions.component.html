@@ -36,23 +36,25 @@
                                 (click)="onEditClick(partition)">
                                 <mat-icon>edit</mat-icon>
                             </button>
-                            <button mat-icon-button *ngIf="partition.isInEditMode" (click)="onSaveClick(partition)">
+                        </div>
+                        <div class="col-2-sm partition-text">
+                            <button mat-icon-button *ngIf="partition.isInEditMode" [disabled]="partition.isFreezed"
+                                (click)="onSaveClick(partition)">
                                 <mat-icon>save</mat-icon>
                             </button>
-                            <button mat-icon-button *ngIf="partition.isInEditMode"
+                            <button mat-icon-button *ngIf="partition.isInEditMode" [disabled]="partition.isFreezed"
                                 (click)="onCancelEditClick(partition)">
                                 <mat-icon>cancel</mat-icon>
                             </button>
-                        </div>
-                        <div class="col-2-sm partition-text">
-                            <span class="font-light">
+                            <span class="font-light" *ngIf="!partition.isInEditMode">
                                 &nbsp;
                                 Size: {{partition.memoryInMB | size}}
                             </span>
                         </div>
                         <div class="col-3-sm partition-text">
                             <mat-progress-bar *ngIf="partition.isFreezed" mode="indeterminate"></mat-progress-bar>
-                            <span class="font-light hidden-sm" *ngIf="!partition.isFreezed && partition.mountingPoint">
+                            <span class="font-light hidden-sm"
+                                *ngIf="!partition.isInEditMode && !partition.isFreezed && partition.mountingPoint">
                                 {{partition.mountingPoint}}
                             </span>
                         </div>
@@ -68,7 +70,7 @@
                                 <mat-icon>logout</mat-icon>
                             </button>
                             <mat-checkbox (ngModelChange)="onAutoMountChange($event,partition)"
-                                [disabled]="partition.isFreezed || partition.isMain"
+                                *ngIf="partition.mountingPoint" [disabled]="partition.isFreezed || partition.isMain"
                                 [(ngModel)]="partition.isAutoMountEnabled" class="auto-mount-btn"
                                 matTooltip="Auto mount"></mat-checkbox>
                         </div>

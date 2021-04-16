@@ -8,7 +8,7 @@
 		"normalMode": "Tryb normalny"
 	},
 	"http": {
-		"partitionNotFoundByUuidInDb": "Partycja nie została znalezione w bazie danych.",
+		"partitionNotFoundByUuidInDb": "Partycja nie została znaleziona w bazie danych.",
 		"autoMountCheckError": "Błąd sprawdzenia auto montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
 		"autoMountEnableError": "Błąd włączenia auto montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
 		"autoMountDisableError": "Błąd wyłączenia auto montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
@@ -16,7 +16,8 @@
 		"mountError": "Błąd montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
 		"serviceStartFailed": "Błąd startowania serwisu. Sprawdź dodatkowe informacje w pliku z logami.",
 		"serviceStopFailed": "Błąd zatrzymania serwisu. Sprawdź dodatkowe informacje w pliku z logami.",
-		"serviceRestartFailed": "Błąd restartowania serwisu. Sprawdź dodatkowe informacje w pliku z logami."
+		"serviceRestartFailed": "Błąd restartowania serwisu. Sprawdź dodatkowe informacje w pliku z logami.",
+		"alreadyMounted": "Ta partycja jest już zamontowana!"
 	},
 	"httpErrors": {
 		"error0Title": "Czas minął!",

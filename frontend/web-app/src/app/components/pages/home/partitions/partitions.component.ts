@@ -71,9 +71,24 @@ export class PartitionsComponent implements OnInit, OnDestroy {
   }
 
   public async onSaveClick(partition: LsblkPartitionInfoView): Promise<void> {
+    partition.isFreezed = true;
+    // remove mount/auto mount with old name!
+    const weShouldDisableAutoMount = partition.isAutoMountEnabled;
+    const weShouldUnmount = partition.mountingPoint; // is mounted
+
+    if (weShouldDisableAutoMount)
+      await this.partitionService.disableAutoMount(partition.uuid);
+    if (weShouldUnmount)
+      await this.partitionService.unmount(partition.uuid);
     await this.updateDisplayNameInDb(partition);
+    if (weShouldDisableAutoMount)
+      await this.partitionService.enableAutoMount(partition.uuid);
+    if (weShouldUnmount)
+      await this.partitionService.mount(partition.uuid);
     partition.updateCachedDisplayName();
+    await this.refresh(true);
     partition.isInEditMode = false;
+    partition.isFreezed = false;
     this.snackbar.open('Done!', 'OK', { duration: 2000 });
   }
 
@@ -83,6 +98,8 @@ export class PartitionsComponent implements OnInit, OnDestroy {
   }
 
   public async onAutoMountChange(event: boolean, partition: LsblkPartitionInfoView): Promise<void> {
+    if (!this.isPartitionSavedInDbWithSnackbar(partition))
+      return;
     try {
       partition.isFreezed = true;
       if (event)
@@ -101,12 +118,8 @@ export class PartitionsComponent implements OnInit, OnDestroy {
   }
 
   public async onMountClick(partition: LsblkPartitionInfoView): Promise<void> {
-    if (!partition.displayName) {
-      this.snackbar.open('Please set display name first!', 'Got it!', { duration: 3000 });
-      this.appService.isInTweakMode = true;
-      partition.isInEditMode = true;
+    if (!this.isPartitionSavedInDbWithSnackbar(partition))
       return;
-    }
     try {
       partition.isFreezed = true;
       await this.partitionService.mount(partition.uuid);
@@ -123,8 +136,16 @@ export class PartitionsComponent implements OnInit, OnDestroy {
   }
 
   public async onUnmountClick(partition: LsblkPartitionInfoView): Promise<void> {
+    if (!this.isPartitionSavedInDb(partition)) {
+      this.snackbar.open('Armnas can umount its own mounts only!', '😶', { duration: 3000 });
+      return;
+    }
     try {
       partition.isFreezed = true;
+      if (partition.isAutoMountEnabled) {
+        await this.partitionService.disableAutoMount(partition.uuid);
+        partition.isAutoMountEnabled = false;
+      }
       await this.partitionService.unmount(partition.uuid);
       await this.refresh(true);
       this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
@@ -142,6 +163,21 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     return this.disks.reduce((acc, c) => acc.concat(c.partitions), [] as LsblkPartitionInfoView[]); // flat map
   }
 
+  private isPartitionSavedInDbWithSnackbar(partition: LsblkPartitionInfoView): boolean {
+    if (!this.isPartitionSavedInDb(partition)) {
+      this.snackbar.open('Please set display name first!', 'Got it!', { duration: 3000 });
+      this.appService.isInTweakMode = true;
+      partition.isInEditMode = true;
+      return false;
+    }
+    return true;
+  }
+
+  private isPartitionSavedInDb(partition: LsblkPartitionInfoView): boolean {
+    if (!partition.displayName) return false;
+    return true;
+  }
+
   private async load(): Promise<void> {
     const newDisks = getLsblkDiskInfoViewModels(await this.sysInfoService.getDisksInfo());
     const newPartitions = newDisks.reduce((acc, c) => acc.concat(c.partitions), [] as LsblkPartitionInfoView[]); // flat map
@@ -152,9 +188,22 @@ export class PartitionsComponent implements OnInit, OnDestroy {
       this.loading = false;
       return;
     }
-    const oldMounts = this.partitions.map(c => c.mountingPoint).filter(c => !!c).length;
-    const newMounts = newPartitions.map(c => c.mountingPoint).filter(c => !!c).length;
-    if (this.disks && (newDisks.length !== this.disks.length || oldMounts !== newMounts)) {
+    const oldMountingPoints = this.partitions.map(c => c.mountingPoint).filter(c => !!c);
+    const newMountingPoints = newPartitions.map(c => c.mountingPoint).filter(c => !!c);
+    const disksCountChanged = newDisks.length !== this.disks.length;
+    const mountsCountChanged = oldMountingPoints.length !== newMountingPoints.length;
+
+    let mountPathsChanged = false;
+    if (!mountsCountChanged)
+      for (const oldMountingPoint of oldMountingPoints) {
+        const thereIsNewSameMountingPoint = !!newMountingPoints.find(c => c === oldMountingPoint);
+        if (!thereIsNewSameMountingPoint) {
+          mountPathsChanged = true;
+          break;
+        }
+      }
+
+    if (this.disks && (disksCountChanged || mountsCountChanged || mountPathsChanged)) {
       this.partitionsRefresh = !this.partitionsRefresh;
       this.fillAllPartitionDisplayNamesFromOldData(newDisks);
       this.fillAllAutoMountChecksFromOldData(newDisks);
@@ -209,9 +258,8 @@ export class PartitionsComponent implements OnInit, OnDestroy {
   /** Fill auto mount checks from database to partitions that dont have auto mount check filled. */
   private async fillAllAutoMountChecksFromDb(): Promise<void> {
     assert(this.disks && this.disks.length > 0);
-    const payload = this.partitions.map(c => c.uuid);
-    this.disks.forEach(async disk => await disk.partitions.forEach(async partition => {
-      if (partition.isAutoMountEnabled === undefined) {
+    this.disks.forEach(async disk => disk.partitions.forEach(async partition => {
+      if (partition.displayName && partition.isAutoMountEnabled === undefined) {
         const check = await this.partitionService.checkAutoMount(partition.uuid);
         partition.isAutoMountEnabled = check;
       }
@@ -236,8 +284,7 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     const partitions = this.odata.partitions.entities();
     if (partition.dbId) {
       const ref = partitions.entity(partition.dbId);
-      await ref.patch(payload)
-        .toPromise();
+      await ref.patch(payload).toPromise();
     } else {
       const res = await partitions
         .post(payload)

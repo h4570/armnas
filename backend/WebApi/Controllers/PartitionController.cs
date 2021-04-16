@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using OSCommander.Services;
 using WebApi.Services;
 
 namespace WebApi.Controllers
@@ -20,6 +21,7 @@ namespace WebApi.Controllers
 
         private readonly AppDbContext _context;
         private readonly PartitionService _service;
+        private readonly SystemService _sysService;
 
         public PartitionController(
             DbContextOptions<AppDbContext> options,
@@ -35,6 +37,11 @@ namespace WebApi.Controllers
                     ? new PartitionService(logger,
                         new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]))
                     : new PartitionService(logger);
+            _sysService =
+                env.Ssh != null
+                    ? new SystemService(logger,
+                        new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]))
+                    : new SystemService(logger);
         }
 
         [EnableQuery]
@@ -77,7 +84,7 @@ namespace WebApi.Controllers
             var obj = await _context.Partitions.AsQueryable().SingleAsync(c => c.Id == key);
             if (obj == null)
                 return BadRequest("Object with this Id was not found.");
-            obj.DisplayName = payload.DisplayName; // TODO: Automaper here?
+            obj.DisplayName = payload.DisplayName;
             obj.Uuid = payload.Uuid;
             await _context.SaveChangesAsync();
             return Updated(payload);
@@ -118,12 +125,16 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:OSCommander.Exceptions.JsonParsingException">When JSON parsing fail.</exception>
         [HttpPost("/partition/mount/{uuid}")]
         public async Task<IActionResult> Mount(string uuid)
         {
             var dbPartition = await _context.Partitions.AsQueryable().SingleOrDefaultAsync(c => c.Uuid.Equals(uuid));
             if (dbPartition == null) return StatusCode(404, "http.partitionNotFoundByUuidInDb");
-            var res = _service.Mount(uuid, dbPartition);
+            var lsblk = _sysService.GetLsblk();
+            var res = _service.Mount(uuid, dbPartition, lsblk);
             return res.Succeed ? Ok(new { Message = res.Result }) : StatusCode(res.StatusCode, res.ErrorMessage);
         }
 

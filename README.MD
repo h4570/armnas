@@ -1,2 +1,5 @@
 Service tests
 Transmission tests
+translation
+installation
+readme

@@ -1,5 +1,10 @@
 ﻿using System;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using OSCommander.Dtos;
 using OSCommander.Exceptions;
 using OSCommander.Models.Transmission;
@@ -25,31 +30,33 @@ namespace OSCommander.Services
         /// </summary>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
+        /// <exception cref="T:Newtonsoft.Json.JsonReaderException">When output of settings.json is not valid JSON.</exception>
         public TransmissionConfig GetConfig()
         {
-            throw new NotImplementedException();
-            var res = new TransmissionConfig();
-            _commandRepo.Execute("cat /etc/samba/smb.conf");
-            // TODO
-            return res;
+            var json = _commandRepo.Execute("cat /etc/transmission-daemon/settings.json");
+            var obj = JObject.Parse(json);
+            return new TransmissionConfig()
+            {
+                CompletedDir = obj.Value<string>("download-dir"),
+                IncompletedDir = obj.Value<string>("incomplete-dir"),
+            };
         }
 
         /// <summary>
         /// Update transmission directory settings
         /// </summary>
         /// <exception cref="T:OSCommander.Exceptions.TransmissionUpdateException">When transmission config file update fail.</exception>
-        public void UpdateConfig(TransmissionConfig sambaContent)
+        public void UpdateConfig(TransmissionConfig config)
         {
-            throw new NotImplementedException();
             try
             {
-                //_commandRepo.Execute("systemctl restart smbd", true);
-                // TODO
+                var json = _commandRepo.Execute("cat /etc/transmission-daemon/settings.json");
+                var obj = JObject.Parse(json);
+                obj["download-dir"] = config.CompletedDir;
+                obj["incomplete-dir"] = config.IncompletedDir;
+                _commandRepo.ReplaceFile("/etc/transmission-daemon/settings.json", obj.ToString());
             }
-            catch (Exception ex)
-            {
-                throw new TransmissionUpdateException(ex);
-            }
+            catch (Exception ex) { throw new TransmissionUpdateException(ex); }
         }
 
     }

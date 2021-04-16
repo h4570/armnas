@@ -17,7 +17,8 @@
 		"serviceStartFailed": "Service start failed. Detailed information can be found in application log file.",
 		"serviceStopFailed": "Service stop failed. Detailed information can be found in application log file.",
 		"serviceRestartFailed": "Service restart failed. Detailed information can be found in application log file.",
-		"alreadyMounted": "Partition is already mounted!"
+		"alreadyMounted": "Partition is already mounted!",
+		"updateTransmissionFailed": "Update of Transmission config file failed."
 	},
 	"httpErrors": {
 		"error0Title": "Timeout!",

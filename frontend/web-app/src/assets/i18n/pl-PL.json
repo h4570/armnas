@@ -17,7 +17,8 @@
 		"serviceStartFailed": "Błąd startowania serwisu. Sprawdź dodatkowe informacje w pliku z logami.",
 		"serviceStopFailed": "Błąd zatrzymania serwisu. Sprawdź dodatkowe informacje w pliku z logami.",
 		"serviceRestartFailed": "Błąd restartowania serwisu. Sprawdź dodatkowe informacje w pliku z logami.",
-		"alreadyMounted": "Ta partycja jest już zamontowana!"
+		"alreadyMounted": "Ta partycja jest już zamontowana!",
+		"updateTransmissionFailed": "Aktualizacja ustawień Transmission nie powiodła się."
 	},
 	"httpErrors": {
 		"error0Title": "Czas minął!",

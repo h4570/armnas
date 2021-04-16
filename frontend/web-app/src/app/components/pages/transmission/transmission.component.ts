@@ -42,6 +42,7 @@ export class TransmissionComponent implements OnInit {
   public async onRestartClick(): Promise<void> {
     this.isFreezed = true;
     await this.restartTransmissionService();
+    this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
     this.isFreezed = false;
   }
 
@@ -50,13 +51,13 @@ export class TransmissionComponent implements OnInit {
     await this.transmissionService.updateConfig({ completedDir: this.completedDir, incompletedDir: this.incompletedDir });
     await this.restartTransmissionService();
     await this.getLatestConfig();
+    this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
     this.isFreezed = false;
   }
 
   private async restartTransmissionService(): Promise<void> {
     try {
       await this.serviceService.restart('transmission-daemon');
-      this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
     } catch (raw) {
       const err = raw as HttpErrorResponse;
       const title = this.translate.instant('common.error') as string;

@@ -3,12 +3,12 @@
 <div class="row" [smoothHeight]="appService.isInTweakMode">
     <div class="col-12 flex-center font-heavy" *ngIf="appService.isInTweakMode">
 
-        <mat-form-field>
+        <mat-form-field class="transmission-dir-field">
             <mat-label>Completed directory</mat-label>
             <input matInput [disabled]="isFreezed" [(ngModel)]="completedDir">
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field class="transmission-dir-field">
             <mat-label>Incompleted directory</mat-label>
             <input matInput [disabled]="isFreezed" [(ngModel)]="incompletedDir">
         </mat-form-field>

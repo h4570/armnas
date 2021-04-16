@@ -21,6 +21,22 @@ namespace OSCommander.Repositories
 
 
         /// <summary>
+        /// Create new file/replace existing file with given text.
+        /// </summary>
+        /// <param name="fullPath">Ex.: /etc/file.txt</param>
+        /// <param name="text">Text</param>
+        /// <returns>Stdout of Linux command</returns>
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">
+        /// If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.
+        /// </exception>
+        internal void ReplaceFile(string fullPath, string text)
+        {
+            var textWithEscapedQuotas = text.Replace("\"", "\\\"");
+            Execute($"printf \"{textWithEscapedQuotas}\" > {fullPath}", true);
+        }
+
+        /// <summary>
         /// Execute Linux command.
         /// If command fail (there will be stderr), exception is thrown
         /// </summary>

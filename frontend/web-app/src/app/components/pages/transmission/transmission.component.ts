@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/services/app.service';
 import { FastDialogService } from 'src/app/services/fast-dialog.service';
-import { ServiceService } from 'src/app/services/service.service';
 import { TransmissionService } from 'src/app/services/transmission.service';
 import { environment } from 'src/environments/environment';
 import { smoothHeight } from '../../shared/animations';
@@ -25,7 +24,6 @@ export class TransmissionComponent implements OnInit {
 
   constructor(
     public readonly appService: AppService,
-    private readonly serviceService: ServiceService,
     private readonly transmissionService: TransmissionService,
     private readonly snackbar: MatSnackBar,
     private readonly fastDialog: FastDialogService,
@@ -57,7 +55,7 @@ export class TransmissionComponent implements OnInit {
 
   private async restartTransmissionService(): Promise<void> {
     try {
-      await this.serviceService.restart('transmission-daemon');
+      await this.transmissionService.restart();
     } catch (raw) {
       const err = raw as HttpErrorResponse;
       const title = this.translate.instant('common.error') as string;

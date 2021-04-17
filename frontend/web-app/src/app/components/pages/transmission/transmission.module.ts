@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { TransmissionComponent } from './transmission.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SafePipe } from '../../shared/safe-pipe';
-import { ServiceService } from 'src/app/services/service.service';
 import { FastDialogService } from 'src/app/services/fast-dialog.service';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '../../shared/shared.module';
@@ -35,7 +34,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   providers: [
     MatSnackBar,
     FastDialogService,
-    ServiceService,
     TransmissionService
   ]
 })

@@ -12,6 +12,14 @@ export class TransmissionService {
         private readonly errHandler: ErrorHandlingService
     ) { }
 
+    public async restart(): Promise<void> {
+        const uri = `transmission/restart`;
+        return this.http
+            .get<any>(`${environment.urls.api}` + uri, {})
+            .toPromise()
+            .catch(async (err: HttpErrorResponse) => { throw await this.errHandler.handleHttpError(err); });
+    }
+
     public async getConfig(): Promise<TransmissionConfig> {
         const uri = `transmission/config`;
         return this.http

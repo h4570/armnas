@@ -17,6 +17,7 @@ import { ODataModule } from 'angular-odata';
 import { SambaModule } from './components/pages/samba/samba.module';
 import { TransmissionModule } from './components/pages/transmission/transmission.module';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommandsModule } from './components/pages/commands/commands.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { BrowserModule } from '@angular/platform-browser';
     BrowserAnimationsModule,
     HomeModule,
     SambaModule,
+    CommandsModule,
     TransmissionModule,
     AppRoutingModule,
     HttpClientModule,

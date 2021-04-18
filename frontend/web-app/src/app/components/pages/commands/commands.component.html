@@ -1,0 +1,96 @@
+<div class="row" [smoothHeight]="appService.isInTweakMode">
+    <div class="col-12 flex-center font-heavy" *ngIf="appService.isInTweakMode">
+        Nothing to tweak here!
+    </div>
+</div>
+
+<div class="container mat-elevation-z3 rounded">
+
+    <div class="row">
+        <div class="col-3-sm">
+            <h3 *ngIf="!isSaving">Commands</h3>
+            <mat-progress-bar class="progress-bar" *ngIf="isSaving" mode="indeterminate"></mat-progress-bar>
+        </div>
+        <div class="col-9-sm" style="padding-top:10px">
+            <div style="float:right;">
+                <button mat-stroked-button [disabled]="isSaving" (click)="onAddClick()">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving" (click)="onSaveClick()">
+                    <mat-icon>save</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12-sm" [smoothHeight]="isLoading">
+            <div class="mat-elevation-z4 rounded entry-container">
+
+                <ng-container *ngIf="isLoading">
+                    <p-skeleton width="75%" height="3.7rem"></p-skeleton>
+                    <div style="width:1px;height:1rem"></div>
+                    <p-skeleton width="85%" height="2rem"></p-skeleton>
+                    <div style="width:1px;height:.5rem"></div>
+                    <p-skeleton width="45%" height="2.5rem"></p-skeleton>
+                    <div style="width:1px;height:.5rem"></div>
+                    <p-skeleton width="97%" height="2.2rem"></p-skeleton>
+                    <div style="width:1px;height:.7rem"></div>
+                    <p-skeleton width="80%" height="2.3rem"></p-skeleton>
+                    <div style="width:1px;height:.5rem"></div>
+                    <p-skeleton width="75%" height="1.9rem"></p-skeleton>
+                </ng-container>
+
+                <ng-container *ngIf="!isLoading">
+                    <div *ngFor="let entry of entries" class="entry mat-elevation-z2 rounded">
+
+                        <mat-form-field class="share-name">
+                            <mat-label>Share name</mat-label>
+                            <input matInput [disabled]="isSaving" [(ngModel)]="entry.model.name">
+                        </mat-form-field>
+
+                        <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
+                            (click)="onAddParamClick(entry)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+
+                        <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
+                            (click)="onDeleteClick(entry)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+
+                        <div class="small-spacer"></div>
+                        <div *ngFor="let param of entry.model.params" class="row">
+                            <div class="col-4-sm">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Key</mat-label>
+                                    <input type="text" matInput [disabled]="isSaving" [(ngModel)]="param.key"
+                                        [matAutocomplete]="auto">
+                                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                                        <mat-option *ngFor="let suggestion of keySuggestions" [value]="suggestion">
+                                            {{suggestion}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6-sm">
+                                <mat-form-field class="full-width">
+                                    <mat-label>Value</mat-label>
+                                    <input matInput [disabled]="isSaving" [(ngModel)]="param.value">
+                                </mat-form-field>
+                            </div>
+                            <div class="col-2-sm">
+                                <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
+                                    (click)="onDeleteParamClick(entry, param)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+
+</div>

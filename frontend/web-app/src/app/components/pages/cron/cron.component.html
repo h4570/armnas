@@ -1,3 +1,8 @@
+- Disable mounts
+- Disable armnas
+- Validation
+- Save
+
 <div class="row" [smoothHeight]="appService.isInTweakMode">
     <div class="col-12 flex-center font-heavy" *ngIf="appService.isInTweakMode">
         Nothing to tweak here!
@@ -8,7 +13,7 @@
 
     <div class="row">
         <div class="col-3-sm">
-            <h3 *ngIf="!isSaving">Commands</h3>
+            <h3 *ngIf="!isSaving">Cron commands</h3>
             <mat-progress-bar class="progress-bar" *ngIf="isSaving" mode="indeterminate"></mat-progress-bar>
         </div>
         <div class="col-9-sm" style="padding-top:10px">

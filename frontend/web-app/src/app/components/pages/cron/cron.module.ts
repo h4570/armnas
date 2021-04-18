@@ -9,12 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { CommandsComponent } from './commands.component';
+import { CronComponent } from './cron.component';
 import { CronService } from 'src/app/services/cron.service';
 
 @NgModule({
   declarations: [
-    CommandsComponent
+    CronComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +27,7 @@ import { CronService } from 'src/app/services/cron.service';
     MatButtonModule
   ],
   exports: [
-    CommandsComponent
+    CronComponent
   ],
   providers: [
     MatSnackBar,
@@ -35,4 +35,4 @@ import { CronService } from 'src/app/services/cron.service';
     CronService
   ]
 })
-export class CommandsModule { }
+export class CronModule { }

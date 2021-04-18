@@ -17,7 +17,7 @@ import { ODataModule } from 'angular-odata';
 import { SambaModule } from './components/pages/samba/samba.module';
 import { TransmissionModule } from './components/pages/transmission/transmission.module';
 import { BrowserModule } from '@angular/platform-browser';
-import { CommandsModule } from './components/pages/commands/commands.module';
+import { CronModule } from './components/pages/cron/cron.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import { CommandsModule } from './components/pages/commands/commands.module';
     BrowserAnimationsModule,
     HomeModule,
     SambaModule,
-    CommandsModule,
+    CronModule,
     TransmissionModule,
     AppRoutingModule,
     HttpClientModule,

@@ -5,12 +5,12 @@ import { CronService } from 'src/app/services/cron.service';
 import { smoothHeight } from '../../shared/animations';
 
 @Component({
-  selector: 'app-commands',
-  templateUrl: './commands.component.html',
-  styleUrls: ['./commands.component.scss'],
+  selector: 'app-cron',
+  templateUrl: './cron.component.html',
+  styleUrls: ['./cron.component.scss'],
   animations: [smoothHeight]
 })
-export class CommandsComponent implements OnInit {
+export class CronComponent implements OnInit {
 
   public isSaving: boolean;
   public isLoading = true;

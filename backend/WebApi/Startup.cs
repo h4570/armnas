@@ -48,7 +48,7 @@ namespace WebApi
 
             services.AddCors(options =>
                         options.AddDefaultPolicy(builder =>
-                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().WithExposedHeaders("x-auth-token")
                         )
                     );
 
@@ -81,6 +81,7 @@ namespace WebApi
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors();
+            //app.UseMiddleware<JwtMiddleware>();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
 

@@ -31,17 +31,20 @@ namespace WebApi.Controllers
             )
         {
             _context = new AppDbContext(options);
-            var env = envOpt.Value;
-            _service =
-                env.Ssh != null
-                    ? new PartitionService(logger,
-                        new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]))
-                    : new PartitionService(logger);
-            _sysService =
-                env.Ssh != null
-                    ? new SystemService(logger,
-                        new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]))
-                    : new SystemService(logger);
+            if (envOpt.Value.UseSsh)
+            {
+                var credentials = new OSCommander.Dtos.SshCredentials(
+                    config["Ssh:Host"],
+                    config["Ssh:Username"],
+                    config["Ssh:Password"]);
+                _service = new PartitionService(logger, credentials);
+                _sysService = new SystemService(logger, credentials);
+            }
+            else
+            {
+                _service = new PartitionService(logger);
+                _sysService = new SystemService(logger);
+            }
         }
 
         [HttpGet]

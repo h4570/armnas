@@ -18,12 +18,18 @@ namespace WebApi.Controllers
 
         public PowerController(ILogger<SystemInformationController> logger, IConfiguration config, IOptions<ConfigEnvironment> envOpt)
         {
-            var env = envOpt.Value;
-            if (env.Ssh != null)
-                _power = new Power(logger,
-                    new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]));
+            if (envOpt.Value.UseSsh)
+            {
+                var credentials = new OSCommander.Dtos.SshCredentials(
+                    config["Ssh:Host"],
+                    config["Ssh:Username"],
+                    config["Ssh:Password"]);
+                _power = new Power(logger, credentials);
+            }
             else
+            {
                 _power = new Power(logger);
+            }
         }
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.

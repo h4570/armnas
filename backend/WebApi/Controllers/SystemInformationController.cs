@@ -22,12 +22,18 @@ namespace WebApi.Controllers
 
         public SystemInformationController(ILogger<SystemInformationController> logger, IConfiguration config, IOptions<ConfigEnvironment> envOpt)
         {
-            var env = envOpt.Value;
-            if (env.Ssh != null)
-                _systemInfo = new SystemInformation(logger,
-                    new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]));
+            if (envOpt.Value.UseSsh)
+            {
+                var credentials = new OSCommander.Dtos.SshCredentials(
+                    config["Ssh:Host"],
+                    config["Ssh:Username"],
+                    config["Ssh:Password"]);
+                _systemInfo = new SystemInformation(logger, credentials);
+            }
             else
+            {
                 _systemInfo = new SystemInformation(logger);
+            }
         }
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.

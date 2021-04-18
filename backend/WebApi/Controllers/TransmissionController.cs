@@ -16,7 +16,7 @@ namespace WebApi.Controllers
     public class TransmissionController : ControllerBase
     {
 
-        private readonly TransmissionService _service;
+        private readonly TransmissionService _transmissionService;
         private readonly Service _serviceService;
 
         public TransmissionController(
@@ -25,16 +25,20 @@ namespace WebApi.Controllers
             IOptions<ConfigEnvironment> envOpt
             )
         {
-            var env = envOpt.Value;
-            _serviceService =
-                env.Ssh != null
-                    ? new Service(logger,
-                        new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]))
-                    : new Service(logger); _service =
-                env.Ssh != null
-                    ? new TransmissionService(logger,
-                        new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]))
-                    : new TransmissionService(logger);
+            if (envOpt.Value.UseSsh)
+            {
+                var credentials = new OSCommander.Dtos.SshCredentials(
+                    config["Ssh:Host"],
+                    config["Ssh:Username"],
+                    config["Ssh:Password"]);
+                _serviceService = new Service(logger, credentials);
+                _transmissionService = new TransmissionService(logger, credentials);
+            }
+            else
+            {
+                _serviceService = new Service(logger);
+                _transmissionService = new TransmissionService(logger);
+            }
         }
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
@@ -43,7 +47,7 @@ namespace WebApi.Controllers
         [HttpGet("config")]
         public ActionResult<TransmissionConfig> GetConfig()
         {
-            return Ok(_service.GetConfig());
+            return Ok(_transmissionService.GetConfig());
         }
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
@@ -60,7 +64,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                _service.UpdateConfig(config);
+                _transmissionService.UpdateConfig(config);
                 return Ok(new { Message = "Ok" });
             }
             catch { return StatusCode(461, "http.updateTransmissionFailed"); }

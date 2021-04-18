@@ -20,10 +20,9 @@ namespace WebApi.Controllers
 
         public CronController(ILogger<SystemInformationController> logger, IConfiguration config, IOptions<ConfigEnvironment> envOpt)
         {
-            var env = envOpt.Value;
-            if (env.Ssh != null)
+            if (envOpt.Value.UseSsh)
                 _cron = new Cron(logger,
-                    new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]));
+                    new OSCommander.Dtos.SshCredentials(config["Ssh:Host"], config["Ssh:Username"], config["Ssh:Password"]));
             else
                 _cron = new Cron(logger);
         }

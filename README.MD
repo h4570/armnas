@@ -1,5 +1,4 @@
 ### Roadmap
-- Power off / restart
 - Auth
 - Translation
 - Installation

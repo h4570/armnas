@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -16,23 +14,26 @@ namespace WebApi.Controllers
     public class ServiceController : ControllerBase
     {
 
-        private readonly AppDbContext _context;
         private readonly Service _service;
 
         public ServiceController(
-            DbContextOptions<AppDbContext> options,
             ILogger<SystemInformationController> logger,
             IConfiguration config,
             IOptions<ConfigEnvironment> envOpt
             )
         {
-            _context = new AppDbContext(options);
-            var env = envOpt.Value;
-            _service =
-                env.Ssh != null
-                    ? new Service(logger,
-                        new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]))
-                    : new Service(logger);
+            if (envOpt.Value.UseSsh)
+            {
+                var credentials = new OSCommander.Dtos.SshCredentials(
+                    config["Ssh:Host"],
+                    config["Ssh:Username"],
+                    config["Ssh:Password"]);
+                _service = new Service(logger, credentials);
+            }
+            else
+            {
+                _service = new Service(logger);
+            }
         }
 
         [HttpPost("start/{name}")]

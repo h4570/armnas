@@ -20,12 +20,18 @@ namespace WebApi.Controllers
 
         public SambaController(ILogger<SystemInformationController> logger, IConfiguration config, IOptions<ConfigEnvironment> envOpt)
         {
-            var env = envOpt.Value;
-            if (env.Ssh != null)
-                _samba = new Samba(logger,
-                    new OSCommander.Dtos.SshCredentials(env.Ssh.Host, env.Ssh.Username, config["Ssh:RootPass"]));
+            if (envOpt.Value.UseSsh)
+            {
+                var credentials = new OSCommander.Dtos.SshCredentials(
+                    config["Ssh:Host"],
+                    config["Ssh:Username"],
+                    config["Ssh:Password"]);
+                _samba = new Samba(logger, credentials);
+            }
             else
+            {
                 _samba = new Samba(logger);
+            }
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>

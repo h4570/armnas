@@ -2,7 +2,7 @@
 
   <div class="header-container">
 
-    <div class="app-name-area">
+    <div class="app-name-area" routerLink="/home">
       <img src="/assets/img/logo/color/text_m.png" *ngIf="!isScreenSmall">
       <img src="/assets/img/logo/color/icon_m.png" style="width:auto;height:32px" *ngIf="isScreenSmall">
     </div>
@@ -13,33 +13,43 @@
 
         <div class="nav-spacer"></div>
 
-        <button class="nav-btn" matTooltip="Home" mat-raised-button routerLink="/home">
+        <button class="nav-btn" mat-raised-button routerLink="/home">
           <mat-icon>home</mat-icon>
           <span *ngIf="!isScreenSmall">Home</span>
         </button>
 
-        <button class="nav-btn" matTooltip="Modules" mat-raised-button [matMenuTriggerFor]="modules">
-          <mat-icon>inventory</mat-icon>
+        <button class="nav-btn" mat-raised-button [matMenuTriggerFor]="modules">
+          <mat-icon>dashboard</mat-icon>
           <span *ngIf="!isScreenSmall">Modules</span>
         </button>
 
         <mat-menu #modules="matMenu">
-          <button class="nav-btn" matTooltip="Samba" mat-menu-item routerLink="/samba">
+          <button class="nav-btn" mat-menu-item routerLink="/samba">
             <mat-icon>dynamic_form</mat-icon>
             <span>Samba</span>
           </button>
-          <button class="nav-btn" matTooltip="Transmission" mat-menu-item routerLink="/transmission">
+          <button class="nav-btn" mat-menu-item routerLink="/transmission">
             <mat-icon>download</mat-icon>
             <span>Transmission</span>
           </button>
-          <button class="nav-btn" matTooltip="Cron commands" mat-menu-item routerLink="/cron">
+          <button class="nav-btn" mat-menu-item routerLink="/cron">
             <mat-icon>schedule</mat-icon>
             <span>Cron</span>
           </button>
         </mat-menu>
 
-        <button mat-icon-button [matMenuTriggerFor]="notifications">
-          <mat-icon matBadge="4" matBadgeOverlap="true" matBadgeColor="accent">notifications</mat-icon>
+        <button mat-icon-button *ngIf="newMessages.length > 0" matTooltip="You can remove messages by clicking on them"
+          [matMenuTriggerFor]="notifications">
+          <mat-icon [matBadge]="newMessages.length" matBadgeOverlap="true" matBadgeColor="accent">
+            notifications
+          </mat-icon>
+        </button>
+
+        <button mat-icon-button *ngIf="newMessages.length === 0" matTooltip="Check out on GitHub how messages works!"
+          [disabled]="isMessagesIconDisabled" (click)="isMessagesIconDisabled = true">
+          <mat-icon>
+            notifications
+          </mat-icon>
         </button>
 
         <button mat-icon-button [matMenuTriggerFor]="settings">
@@ -76,15 +86,15 @@
         </mat-menu>
 
         <mat-menu #notifications="matMenu">
-          <button mat-menu-item>
-            <span>Message 1</span>
-          </button>
-          <button mat-menu-item>
-            <span>Message 2</span>
-          </button>
-          <button mat-menu-item>
-            <span>Message 3</span>
-          </button>
+
+          <span mat-menu-item *ngFor="let msg of newMessages" (click)="onDeleteMessageClick(msg)"
+            matTooltip="{{msg.shortName}} - {{msg.tooltip}} ({{msg.date | date: 'dd.MM.yyyy HH:mm'}})">
+            <mat-icon *ngIf="msg.type === MessageType.information">info</mat-icon>
+            <mat-icon *ngIf="msg.type === MessageType.warning">warning</mat-icon>
+            <mat-icon color="warn" *ngIf="msg.type === MessageType.error">error</mat-icon>
+            {{msg.shortName}}
+          </span>
+
         </mat-menu>
 
       </ng-container>

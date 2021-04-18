@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -21,14 +22,16 @@ namespace WebApi.Controllers
             _context = new AppDbContext(options);
         }
 
+        [HttpGet]
         [EnableQuery]
         public IActionResult Get() { return Ok(_context.Messages); }
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
+        [HttpGet]
         [EnableQuery]
-        public IActionResult Get(int id)
+        public IActionResult Get(int key)
         {
-            return Ok(_context.Messages.AsQueryable().FirstOrDefault(c => c.Id == id));
+            return Ok(_context.Messages.AsQueryable().FirstOrDefault(c => c.Id == key));
         }
 
         /// <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateException">An error is encountered while saving to the database.</exception>
@@ -41,7 +44,9 @@ namespace WebApi.Controllers
         {
             if (payload == null)
                 return BadRequest("Please put valid object in request body.");
-            await _context.AddAsync(payload);
+            payload.HasBeenRead = false;
+            payload.Date = DateTime.Now;
+            await _context.Messages.AddAsync(payload);
             await _context.SaveChangesAsync();
             return Created(payload);
         }

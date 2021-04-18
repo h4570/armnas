@@ -11,4 +11,5 @@ export interface Message {
     type: MessageType;
     hasBeenRead: boolean;
     author: string;
+    date: Date;
 }

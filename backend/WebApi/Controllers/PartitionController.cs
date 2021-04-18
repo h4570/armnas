@@ -44,10 +44,12 @@ namespace WebApi.Controllers
                     : new SystemService(logger);
         }
 
+        [HttpGet]
         [EnableQuery]
         public IActionResult Get() { return Ok(_context.Partitions); }
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
+        [HttpGet]
         [EnableQuery]
         public IActionResult Get(int key)
         {
@@ -64,7 +66,7 @@ namespace WebApi.Controllers
         {
             if (payload == null)
                 return BadRequest("Please put valid object in request body.");
-            await _context.AddAsync(payload);
+            await _context.Partitions.AddAsync(payload);
             await _context.SaveChangesAsync();
             return Created(payload);
         }

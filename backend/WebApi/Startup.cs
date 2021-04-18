@@ -96,6 +96,7 @@ namespace WebApi
             var builder = new ODataConventionModelBuilder();
             builder.EnableLowerCamelCase();
             builder.EntitySet<Partition>("Partition");
+            builder.EntitySet<Message>("Message");
             builder.EntitySet<AppHistory>("AppHistory");
             return builder.GetEdmModel();
         }

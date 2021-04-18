@@ -1,6 +1,7 @@
 ### Roadmap
-1. Cron commands with modification
-2. Transmission tests
-3. Translation
-4. Installation
-5. Create beatufiul readme with test/lint/quality badges
+- Messages
+- Power off / restart
+- DNS
+- Translation
+- Installation
+- Create beatufiul readme with test/lint/quality badges

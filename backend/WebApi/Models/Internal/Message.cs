@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace WebApi.Models.Internal
 {
@@ -25,5 +26,6 @@ namespace WebApi.Models.Internal
         [Required]
         [StringLength(50)]
         public string Author { get; set; }
+        public DateTime Date { get; set; }
     }
 }

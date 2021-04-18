@@ -1,6 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Message, MessageType } from 'src/app/models/message.model';
 import { AppService } from 'src/app/services/app.service';
+import { ODataService } from 'src/app/services/odata.service';
 
 @Component({
   selector: 'app-navbar',
@@ -9,12 +11,18 @@ import { AppService } from 'src/app/services/app.service';
 })
 export class NavbarComponent implements OnInit {
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  public MessageType: typeof MessageType = MessageType;
+
   public isWinterTime = true;
   public isScreenSmall: boolean;
+  public newMessages: Message[] = [];
+  public isMessagesIconDisabled = false;
 
   constructor(
     public readonly translate: TranslateService,
-    public readonly appService: AppService
+    public readonly appService: AppService,
+    private readonly odata: ODataService
   ) {
     this.setWinterTime();
   }
@@ -24,8 +32,15 @@ export class NavbarComponent implements OnInit {
     this.updateIsScreenSmallVariable();
   }
 
-  public ngOnInit(): void {
+  public async ngOnInit(): Promise<void> {
     this.updateIsScreenSmallVariable();
+    await this.refresh();
+  }
+
+  public async onDeleteMessageClick(msg: Message) {
+    const ref = this.odata.messages.entities().entity(msg.id);
+    await ref.patch(msg).toPromise();
+    await this.refresh();
   }
 
   public changeLang(language: string): void {
@@ -43,6 +58,16 @@ export class NavbarComponent implements OnInit {
 
   private updateIsScreenSmallVariable(): void {
     this.isScreenSmall = window.innerWidth <= 720;
+  }
+
+  private async refresh(): Promise<void> {
+    const odataMessages = this.odata.messages.entities();
+    this.isMessagesIconDisabled = false;
+    this.newMessages = await odataMessages
+      .filter({ hasBeenRead: false })
+      .get()
+      .toPromise()
+      .then(c => c.entities);
   }
 
   private setWinterTime(): void {

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Partition } from 'src/app/models/partition.model';
 import { AppService } from 'src/app/services/app.service';
 import { CronService } from 'src/app/services/cron.service';
 import { ODataService } from 'src/app/services/odata.service';
@@ -18,6 +17,7 @@ export class CronComponent implements OnInit {
   public isLoading = true;
 
   public entries: CronEntryViewModel[] = [];
+  public viewEntries: CronEntryViewModel[] = [];
 
   constructor(
     public readonly appService: AppService,
@@ -30,19 +30,39 @@ export class CronComponent implements OnInit {
   }
 
   public async onAddClick(): Promise<void> {
-    this.entries.unshift(new CronEntryViewModel({
+    const newObj = new CronEntryViewModel({
       cron: '',
       command: '',
-    }, false));
+    }, false);
+    this.entries.unshift(newObj);
+    this.viewEntries.unshift(newObj);
   }
 
   public async onDeleteClick(entry: CronEntryViewModel): Promise<void> {
-    this.entries = this.entries.filter(c => c.id !== entry.id);
+    if (entry.isInCronAlready) {
+      entry.markAsDeleted();
+    } else {
+      this.entries = this.entries.filter(c => c.id !== entry.id);
+    }
+    this.viewEntries = this.viewEntries.filter(c => c.id !== entry.id);
   }
 
   public async onSaveClick(): Promise<void> {
     this.isSaving = true;
-    // TODO
+    for (const entry of this.entries) {
+      if (entry.isDeleted) {
+        // Delete
+        await this.cronService.delete(entry.originalModel);
+      } else if (entry.isInCronAlready && entry.wasModified) {
+        // (Update) -> Delete, Create
+        await this.cronService.delete(entry.originalModel);
+        await this.cronService.create(entry.model);
+      } else if (!entry.isInCronAlready) {
+        // Create
+        await this.cronService.create(entry.model);
+      }
+    }
+    await this.refresh();
     this.isSaving = false;
   }
 
@@ -53,15 +73,27 @@ export class CronComponent implements OnInit {
       .get()
       .toPromise()
       .then(c => c.entities);
-    this.entries = [];
+    const tempEntries: CronEntryViewModel[] = [];
     const crontab = await this.cronService.getAll();
     for (const entry of crontab) {
       const obj = new CronEntryViewModel(entry, true);
       obj.updateIsArmansMountingPoint(partitions);
-      this.entries.push(obj);
+      tempEntries.push(obj);
     }
-
+    this.clearAndInsertSortedEntries(tempEntries);
     this.isLoading = false;
+  }
+
+  private clearAndInsertSortedEntries(drawEntries: CronEntryViewModel[]) {
+    const sorted = drawEntries.sort(
+      (x, y) =>
+        (x.isArmansMountingPoint || x.isArmansStartScript)
+          &&
+          (!y.isArmansMountingPoint && !y.isArmansStartScript)
+          ? 1 : -1);
+    this.entries = [];
+    this.viewEntries = [];
+    sorted.forEach(entry => { this.entries.push(entry); this.viewEntries.push(entry); });
   }
 
 }

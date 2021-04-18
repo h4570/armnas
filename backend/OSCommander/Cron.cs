@@ -33,6 +33,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public void Add(string cron, string command, string user = "root")
         {
+            command = command.Replace("\"", "\\\"");
             _commandRepo.Execute($"(crontab -u {user} -l ; echo \"{cron} {command}\") | crontab -u {user} -", true);
         }
 

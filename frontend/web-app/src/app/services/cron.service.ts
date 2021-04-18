@@ -20,4 +20,20 @@ export class CronService {
             .catch(async (err: HttpErrorResponse) => { throw await this.errHandler.handleHttpError(err); });
     }
 
+    public async create(payload: CronEntry): Promise<void> {
+        const uri = `cron`;
+        return this.http
+            .post<void>(`${environment.urls.api}` + uri, payload)
+            .toPromise()
+            .catch(async (err: HttpErrorResponse) => { throw await this.errHandler.handleHttpError(err); });
+    }
+
+    public async delete(payload: CronEntry): Promise<void> {
+        const uri = `cron/delete`;
+        return this.http
+            .patch<void>(`${environment.urls.api}` + uri, payload)
+            .toPromise()
+            .catch(async (err: HttpErrorResponse) => { throw await this.errHandler.handleHttpError(err); });
+    }
+
 }

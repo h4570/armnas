@@ -38,6 +38,26 @@ namespace WebApi.Controllers
             return Ok(_cron.GetAll());
         }
 
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        [HttpPost]
+        [Produces("application/json")]
+        public ActionResult<CronEntry> Create([FromBody] CronEntry cronEntry)
+        {
+            _cron.Add(cronEntry.Cron, cronEntry.Command);
+            return Ok(cronEntry);
+        }
+
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        [HttpPatch("delete")]
+        [Produces("application/json")]
+        public ActionResult<CronEntry> Patch([FromBody] CronEntry cronEntry)
+        {
+            _cron.Remove(cronEntry.Command);
+            return Ok(cronEntry);
+        }
+
     }
 
 }

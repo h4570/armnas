@@ -12,6 +12,7 @@ using Microsoft.OData.Edm;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
 using OData.Swagger.Services;
+using WebApi.Auth;
 using WebApi.Models.Internal;
 
 namespace WebApi
@@ -81,7 +82,7 @@ namespace WebApi
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors();
-            //app.UseMiddleware<JwtMiddleware>();
+            app.UseMiddleware<JwtMiddleware>();
             app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
 

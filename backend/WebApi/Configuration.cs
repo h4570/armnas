@@ -9,6 +9,8 @@
 
     public class ConfigEnvironment
     {
+        public string PrivateKey { get; set; }
+        public string Salt { get; set; }
         public bool UseSsh { get; set; }
         public string SqlliteDbName { get; set; }
     }

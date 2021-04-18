@@ -1,10 +1,9 @@
 import './prototypes';
 import { AppRoutingModule } from './app-routing.module';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { AppComponent } from './app.component';
 import { NavbarModule } from './components/navbar/navbar.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppService } from './services/app.service';
 import { ErrorHandlingService } from './services/error-handling.service';
 import { HomeModule } from './components/pages/home/home.module';
@@ -19,6 +18,10 @@ import { TransmissionModule } from './components/pages/transmission/transmission
 import { BrowserModule } from '@angular/platform-browser';
 import { CronModule } from './components/pages/cron/cron.module';
 import { ODataService } from './services/odata.service';
+import { AuthService } from './services/auth.service';
+import { AppComponent } from './app.component';
+import { LoginModule } from './components/pages/login/login.module';
+import { AuthInterceptor } from './auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -39,6 +42,7 @@ import { ODataService } from './services/odata.service';
     BrowserAnimationsModule,
     HomeModule,
     SambaModule,
+    LoginModule,
     CronModule,
     TransmissionModule,
     AppRoutingModule,
@@ -50,7 +54,9 @@ import { ODataService } from './services/odata.service';
     AppService,
     ErrorHandlingService,
     ODataService,
+    AuthService,
     { provide: ErrorHandler, useClass: ErrorHandlingService },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
   ],
   bootstrap: [

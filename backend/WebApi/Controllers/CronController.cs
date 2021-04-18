@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OSCommander;
 using OSCommander.Models.Cron;
+using WebApi.Auth;
 
 namespace WebApi.Controllers
 {
@@ -31,6 +32,7 @@ namespace WebApi.Controllers
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.Exceptions.CronParseException">Wrapper exception for Cron parsing fail.</exception>
         [HttpGet]
+        [Authorize]
         [Produces("application/json")]
         public ActionResult<IEnumerable<CronEntry>> GetAll()
         {

@@ -38,6 +38,7 @@ export class NavbarComponent implements OnInit {
   }
 
   public async onDeleteMessageClick(msg: Message) {
+    msg.hasBeenRead = true;
     const ref = this.odata.messages.entities().entity(msg.id);
     await ref.patch(msg).toPromise();
     await this.refresh();

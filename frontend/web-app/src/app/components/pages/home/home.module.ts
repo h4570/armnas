@@ -51,8 +51,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     providers: [
         SystemInformationService,
         MatSnackBar,
-        PartitionService,
-        ODataService
+        PartitionService
     ]
 })
 export class HomeModule { }

@@ -35,7 +35,6 @@ import { SkeletonModule } from 'primeng/skeleton';
   providers: [
     MatSnackBar,
     FastDialogService,
-    ODataService,
     CronService
   ]
 })

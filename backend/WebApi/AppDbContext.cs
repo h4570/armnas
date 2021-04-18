@@ -16,6 +16,7 @@ namespace WebApi
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Partition> Partitions { get; set; }
+        public DbSet<Message> Messages { get; set; }
         public DbSet<AppHistory> AppHistory { get; set; }
 
     }

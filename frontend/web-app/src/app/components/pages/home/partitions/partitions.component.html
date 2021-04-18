@@ -25,7 +25,7 @@
                             <span *ngIf="partition.isInEditMode">
                                 <mat-form-field class="display-name-input">
                                     <mat-label>Display name</mat-label>
-                                    <input matInput [(ngModel)]="partition.displayName">
+                                    <input matInput [(ngModel)]="partition.displayName" maxlength="50">
                                 </mat-form-field>
                             </span>
                             <span class="font-heavy" *ngIf="!partition.isInEditMode">

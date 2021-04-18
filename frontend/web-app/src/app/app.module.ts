@@ -18,6 +18,7 @@ import { SambaModule } from './components/pages/samba/samba.module';
 import { TransmissionModule } from './components/pages/transmission/transmission.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { CronModule } from './components/pages/cron/cron.module';
+import { ODataService } from './services/odata.service';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { CronModule } from './components/pages/cron/cron.module';
   providers: [
     AppService,
     ErrorHandlingService,
+    ODataService,
     { provide: ErrorHandler, useClass: ErrorHandlingService },
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
   ],

@@ -1,7 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { AppHistory } from '../models/app-history.model';
 import { ErrorHandlingService } from './error-handling.service';
 
 @Injectable()

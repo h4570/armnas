@@ -17,7 +17,7 @@ namespace OSCommander
         public Mount(ILogger logger) { _commandRepo = new CommandRepository(logger); }
         public Mount(ILogger logger, SshCredentials ssh) { _commandRepo = new CommandRepository(logger, ssh); }
 
-        /// Mount partition. If mount directory not exist, it is automatically created.
+        /// <summary>Mount partition. If mount directory not exist, it is automatically created.</summary>
         /// <param name="uuid">Partition uuid.</param>
         /// <param name="directoryName">Directory name. Example: disk1, so partition will be mounted to /mnt/armnas/disk1</param>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
@@ -28,7 +28,7 @@ namespace OSCommander
             _commandRepo.Execute($"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{directoryName}", true);
         }
 
-        /// Mount partition. If mount directory not exist, it is automatically created.
+        /// <summary>Mount partition. If mount directory not exist, it is automatically created.</summary>
         /// <param name="device">Partition name. Example: /dev/sda1</param>
         /// <param name="directoryName">Directory name. Example: disk1, so partition will be mounted to /mnt/armnas/disk1</param>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
@@ -39,7 +39,7 @@ namespace OSCommander
             _commandRepo.Execute($"mount -t auto {device} /mnt/armnas/{directoryName}", true);
         }
 
-        /// Unmount partition.
+        /// <summary>Unmount partition.</summary>
         /// <param name="directoryName">Directory name. Example: disk1, so unmount will be on: /mnt/armnas/disk1</param>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>

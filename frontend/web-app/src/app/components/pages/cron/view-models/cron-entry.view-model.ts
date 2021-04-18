@@ -8,6 +8,8 @@ export class CronEntryViewModel {
 
     private _isDeleted: boolean;
     private _isArmansMountingPoint: boolean;
+    /** Partition name */
+    private _isArmnasMountingPointFor: string;
     private _isInCronAlready: boolean;
     private _original: CronEntry;
     private _id: number;
@@ -35,6 +37,10 @@ export class CronEntryViewModel {
         return this._isArmansMountingPoint;
     }
 
+    public get isArmnasMountingPointFor(): string {
+        return this._isArmnasMountingPointFor;
+    }
+
     public get isArmansStartScript(): boolean {
         return this.model.command === '/var/www/armnas/backend/WebApi/start.sh';
     }
@@ -52,6 +58,7 @@ export class CronEntryViewModel {
                 const havePartitionName = cmdInLower.includes(partition.displayName.toKebabCase());
                 if (havePartitionName) {
                     this._isArmansMountingPoint = true;
+                    this._isArmnasMountingPointFor = partition.displayName;
                     break;
                 }
             }

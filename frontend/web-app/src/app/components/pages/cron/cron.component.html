@@ -58,7 +58,7 @@
                                 Armnas start script
                             </div>
                             <div class="armnas-text" *ngIf="entry.isArmansMountingPoint">
-                                Armnas mounting point
+                                {{entry.isArmnasMountingPointFor}} Armnas mounting point
                             </div>
                             <mat-form-field class="full-width"
                                 *ngIf="!entry.isArmansStartScript && !entry.isArmansMountingPoint">

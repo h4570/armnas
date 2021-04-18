@@ -13,6 +13,19 @@
             </div>
         </div>
         <div class="col-12 mat-elevation-z3 rounded">
+            <div class="row">
+                <div class="col-12"
+                    style="padding-top:10px;display:flex;justify-content: flex-end;align-items: center;">
+                    <button mat-mini-fab color="warn" class="fab-button" [disabled]="isFreezed"
+                        (click)="onPowerOffClick()" matTooltip="Power off">
+                        <mat-icon>power_settings_new</mat-icon>
+                    </button>
+                    <button mat-mini-fab matTooltip="Restart" color="primary" [disabled]="isFreezed"
+                        (click)="onRestartClick()" class="fab-button">
+                        <mat-icon>rotate_right</mat-icon>
+                    </button>
+                </div>
+            </div>
             <app-sys-info [refreshInterval]="refreshInterval"></app-sys-info>
         </div>
         <div class="col-12 mat-elevation-z3 rounded">

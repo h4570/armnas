@@ -21,6 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { PartitionService } from 'src/app/services/partition.service';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { PowerService } from 'src/app/services/power.service';
 
 @NgModule({
     declarations: [
@@ -51,6 +52,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     providers: [
         SystemInformationService,
         MatSnackBar,
+        PowerService,
         PartitionService
     ]
 })

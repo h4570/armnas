@@ -49,18 +49,22 @@ export class CronComponent implements OnInit {
 
   public async onSaveClick(): Promise<void> {
     this.isSaving = true;
-    for (const entry of this.entries) {
-      if (entry.isDeleted) {
-        // Delete
-        await this.cronService.delete(entry.originalModel);
-      } else if (entry.isInCronAlready && entry.wasModified) {
-        // (Update) -> Delete, Create
-        await this.cronService.delete(entry.originalModel);
-        await this.cronService.create(entry.model);
-      } else if (!entry.isInCronAlready) {
-        // Create
-        await this.cronService.create(entry.model);
+    try {
+      for (const entry of this.entries) {
+        if (entry.isDeleted) {
+          // Delete
+          await this.cronService.delete(entry.originalModel);
+        } else if (entry.isInCronAlready && entry.wasModified) {
+          // (Update) -> Delete, Create
+          await this.cronService.delete(entry.originalModel);
+          await this.cronService.create(entry.model);
+        } else if (!entry.isInCronAlready) {
+          // Create
+          await this.cronService.create(entry.model);
+        }
       }
+    } catch {
+      // this is intentional, err is handled in cronService
     }
     await this.refresh();
     this.isSaving = false;

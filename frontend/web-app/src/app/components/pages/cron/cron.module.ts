@@ -12,6 +12,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CronComponent } from './cron.component';
 import { CronService } from 'src/app/services/cron.service';
 import { ODataService } from 'src/app/services/odata.service';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { ODataService } from 'src/app/services/odata.service';
     SharedModule,
     FormsModule,
     MatInputModule,
+    SkeletonModule,
     MatFormFieldModule,
     MatProgressBarModule,
     MatIconModule,

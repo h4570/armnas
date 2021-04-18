@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CronComponent } from './cron.component';
 import { CronService } from 'src/app/services/cron.service';
+import { ODataService } from 'src/app/services/odata.service';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CronService } from 'src/app/services/cron.service';
   providers: [
     MatSnackBar,
     FastDialogService,
+    ODataService,
     CronService
   ]
 })

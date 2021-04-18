@@ -1,5 +1,3 @@
-- Disable mounts
-- Disable armnas
 - Validation
 - Save
 
@@ -52,19 +50,31 @@
                         <div class="col-4-sm">
                             <mat-form-field class="full-width">
                                 <mat-label>Cron</mat-label>
-                                <input type="text" matInput [disabled]="isSaving" [(ngModel)]="entry.cron">
+                                <input type="text" matInput
+                                    [disabled]="entry.isArmansStartScript || entry.isArmansMountingPoint || isSaving"
+                                    [(ngModel)]="entry.model.cron">
                             </mat-form-field>
                         </div>
 
                         <div class="col-6-sm">
-                            <mat-form-field class="full-width">
+                            <div class="armnas-text" *ngIf="entry.isArmansStartScript">
+                                Armnas start script
+                            </div>
+                            <div class="armnas-text" *ngIf="entry.isArmansMountingPoint">
+                                Armnas mounting point
+                            </div>
+                            <mat-form-field class="full-width"
+                                *ngIf="!entry.isArmansStartScript && !entry.isArmansMountingPoint">
                                 <mat-label>Command</mat-label>
-                                <input type="text" matInput [disabled]="isSaving" [(ngModel)]="entry.command">
+                                <input type="text" matInput
+                                    [disabled]="entry.isArmansStartScript || entry.isArmansMountingPoint || isSaving"
+                                    [(ngModel)]="entry.model.command">
                             </mat-form-field>
                         </div>
 
                         <div class="col-2-sm">
-                            <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
+                            <button mat-icon-button style="margin-left:5px;"
+                                [disabled]="entry.isArmansStartScript || entry.isArmansMountingPoint || isSaving"
                                 (click)="onDeleteClick(entry)">
                                 <mat-icon>delete</mat-icon>
                             </button>

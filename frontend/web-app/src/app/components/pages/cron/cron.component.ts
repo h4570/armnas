@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CronEntry } from 'src/app/models/os-commander/cron/cron-entry.model';
+import { Partition } from 'src/app/models/partition.model';
 import { AppService } from 'src/app/services/app.service';
 import { CronService } from 'src/app/services/cron.service';
+import { ODataService } from 'src/app/services/odata.service';
 import { smoothHeight } from '../../shared/animations';
+import { CronEntryViewModel } from './view-models/cron-entry.view-model';
 
 @Component({
   selector: 'app-cron',
@@ -15,11 +17,12 @@ export class CronComponent implements OnInit {
   public isSaving: boolean;
   public isLoading = true;
 
-  public entries: CronEntry[] = [];
+  public entries: CronEntryViewModel[] = [];
 
   constructor(
     public readonly appService: AppService,
     public readonly cronService: CronService,
+    public readonly odata: ODataService,
   ) { }
 
   public async ngOnInit(): Promise<void> {
@@ -27,14 +30,14 @@ export class CronComponent implements OnInit {
   }
 
   public async onAddClick(): Promise<void> {
-    this.entries.unshift({
+    this.entries.unshift(new CronEntryViewModel({
       cron: '',
       command: '',
-    });
+    }, false));
   }
 
-  public async onDeleteClick(entry: CronEntry): Promise<void> {
-    this.entries = this.entries.filter(c => c.command !== entry.command);
+  public async onDeleteClick(entry: CronEntryViewModel): Promise<void> {
+    this.entries = this.entries.filter(c => c.id !== entry.id);
   }
 
   public async onSaveClick(): Promise<void> {
@@ -45,7 +48,19 @@ export class CronComponent implements OnInit {
 
   private async refresh(): Promise<void> {
     this.isLoading = true;
-    this.entries = await this.cronService.getAll();
+    const odataPartitions = this.odata.partitions.entities();
+    const partitions = await odataPartitions
+      .get()
+      .toPromise()
+      .then(c => c.entities);
+    this.entries = [];
+    const crontab = await this.cronService.getAll();
+    for (const entry of crontab) {
+      const obj = new CronEntryViewModel(entry, true);
+      obj.updateIsArmansMountingPoint(partitions);
+      this.entries.push(obj);
+    }
+
     this.isLoading = false;
   }
 

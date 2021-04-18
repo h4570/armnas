@@ -55,6 +55,7 @@ Date.prototype.difference = function (date2: Date, divider: number = 1000 * 60 *
 interface String {
     stringEquals: (string2: string) => boolean;
     countCharacter: (findChar: string) => number;
+    toKebabCase: () => string;
 }
 
 // Implementations
@@ -71,4 +72,8 @@ String.prototype.countCharacter = function (findChar: string): number {
         }
     }
     return result;
+};
+
+String.prototype.toKebabCase = function (): string {
+    return this.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/\s+/g, '-').toLowerCase();
 };

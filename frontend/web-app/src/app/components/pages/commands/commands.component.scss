@@ -1,8 +1,20 @@
-.transmission-app {
-    height: 500px;
+.entry-container {
+    width: 100%;
+    padding: 20px;
 }
 
-.transmission-dir-field{
-    width:200px;
-    margin-right:10px;
+.progress-bar {
+    margin-top: 15px;
+}
+
+.entry {
+    padding: 20px;
+    margin-bottom: 20px;
+    max-height: 380px;
+    overflow: auto;
+    background-color: rgb(245, 245, 245);
+}
+
+.full-width {
+    width: 100%;
 }

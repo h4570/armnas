@@ -44,48 +44,27 @@
                 <ng-container *ngIf="!isLoading">
                     <div *ngFor="let entry of entries" class="entry mat-elevation-z2 rounded">
 
-                        <mat-form-field class="share-name">
-                            <mat-label>Share name</mat-label>
-                            <input matInput [disabled]="isSaving" [(ngModel)]="entry.model.name">
-                        </mat-form-field>
-
-                        <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
-                            (click)="onAddParamClick(entry)">
-                            <mat-icon>add</mat-icon>
-                        </button>
-
-                        <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
-                            (click)="onDeleteClick(entry)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-
-                        <div class="small-spacer"></div>
-                        <div *ngFor="let param of entry.model.params" class="row">
-                            <div class="col-4-sm">
-                                <mat-form-field class="full-width">
-                                    <mat-label>Key</mat-label>
-                                    <input type="text" matInput [disabled]="isSaving" [(ngModel)]="param.key"
-                                        [matAutocomplete]="auto">
-                                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                        <mat-option *ngFor="let suggestion of keySuggestions" [value]="suggestion">
-                                            {{suggestion}}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-6-sm">
-                                <mat-form-field class="full-width">
-                                    <mat-label>Value</mat-label>
-                                    <input matInput [disabled]="isSaving" [(ngModel)]="param.value">
-                                </mat-form-field>
-                            </div>
-                            <div class="col-2-sm">
-                                <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
-                                    (click)="onDeleteParamClick(entry, param)">
-                                    <mat-icon>delete</mat-icon>
-                                </button>
-                            </div>
+                        <div class="col-4-sm">
+                            <mat-form-field class="full-width">
+                                <mat-label>Cron</mat-label>
+                                <input type="text" matInput [disabled]="isSaving" [(ngModel)]="entry.cron">
+                            </mat-form-field>
                         </div>
+
+                        <div class="col-6-sm">
+                            <mat-form-field class="full-width">
+                                <mat-label>Command</mat-label>
+                                <input type="text" matInput [disabled]="isSaving" [(ngModel)]="entry.command">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-2-sm">
+                            <button mat-icon-button style="margin-left:5px;" [disabled]="isSaving"
+                                (click)="onDeleteClick(entry)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+
                     </div>
                 </ng-container>
 

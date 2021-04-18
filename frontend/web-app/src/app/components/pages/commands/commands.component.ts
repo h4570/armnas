@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { CronEntry } from 'src/app/models/os-commander/cron/cron-entry.model';
 import { AppService } from 'src/app/services/app.service';
+import { CronService } from 'src/app/services/cron.service';
 import { smoothHeight } from '../../shared/animations';
-import { SambaEntryViewModel } from '../samba/view-models/samba-entry.view-model';
 
 @Component({
   selector: 'app-commands',
@@ -11,28 +12,41 @@ import { SambaEntryViewModel } from '../samba/view-models/samba-entry.view-model
 })
 export class CommandsComponent implements OnInit {
 
-  public isFreezed: boolean;
   public isSaving: boolean;
-  public isLoading: boolean;
+  public isLoading = true;
 
-  public entries: SambaEntryViewModel[] = [];
+  public entries: CronEntry[] = [];
 
   constructor(
     public readonly appService: AppService,
-  ) {
-    this.isFreezed = false;
-  }
+    public readonly cronService: CronService,
+  ) { }
 
   public async ngOnInit(): Promise<void> {
-    this.isLoading = true;
+    await this.refresh();
   }
 
   public async onAddClick(): Promise<void> {
+    this.entries.unshift({
+      cron: '',
+      command: '',
+    });
+  }
 
+  public async onDeleteClick(entry: CronEntry): Promise<void> {
+    this.entries = this.entries.filter(c => c.command !== entry.command);
   }
 
   public async onSaveClick(): Promise<void> {
+    this.isSaving = true;
+    // TODO
+    this.isSaving = false;
+  }
 
+  private async refresh(): Promise<void> {
+    this.isLoading = true;
+    this.entries = await this.cronService.getAll();
+    this.isLoading = false;
   }
 
 }

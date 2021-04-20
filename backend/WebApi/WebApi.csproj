@@ -17,17 +17,17 @@
         <PackageReference Include="AutoMapper" Version="10.1.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.3" />
-        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.0-preview3" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.3" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.3">
+        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.0-rc" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-preview.3.21201.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-preview.3.21201.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.3.21201.2">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.6" />
         <PackageReference Include="OData.Swagger" Version="1.0.0" />
-        <PackageReference Include="RestSharp" Version="106.11.7" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.7" />
+        <PackageReference Include="RestSharp" Version="106.11.8-alpha.0.12" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.3" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.10.2" />
         <PackageReference Include="System.Linq.Async" Version="5.0.0" />
     </ItemGroup>

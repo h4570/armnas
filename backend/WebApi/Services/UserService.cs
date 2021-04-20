@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Auth;
 using WebApi.Models.Internal;

@@ -22,10 +22,10 @@ export class HomeComponent implements OnInit {
   public isFreezed = false;
 
   constructor(
+    public readonly appService: AppService,
+    public readonly translate: TranslateService,
     private readonly powerService: PowerService,
     private readonly snackbar: MatSnackBar,
-    public readonly appService: AppService,
-    private readonly translate: TranslateService,
   ) { }
 
   public async ngOnInit(): Promise<void> {

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <h3>System info:</h3>
+        <h3>{{ 'home.systemInfo' | translate }}:</h3>
     </div>
     <div class="col-6" [smoothHeight]="loading">
 
@@ -13,16 +13,16 @@
         </ng-container>
 
         <ng-container *ngIf="!loading">
-            <h4>Distribution</h4>
+            <h4>{{ 'home.distribution' | translate }}</h4>
             <p>{{distro}}</p>
             <div class="tiny-spacer"></div>
-            <h4>Kernel</h4>
+            <h4>{{ 'home.kernel' | translate }}</h4>
             <p>{{kernel}}</p>
             <div class="tiny-spacer"></div>
-            <h4>IP Address:</h4>
+            <h4>{{ 'home.ipAddress' | translate }}:</h4>
             <p>{{ip}}</p>
             <div class="tiny-spacer"></div>
-            <h4>Uptime:</h4>
+            <h4>{{ 'home.uptime' | translate }}:</h4>
             <p>{{upTime}}</p>
         </ng-container>
 
@@ -39,16 +39,16 @@
         </ng-container>
 
         <ng-container *ngIf="!loading">
-            <h4>CPU temp: {{cpuTemp}}C</h4>
+            <h4>{{ 'home.cpuTemp' | translate }}: {{cpuTemp}}C</h4>
             <mat-progress-bar mode="determinate" [value]="cpuTemp"></mat-progress-bar>
             <div class="small-spacer"></div>
-            <h4>CPU usage: {{cpuUsage}}%</h4>
+            <h4>{{ 'home.cpuUsage' | translate }}: {{cpuUsage}}%</h4>
             <mat-progress-bar mode="determinate" [value]="cpuUsage"></mat-progress-bar>
             <div class="small-spacer"></div>
-            <h4>RAM usage: {{ramUsage}}%</h4>
+            <h4>{{ 'home.ramUsage' | translate }}: {{ramUsage}}%</h4>
             <mat-progress-bar mode="determinate" [value]="ramUsage"></mat-progress-bar>
             <div class="small-spacer"></div>
-            <h4>OS disk usage: {{osDiskUsage}}%</h4>
+            <h4>{{ 'home.osDiskUsage' | translate }}: {{osDiskUsage}}%</h4>
             <mat-progress-bar mode="determinate" [value]="osDiskUsage"></mat-progress-bar>
         </ng-container>
 

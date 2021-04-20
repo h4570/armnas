@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12" [smoothHeight]="loading || partitionsRefresh">
-        <h3>Partitions:</h3>
+        <h3>{{ 'home.partitions' | translate }}:</h3>
 
         <ng-container *ngIf="loading">
             <p-skeleton width="85%" height="3.2rem"></p-skeleton>
@@ -12,7 +12,7 @@
 
         <div *ngIf="!loading">
             <div *ngIf="!disks || disks.length===0">
-                There was an error with resolving disks info.
+                {{ 'home.errorPartitionsInfo' | translate }}
             </div>
             <div *ngFor="let disk of disks">
                 <div *ngFor="let partition of disk.partitions">
@@ -24,7 +24,7 @@
                         <div class="col-3-sm partition-text">
                             <span *ngIf="partition.isInEditMode">
                                 <mat-form-field class="display-name-input">
-                                    <mat-label>Display name</mat-label>
+                                    <mat-label>{{ 'home.displayName' | translate }}</mat-label>
                                     <input matInput [(ngModel)]="partition.displayName" maxlength="50">
                                 </mat-form-field>
                             </span>
@@ -48,7 +48,7 @@
                             </button>
                             <span class="font-light" *ngIf="!partition.isInEditMode">
                                 &nbsp;
-                                Size: {{partition.memoryInMB | size}}
+                                {{ 'home.size' | translate }}: {{partition.memoryInMB | size}}
                             </span>
                         </div>
                         <div class="col-3-sm partition-text">

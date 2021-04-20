@@ -3,7 +3,7 @@
         <div class="col-12">
             <div class="row" [smoothHeight]="appService.isInTweakMode">
                 <div class="col-3 flex-center font-heavy tweak-header" *ngIf="appService.isInTweakMode">
-                    Refresh interval:
+                    {{ 'home.refreshInterval' | translate }}:
                 </div>
                 <div class="col-9" *ngIf="appService.isInTweakMode">
                     <mat-slider [(ngModel)]="refreshInterval" (ngModelChange)="onRefreshIntervalChange()" thumbLabel
@@ -17,11 +17,11 @@
                 <div class="col-12"
                     style="padding-top:10px;display:flex;justify-content: flex-end;align-items: center;">
                     <button mat-mini-fab color="warn" class="fab-button" [disabled]="isFreezed"
-                        (click)="onPowerOffClick()" matTooltip="Power off">
+                        (click)="onPowerOffClick()" matTooltip="{{ 'home.powerOff' | translate }}">
                         <mat-icon>power_settings_new</mat-icon>
                     </button>
-                    <button mat-mini-fab matTooltip="Restart" color="primary" [disabled]="isFreezed"
-                        (click)="onRestartClick()" class="fab-button">
+                    <button mat-mini-fab matTooltip="{{ 'home.restart' | translate }}" color="primary"
+                        [disabled]="isFreezed" (click)="onRestartClick()" class="fab-button">
                         <mat-icon>rotate_right</mat-icon>
                     </button>
                 </div>

@@ -12,6 +12,24 @@
 		"removeMessages": "You can remove messages by clicking on them",
 		"normalMode": "Normal mode"
 	},
+	"home": {
+		"refreshInterval": "Refresh interval",
+		"partitions": "Partitions",
+		"size": "Size",
+		"powerOff": "Power off",
+		"restart": "Restart",
+		"systemInfo": "System info",
+		"distribution": "Distribution",
+		"kernel": "Kernel",
+		"ipAddress": "IP Address",
+		"uptime": "Uptime",
+		"cpuTemp": "CPU temp",
+		"cpuUsage": "CPU usage",
+		"ramUsage": "RAM usage",
+		"osDiskUsage": "OS disk usage",
+		"errorPartitionsInfo": "There was an error with resolving partitions info",
+		"displayName": "Display name"
+	},
 	"cron": {
 		"cronCommands": "Cron commands",
 		"command": "Command",

@@ -12,6 +12,24 @@
 		"removeMessages": "Możesz usuwać wiadomości, klikając na nie",
 		"normalMode": "Tryb normalny"
 	},
+	"home": {
+		"refreshInterval": "Interwał odświeżania",
+		"partitions": "Partycje",
+		"size": "Roz.",
+		"powerOff": "Wyłącz",
+		"restart": "Restart",
+		"systemInfo": "Informacje o systemie",
+		"distribution": "Dystrybucja",
+		"kernel": "Kernel",
+		"ipAddress": "Adres IP",
+		"uptime": "Czas aktywności",
+		"cpuTemp": "Temp. CPU",
+		"cpuUsage": "Użycie CPU",
+		"ramUsage": "Użycie RAM",
+		"osDiskUsage": "Zużycie dysku systemu",
+		"errorPartitionsInfo": "Wystąpił błąd, podczas pobierania danych o partycjach",
+		"displayName": "Własna nazwa"
+	},
 	"cron": {
 		"cronCommands": "Komendy Cron",
 		"command": "Komenda",

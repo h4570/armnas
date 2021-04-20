@@ -1,15 +1,16 @@
 <div class="container">
     <div class="row">
         <div class="col-12 login-container mat-elevation-z3 rounded">
-            <h3>Login</h3>
+            <h3>{{ 'login.header' | translate }}</h3>
             <mat-form-field class="full-width">
-                <mat-label>Password</mat-label>
+                <mat-label>{{ 'login.password' | translate }}</mat-label>
                 <input type="password" matInput [disabled]="isFreezed" [(ngModel)]="password">
             </mat-form-field>
-            <button mat-raised-button color="primary" (click)="onLoginClick()" [disabled]="isFreezed">Login</button>
+            <button mat-raised-button color="primary" (click)="onLoginClick()" [disabled]="isFreezed">{{
+                'login.loginBtn' | translate }}</button>
             <div class="row" *ngIf="failed">
                 <div class="col-12 failed-container mat-elevation-z1 rounded">
-                    Login failed.
+                    {{ 'login.loginFailed' | translate }}.
                 </div>
             </div>
         </div>

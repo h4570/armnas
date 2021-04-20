@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { LoginComponent } from './login.component';
 import { UserService } from 'src/app/services/user.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { UserService } from 'src/app/services/user.service';
     CommonModule,
     SharedModule,
     FormsModule,
+    TranslateModule,
     MatInputModule,
     MatFormFieldModule,
     MatProgressBarModule,

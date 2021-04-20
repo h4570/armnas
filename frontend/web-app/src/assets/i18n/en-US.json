@@ -12,6 +12,12 @@
 		"removeMessages": "You can remove messages by clicking on them",
 		"normalMode": "Normal mode"
 	},
+	"login": {
+		"header": "Login",
+		"password": "Password",
+		"loginBtn": "Login",
+		"loginFailed": "Login failed"
+	},
 	"transmission": {
 		"completedDir": "Completed dir",
 		"incompletedDir": "Incompleted dir",

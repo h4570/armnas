@@ -12,6 +12,12 @@
 		"removeMessages": "Możesz usuwać wiadomości, klikając na nie",
 		"normalMode": "Tryb normalny"
 	},
+	"login": {
+		"header": "Logowanie",
+		"password": "Hasło",
+		"loginBtn": "Zaloguj",
+		"loginFailed": "Logowanie nie powiodło się"
+	},
 	"transmission": {
 		"completedDir": "Folder ukończonych",
 		"incompletedDir": "Folder nieukończonych",

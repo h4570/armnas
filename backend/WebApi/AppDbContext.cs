@@ -7,7 +7,9 @@ namespace WebApi
 
     public enum AppTable
     {
-        Partitions = 0
+        Partitions = 0,
+        Users = 1,
+        Messages = 2,
     }
 
     public class AppDbContext : DbContext

@@ -5,6 +5,11 @@
 		"polish": "Polski",
 		"english": "Angielski",
 		"tweak": "Dostrój",
+		"home": "Start",
+		"modules": "Moduły",
+		"logout": "Wyloguj",
+		"checkoutMessages": "Sprawdź na GitHubie jak działają wiadomości!",
+		"removeMessages": "Możesz usuwać wiadomości, klikając na nie",
 		"normalMode": "Tryb normalny"
 	},
 	"http": {

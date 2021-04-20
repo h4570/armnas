@@ -15,12 +15,12 @@
 
         <button class="nav-btn" mat-raised-button routerLink="/home">
           <mat-icon>home</mat-icon>
-          <span *ngIf="!isScreenSmall">Home</span>
+          <span *ngIf="!isScreenSmall">{{ 'navbar.home' | translate }}</span>
         </button>
 
         <button class="nav-btn" mat-raised-button [matMenuTriggerFor]="modules">
           <mat-icon>dashboard</mat-icon>
-          <span *ngIf="!isScreenSmall">Modules</span>
+          <span *ngIf="!isScreenSmall">{{ 'navbar.modules' | translate }}</span>
         </button>
 
         <mat-menu #modules="matMenu">
@@ -39,14 +39,14 @@
         </mat-menu>
 
         <button mat-icon-button *ngIf="authService.isAuthenticated && newMessages.length > 0"
-          matTooltip="You can remove messages by clicking on them" [matMenuTriggerFor]="notifications">
+          matTooltip="{{ 'navbar.removeMessages' | translate }}" [matMenuTriggerFor]="notifications">
           <mat-icon [matBadge]="newMessages.length" matBadgeOverlap="true" matBadgeColor="accent">
             notifications
           </mat-icon>
         </button>
 
         <button mat-icon-button *ngIf="authService.isAuthenticated && newMessages.length === 0"
-          matTooltip="Check out on GitHub how messages works!" [disabled]="isMessagesIconDisabled"
+          matTooltip="{{ 'navbar.checkoutMessages' | translate }}" [disabled]="isMessagesIconDisabled"
           (click)="isMessagesIconDisabled = true">
           <mat-icon>
             notifications

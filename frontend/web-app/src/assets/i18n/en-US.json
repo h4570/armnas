@@ -5,6 +5,11 @@
 		"polish": "Polish",
 		"english": "English",
 		"tweak": "Tweak",
+		"home": "Home",
+		"modules": "Modules",
+		"logout": "Logout",
+		"checkoutMessages": "Check out on GitHub how messages works!",
+		"removeMessages": "You can remove messages by clicking on them",
 		"normalMode": "Normal mode"
 	},
 	"http": {

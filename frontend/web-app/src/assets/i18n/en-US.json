@@ -12,6 +12,11 @@
 		"removeMessages": "You can remove messages by clicking on them",
 		"normalMode": "Normal mode"
 	},
+	"transmission": {
+		"completedDir": "Completed dir",
+		"incompletedDir": "Incompleted dir",
+		"restart": "Restart"
+	},
 	"home": {
 		"refreshInterval": "Refresh interval",
 		"partitions": "Partitions",

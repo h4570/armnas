@@ -12,6 +12,11 @@
 		"removeMessages": "Możesz usuwać wiadomości, klikając na nie",
 		"normalMode": "Tryb normalny"
 	},
+	"transmission": {
+		"completedDir": "Folder ukończonych",
+		"incompletedDir": "Folder nieukończonych",
+		"restart": "Restart"
+	},
 	"home": {
 		"refreshInterval": "Interwał odświeżania",
 		"partitions": "Partycje",

@@ -4,12 +4,12 @@
     <div class="col-12 flex-center font-heavy" *ngIf="appService.isInTweakMode">
 
         <mat-form-field class="transmission-dir-field">
-            <mat-label>Completed directory</mat-label>
+            <mat-label>{{ 'transmission.completedDir' | translate }}</mat-label>
             <input matInput [disabled]="isFreezed" [(ngModel)]="completedDir">
         </mat-form-field>
 
         <mat-form-field class="transmission-dir-field">
-            <mat-label>Incompleted directory</mat-label>
+            <mat-label>{{ 'transmission.incompletedDir' | translate }}</mat-label>
             <input matInput [disabled]="isFreezed" [(ngModel)]="incompletedDir">
         </mat-form-field>
 
@@ -31,7 +31,7 @@
 <div class="row">
     <div class="col-2-sm">
         <button mat-raised-button color="warn" [disabled]="isFreezed" (click)="onRestartClick()">
-            Restart
+            {{ 'transmission.restart' | translate }}
         </button>
     </div>
     <div class="col-10-sm"></div>

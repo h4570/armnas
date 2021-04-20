@@ -27,7 +27,7 @@ export class TransmissionComponent implements OnInit {
     private readonly transmissionService: TransmissionService,
     private readonly snackbar: MatSnackBar,
     private readonly fastDialog: FastDialogService,
-    private readonly translate: TranslateService,
+    public readonly translate: TranslateService,
   ) {
     this.transmissionUrl = environment.urls.transmission;
     this.isFreezed = false;

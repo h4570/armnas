@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { TransmissionService } from 'src/app/services/transmission.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     CommonModule,
     SharedModule,
     FormsModule,
+    TranslateModule,
     MatInputModule,
     MatFormFieldModule,
     MatProgressBarModule,

@@ -26,7 +26,7 @@
 
     <div class="row">
         <div class="col-12-sm" [smoothHeight]="loading">
-            <div class="mat-elevation-z4 rounded entry-container">
+            <div class="entry-container">
 
                 <ng-container *ngIf="loading">
                     <p-skeleton width="75%" height="3.7rem"></p-skeleton>
@@ -46,7 +46,7 @@
                     <div *ngFor="let entry of entries" class="entry mat-elevation-z2 rounded">
 
                         <mat-form-field class="share-name">
-                            <mat-label>Share name</mat-label>
+                            <mat-label>{{ 'samba.shareName' | translate }}</mat-label>
                             <input matInput [disabled]="isSaving" [(ngModel)]="entry.model.name">
                         </mat-form-field>
 
@@ -64,7 +64,7 @@
                         <div *ngFor="let param of entry.model.params" class="row">
                             <div class="col-4-sm">
                                 <mat-form-field class="full-width">
-                                    <mat-label>Key</mat-label>
+                                    <mat-label>{{ 'samba.key' | translate }}</mat-label>
                                     <input type="text" matInput [disabled]="isSaving" [(ngModel)]="param.key"
                                         [matAutocomplete]="auto">
                                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
@@ -76,7 +76,7 @@
                             </div>
                             <div class="col-6-sm">
                                 <mat-form-field class="full-width">
-                                    <mat-label>Value</mat-label>
+                                    <mat-label>{{ 'samba.value' | translate }}</mat-label>
                                     <input matInput [disabled]="isSaving" [(ngModel)]="param.value">
                                 </mat-form-field>
                             </div>

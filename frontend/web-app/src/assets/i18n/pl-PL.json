@@ -17,6 +17,11 @@
 		"incompletedDir": "Folder nieukończonych",
 		"restart": "Restart"
 	},
+	"samba": {
+		"shareName": "Share name",
+		"key": "Klucz",
+		"value": "Wartość"
+	},
 	"home": {
 		"refreshInterval": "Interwał odświeżania",
 		"partitions": "Partycje",

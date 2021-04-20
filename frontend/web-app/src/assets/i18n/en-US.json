@@ -17,6 +17,11 @@
 		"incompletedDir": "Incompleted dir",
 		"restart": "Restart"
 	},
+	"samba": {
+		"shareName": "Share name",
+		"key": "Key",
+		"value": "Value"
+	},
 	"home": {
 		"refreshInterval": "Refresh interval",
 		"partitions": "Partitions",

@@ -18,11 +18,17 @@
 		"restart": "Restart"
 	},
 	"samba": {
+		"savingFailed": "Saving failed!",
 		"shareName": "Share name",
 		"key": "Key",
 		"value": "Value"
 	},
 	"home": {
+		"loading": "Loading...",
+		"armnasCanUnmountItsOwn": "Armnas can umount its own mounts only!",
+		"setDisplayName": "Please set display name first!",
+		"goodbye": "Goodbye!",
+		"seeYou": "See you in few minutes!",
 		"refreshInterval": "Refresh interval",
 		"partitions": "Partitions",
 		"size": "Size",
@@ -68,6 +74,8 @@
 		"error500Subtitle": "Critical error occured. If the problem still persists, report this incident via GitHub issue."
 	},
 	"common": {
+		"gotIt": "Got it!",
+		"done": "Done!",
 		"error": "Error",
 		"yes": "Yes",
 		"no": "No",

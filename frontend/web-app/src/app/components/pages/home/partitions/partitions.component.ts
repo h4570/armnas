@@ -89,7 +89,7 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     await this.refresh(true);
     partition.isInEditMode = false;
     partition.isFreezed = false;
-    this.snackbar.open('Done!', 'OK', { duration: 2000 });
+    this.snackbar.open(this.translate.instant('common.done'), 'OK', { duration: 2000 });
   }
 
   public async onCancelEditClick(partition: LsblkPartitionInfoView): Promise<void> {
@@ -106,7 +106,7 @@ export class PartitionsComponent implements OnInit, OnDestroy {
         await this.partitionService.enableAutoMount(partition.uuid);
       else
         await this.partitionService.disableAutoMount(partition.uuid);
-      this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
+      this.snackbar.open(this.translate.instant('common.done'), 'Ok!', { duration: 3000 });
       partition.isFreezed = false;
     } catch (raw) {
       partition.isFreezed = false;
@@ -124,7 +124,7 @@ export class PartitionsComponent implements OnInit, OnDestroy {
       partition.isFreezed = true;
       await this.partitionService.mount(partition.uuid);
       await this.refresh(true);
-      this.snackbar.open('Done!', 'Ok!', { duration: 3000 });
+      this.snackbar.open(this.translate.instant('common.done'), 'Ok!', { duration: 3000 });
       partition.isFreezed = false;
     } catch (raw) {
       partition.isFreezed = false;
@@ -137,7 +137,7 @@ export class PartitionsComponent implements OnInit, OnDestroy {
 
   public async onUnmountClick(partition: LsblkPartitionInfoView): Promise<void> {
     if (!this.isPartitionSavedInDb(partition)) {
-      this.snackbar.open('Armnas can umount its own mounts only!', '😶', { duration: 3000 });
+      this.snackbar.open(this.translate.instant('home.armnasCanUnmountItsOwn'), '😶', { duration: 3000 });
       return;
     }
     try {
@@ -165,7 +165,7 @@ export class PartitionsComponent implements OnInit, OnDestroy {
 
   private isPartitionSavedInDbWithSnackbar(partition: LsblkPartitionInfoView): boolean {
     if (!this.isPartitionSavedInDb(partition)) {
-      this.snackbar.open('Please set display name first!', 'Got it!', { duration: 3000 });
+      this.snackbar.open(this.translate.instant('home.setDisplayName'), this.translate.instant('common.gotIt'), { duration: 3000 });
       this.appService.isInTweakMode = true;
       partition.isInEditMode = true;
       return false;

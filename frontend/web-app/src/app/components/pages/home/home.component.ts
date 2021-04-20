@@ -37,7 +37,7 @@ export class HomeComponent implements OnInit {
     try { // only that we can do :O
       await this.powerService.powerOff();
     } catch { }
-    this.snackbar.open('Goodbye!', '😴', { duration: 15000 });
+    this.snackbar.open(this.translate.instant('home.goodbye'), '😴', { duration: 15000 });
     this.isFreezed = false;
   }
 
@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
     try { // only that we can do :O
       await this.powerService.restart();
     } catch { }
-    this.snackbar.open('See you in few minutes!', '😎', { duration: 15000 });
+    this.snackbar.open(this.translate.instant('home.seeYou'), '😎', { duration: 15000 });
     this.isFreezed = false;
   }
 

@@ -18,11 +18,17 @@
 		"restart": "Restart"
 	},
 	"samba": {
+		"savingFailed": "Zapisywanie nie powiodło się!",
 		"shareName": "Share name",
 		"key": "Klucz",
 		"value": "Wartość"
 	},
 	"home": {
+		"loading": "Ładowanie...",
+		"armnasCanUnmountItsOwn": "Armnas może odmontować tylko własne partycje.",
+		"setDisplayName": "Najpierw ustaw nazwę własną!",
+		"goodbye": "Do zobaczenia!",
+		"seeYou": "Widzimy się za kilka minut!",
 		"refreshInterval": "Interwał odświeżania",
 		"partitions": "Partycje",
 		"size": "Roz.",
@@ -68,6 +74,8 @@
 		"error500Subtitle": "Wystąpił błąd krytyczny. Jeśli problem nadal występuje, zgłoś błąd za pomocą GitHub issue."
 	},
 	"common": {
+		"done": "Gotowe!",
+		"gotIt": "Zrozumiano!",
 		"error": "Błąd",
 		"yes": "Tak",
 		"no": "Nie",

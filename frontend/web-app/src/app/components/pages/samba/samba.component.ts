@@ -93,11 +93,11 @@ export class SambaComponent implements OnInit {
     this.isSaving = true;
     try {
       await this.samba.update(this.entries.map(c => c.model));
-      this.snackbar.open('Done!', 'OK', { duration: 2000 });
+      this.snackbar.open(this.translate.instant('common.done'), 'OK', { duration: 2000 });
       this.isSaving = false;
     } catch (err) {
       this.isSaving = false;
-      this.snackbar.open('Saving failed!', '🙄', { duration: 2000 });
+      this.snackbar.open(this.translate.instant('samba.savingFailed'), '🙄', { duration: 2000 });
       await this.refresh();
     }
   }

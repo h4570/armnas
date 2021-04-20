@@ -15,14 +15,14 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   @Input() public refreshInterval: number;
 
-  public distro = 'Loading';
-  public kernel = 'Loading';
+  public distro = this.translate.instant('home.loading');
+  public kernel = this.translate.instant('home.loading');
   public cpuTemp = 0;
   public cpuUsage = 0;
   public ramUsage = 0;
   public osDiskUsage = 0;
-  public ip = 'Loading';
-  public upTime = 'Loading';
+  public ip = this.translate.instant('home.loading');
+  public upTime = this.translate.instant('home.loading');
   public loading = true;
 
   private isNgDestroyed = false;
@@ -30,7 +30,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
   constructor(
     public readonly appService: AppService,
     private readonly sysInfoService: SystemInformationService,
-    public readonlytranslate: TranslateService
+    public readonly translate: TranslateService
   ) { }
 
   public async ngOnInit(): Promise<void> {
@@ -73,7 +73,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
     try {
       this.distro = await this.sysInfoService.getDistributionName();
     } catch {
-      this.distro = 'Error';
+      this.distro = this.translate.instant('common.error');
     }
   }
 
@@ -81,7 +81,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
     try {
       this.kernel = await this.sysInfoService.getKernelName();
     } catch {
-      this.kernel = 'Error';
+      this.kernel = this.translate.instant('common.error');
     }
   }
 
@@ -121,7 +121,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
     try {
       this.ip = await this.sysInfoService.getIP();
     } catch {
-      this.ip = 'Error';
+      this.ip = this.translate.instant('common.error');
     }
   }
 
@@ -132,7 +132,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
       const diff = start.difference(now, 1000 * 60);
       this.upTime = `${Math.floor(diff / 60)}h ${diff % 60}m`;
     } catch {
-      this.upTime = 'Error';
+      this.upTime = this.translate.instant('common.error');
     }
   }
 

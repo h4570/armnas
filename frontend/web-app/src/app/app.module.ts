@@ -22,6 +22,8 @@ import { AuthService } from './services/auth.service';
 import { AppComponent } from './app.component';
 import { LoginModule } from './components/pages/login/login.module';
 import { AuthInterceptor } from './auth.interceptor';
+import { AuthGuard } from './auth-guard';
+import { JwtModule } from '@auth0/angular-jwt';
 
 @NgModule({
   declarations: [
@@ -49,14 +51,20 @@ import { AuthInterceptor } from './auth.interceptor';
     HttpClientModule,
     SharedModule,
     NavbarModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => localStorage.getItem('auth-token')
+      },
+    })
   ],
   providers: [
     AppService,
+    AuthGuard,
     ErrorHandlingService,
     ODataService,
     AuthService,
-    { provide: ErrorHandler, useClass: ErrorHandlingService },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: ErrorHandler, useClass: ErrorHandlingService },
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
   ],
   bootstrap: [

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using OSCommander;
 using OSCommander.Models.SystemInformation;
 using OSCommander.Models.SystemInformation.PartitionInfo;
+using WebApi.Auth;
 
 namespace WebApi.Controllers
 {
@@ -39,6 +40,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        [Authorize]
         [HttpGet("distribution")]
         [Produces("text/plain")]
         public ActionResult<string> GetDistributionName()
@@ -49,6 +51,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        [Authorize]
         [HttpGet("kernel")]
         [Produces("text/plain")]
         public ActionResult<string> GetKernelName() { return Ok(_systemInfo.GetKernelName()); }
@@ -56,6 +59,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        [Authorize]
         [HttpGet("cpu-info")]
         [Produces("application/json")]
         public ActionResult<CPUInfo> GetCPUInfo() { return Ok(_systemInfo.GetCPUInfo()); }
@@ -63,6 +67,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        [Authorize]
         [HttpGet("ram-info")]
         [Produces("application/json")]
         public ActionResult<RAMInfo> GetRAMInfo() { return Ok(_systemInfo.GetRAMInfo()); }
@@ -71,6 +76,7 @@ namespace WebApi.Controllers
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         /// <exception cref="T:OSCommander.Services.SambaUpdateException">When JSON parsing fail.</exception>
+        [Authorize]
         [HttpGet("disks-info")]
         [Produces("application/json")]
         public ActionResult<IEnumerable<LsblkDiskInfo>> GetDisksInfo() { return Ok(_systemInfo.GetDisksInfo()); }
@@ -78,6 +84,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        [Authorize]
         [HttpGet("mounted-partitions")]
         [Produces("application/json")]
         public ActionResult<IEnumerable<DfPartitionInfo>> GetMountedPartitionsInfo() { return Ok(_systemInfo.GetMountedPartitionsInfo()); }
@@ -85,6 +92,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        [Authorize]
         [HttpGet("mounted-partition/{diskName}")]
         [Produces("application/json")]
         public ActionResult<DfPartitionInfo> GetMountedPartitionInfo(string diskName) { return Ok(_systemInfo.GetMountedPartitionInfo(diskName)); }
@@ -92,6 +100,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        [Authorize]
         [HttpGet("ip")]
         [Produces("text/plain")]
         public ActionResult<string> GetIP() { return Ok(_systemInfo.GetIP()); }
@@ -103,6 +112,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:System.FormatException">The length of is 1, and it is not one of the format specifier characters defined for <see cref="T:System.Globalization.DateTimeFormatInfo" />.  
         ///  -or-  
         /// does not contain a valid custom format pattern.</exception>
+        [Authorize]
         [HttpGet("start-time")]
         [Produces("text/plain")]
         public ActionResult<DateTime> GetStartTime()

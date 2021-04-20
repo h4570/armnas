@@ -47,11 +47,10 @@ namespace WebApi.Services
         /// <exception cref="T:System.InvalidOperationException">(Asynchronous) The sequence contains more than one element that satisfies the condition in the predicate.</exception>
         public async Task<User> CheckCredentials(string login, string password, ConfigEnvironment config)
         {
-            var generatedHash = AuthUtilities.ComputeSha256Hash(login, config.Salt);
+            var generatedHash = AuthUtilities.ComputeSha256Hash(password, config.Salt);
             var user = await _context.Users.SingleOrDefaultAsync(c => c.Login.Trim() == login);
             if (user == null) return null;
-            var userHash = AuthUtilities.ComputeSha256Hash(user.Password, config.Salt);
-            return userHash == generatedHash ? user : null;
+            return user.Password == generatedHash ? user : null;
         }
 
         /// <exception cref="T:System.ArgumentNullException"></exception>

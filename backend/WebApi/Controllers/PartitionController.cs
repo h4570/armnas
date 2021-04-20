@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OSCommander.Services;
+using WebApi.Auth;
 using WebApi.Services;
 
 namespace WebApi.Controllers
@@ -48,11 +49,13 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [EnableQuery]
         public IActionResult Get() { return Ok(_context.Partitions); }
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         [HttpGet]
+        [Authorize]
         [EnableQuery]
         public IActionResult Get(int key)
         {
@@ -64,6 +67,7 @@ namespace WebApi.Controllers
         ///                 A concurrency violation occurs when an unexpected number of rows are affected during save.
         ///                 This is usually because the data in the database has been modified since it was loaded into memory.</exception>
         [HttpPost]
+        [Authorize]
         [EnableQuery]
         public async Task<IActionResult> Post([FromBody] Partition payload)
         {
@@ -81,6 +85,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
         [HttpPatch]
+        [Authorize]
         [EnableQuery]
         public async Task<IActionResult> Patch([FromBody] Partition payload, int key)
         {
@@ -97,6 +102,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        [Authorize]
         [HttpGet("/partition/check-auto-mount/{uuid}")]
         public async Task<IActionResult> CheckAutoMount(string uuid)
         {
@@ -108,6 +114,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        [Authorize]
         [HttpPost("/partition/enable-auto-mount/{uuid}")]
         public async Task<IActionResult> EnableAutoMount(string uuid)
         {
@@ -119,6 +126,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        [Authorize]
         [HttpPost("/partition/disable-auto-mount/{uuid}")]
         public async Task<IActionResult> DisableAutoMount(string uuid)
         {
@@ -133,6 +141,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.Exceptions.JsonParsingException">When JSON parsing fail.</exception>
+        [Authorize]
         [HttpPost("/partition/mount/{uuid}")]
         public async Task<IActionResult> Mount(string uuid)
         {
@@ -145,6 +154,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        [Authorize]
         [HttpPost("/partition/unmount/{uuid}")]
         public async Task<IActionResult> Unmount(string uuid)
         {

@@ -38,15 +38,16 @@
           </button>
         </mat-menu>
 
-        <button mat-icon-button *ngIf="newMessages.length > 0" matTooltip="You can remove messages by clicking on them"
-          [matMenuTriggerFor]="notifications">
+        <button mat-icon-button *ngIf="authService.isAuthenticated && newMessages.length > 0"
+          matTooltip="You can remove messages by clicking on them" [matMenuTriggerFor]="notifications">
           <mat-icon [matBadge]="newMessages.length" matBadgeOverlap="true" matBadgeColor="accent">
             notifications
           </mat-icon>
         </button>
 
-        <button mat-icon-button *ngIf="newMessages.length === 0" matTooltip="Check out on GitHub how messages works!"
-          [disabled]="isMessagesIconDisabled" (click)="isMessagesIconDisabled = true">
+        <button mat-icon-button *ngIf="authService.isAuthenticated && newMessages.length === 0"
+          matTooltip="Check out on GitHub how messages works!" [disabled]="isMessagesIconDisabled"
+          (click)="isMessagesIconDisabled = true">
           <mat-icon>
             notifications
           </mat-icon>
@@ -65,6 +66,10 @@
           <button mat-menu-item *ngIf="!appService.isInTweakMode" (click)="onTweakClick()">
             <mat-icon>build_circle</mat-icon>
             <span>{{ 'navbar.tweak' | translate }}</span>
+          </button>
+          <button mat-menu-item *ngIf="authService.isAuthenticated" (click)="onLogoutClick()">
+            <mat-icon>logout</mat-icon>
+            <span>{{ 'navbar.logout' | translate }}</span>
           </button>
           <button mat-menu-item>
             <mat-icon>bug_report</mat-icon>

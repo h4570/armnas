@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,12 +19,13 @@ namespace WebApi.Controllers
     {
         private readonly UserService _userService;
         private readonly ConfigEnvironment _config;
+        private readonly AppDbContext _context;
 
         public UserController(DbContextOptions<AppDbContext> options, IOptions<ConfigEnvironment> config)
         {
             _config = config.Value;
-            var context = new AppDbContext(options);
-            _userService = new UserService(context);
+            _context = new AppDbContext(options);
+            _userService = new UserService(_context);
         }
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace WebApi.Controllers
         /// <returns>
         /// 460 - when given login from new user object is already used, 
         /// 461 - when adding new user operation fail, 
+        /// 462 - when there is already 1 account in db, 
         /// 200 - when user was created. JWT token response header is added here.
         /// </returns>
         /// <exception cref="T:System.InvalidOperationException"></exception>
@@ -41,6 +44,8 @@ namespace WebApi.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<IUser>> Register([FromBody] User payload)
         {
+            if (await _context.Users.AsQueryable().AnyAsync())
+                return StatusCode(462, "Main user was already registered");
             if (_userService.ThereIsAlreadyUserWithThisLogin(payload.Login))
                 return StatusCode(460, "Login is already used!");
             try
@@ -51,7 +56,7 @@ namespace WebApi.Controllers
                 HttpContext.Response.Headers.Add("x-auth-token", $"{jwt}");
                 return Ok(newUser);
             }
-            catch { return StatusCode(461, "Login is already used!"); }
+            catch { return StatusCode(461, "Internal server error occurred during register operation."); }
         }
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace WebApi.Controllers
             {
                 // For security issues
                 // ReSharper disable once ThrowFromCatchWithNoInnerException
-                throw new LoginOperationException("Internal server login occurred during login operation.");
+                throw new LoginOperationException("Internal server error  occurred during login operation.");
             }
         }
 

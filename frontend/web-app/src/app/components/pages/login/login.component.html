@@ -1,7 +1,17 @@
 <div class="container">
     <div class="row">
-        <div class="col-12">
-            Login page
+        <div class="col-12 login-container mat-elevation-z3 rounded">
+            <h3>Login</h3>
+            <mat-form-field class="full-width">
+                <mat-label>Password</mat-label>
+                <input type="password" matInput [disabled]="isFreezed" [(ngModel)]="password">
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="onLoginClick()" [disabled]="isFreezed">Login</button>
+            <div class="row" *ngIf="failed">
+                <div class="col-12 failed-container mat-elevation-z1 rounded">
+                    Login failed.
+                </div>
+            </div>
         </div>
     </div>
 </div>

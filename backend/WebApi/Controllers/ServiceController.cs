@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OSCommander;
+using WebApi.Auth;
 
 namespace WebApi.Controllers
 {
@@ -36,6 +37,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("start/{name}")]
         public IActionResult Start(string name)
         {
@@ -47,6 +49,7 @@ namespace WebApi.Controllers
             catch { return StatusCode(461, "http.serviceStartFailed"); }
         }
 
+        [Authorize]
         [HttpPost("stop/{name}")]
         public IActionResult Stop(string name)
         {
@@ -58,6 +61,7 @@ namespace WebApi.Controllers
             catch { return StatusCode(461, "http.serviceStopFailed"); }
         }
 
+        [Authorize]
         [HttpPost("restart/{name}")]
         public IActionResult Restart(string name)
         {

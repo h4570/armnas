@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OSCommander;
+using WebApi.Auth;
 
 namespace WebApi.Controllers
 {
@@ -34,6 +35,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
+        [Authorize]
         [HttpGet("off")]
         public ActionResult PowerOff()
         {
@@ -43,6 +45,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
+        [Authorize]
         [HttpGet("restart")]
         public ActionResult Restart()
         {

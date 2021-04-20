@@ -1,7 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { Message, MessageType } from 'src/app/models/message.model';
 import { AppService } from 'src/app/services/app.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { ODataService } from 'src/app/services/odata.service';
 
 @Component({
@@ -9,19 +11,21 @@ import { ODataService } from 'src/app/services/odata.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
   // eslint-disable-next-line @typescript-eslint/naming-convention
   public MessageType: typeof MessageType = MessageType;
 
   public isWinterTime = true;
   public isScreenSmall: boolean;
+  public authSub: Subscription;
   public newMessages: Message[] = [];
   public isMessagesIconDisabled = false;
 
   constructor(
     public readonly translate: TranslateService,
     public readonly appService: AppService,
+    public readonly authService: AuthService,
     private readonly odata: ODataService
   ) {
     this.setWinterTime();
@@ -34,7 +38,15 @@ export class NavbarComponent implements OnInit {
 
   public async ngOnInit(): Promise<void> {
     this.updateIsScreenSmallVariable();
-    await this.refresh();
+    if (this.authService.isAuthenticated)
+      await this.refresh();
+    this.authSub = this.authService.onIsAuthorizedChange.subscribe(async (val) => {
+      if (val) await this.refresh();
+    });
+  }
+
+  public async ngOnDestroy(): Promise<void> {
+    this.authSub.unsubscribe();
   }
 
   public async onDeleteMessageClick(msg: Message) {
@@ -47,6 +59,10 @@ export class NavbarComponent implements OnInit {
   public changeLang(language: string): void {
     localStorage.setItem('language', language);
     this.translate.use(language);
+  }
+
+  public onLogoutClick(): void {
+    this.authService.logout();
   }
 
   public onTweakClick(): void {

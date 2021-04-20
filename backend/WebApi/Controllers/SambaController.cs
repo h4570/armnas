@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using OSCommander;
 using OSCommander.Models.Samba;
+using WebApi.Auth;
 
 namespace WebApi.Controllers
 {
@@ -36,6 +37,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         [HttpGet]
+        [Authorize]
         [Produces("application/json")]
         public ActionResult<IEnumerable<SambaEntry>> GetSambaEntries()
         {
@@ -44,6 +46,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:OSCommander.Exceptions.SambaUpdateException">When smb.conf update fail.</exception>
         [HttpPost]
+        [Authorize]
         [Produces("application/json")]
         public ActionResult<IEnumerable<SambaEntry>> UpdateSambaEntries([FromBody] IEnumerable<SambaEntry> sambaEntries)
         {

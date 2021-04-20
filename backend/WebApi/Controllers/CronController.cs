@@ -42,6 +42,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         [HttpPost]
+        [Authorize]
         [Produces("application/json")]
         public ActionResult<CronEntry> Create([FromBody] CronEntry cronEntry)
         {
@@ -52,6 +53,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         [HttpPatch("delete")]
+        [Authorize]
         [Produces("application/json")]
         public ActionResult<CronEntry> Patch([FromBody] CronEntry cronEntry)
         {

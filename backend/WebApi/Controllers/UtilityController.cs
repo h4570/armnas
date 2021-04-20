@@ -26,8 +26,8 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:System.Reflection.AmbiguousMatchException">More than one of the requested attributes was found.</exception>
         /// <exception cref="T:System.ArgumentNullException"></exception>
-        [HttpGet("/app-info")]
         [EnableCors]
+        [HttpGet("/app-info")]
         public ActionResult<ActionResult<object>> GetAppInfo()
         {
             var appInfo = Assembly.GetEntryAssembly()!.GetCustomAttribute<AppInfoAttribute>();

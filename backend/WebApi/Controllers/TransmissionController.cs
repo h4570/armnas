@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using OSCommander;
 using OSCommander.Models.Transmission;
 using OSCommander.Services;
+using WebApi.Auth;
 
 namespace WebApi.Controllers
 {
@@ -44,6 +45,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:Newtonsoft.Json.JsonReaderException">When output of settings.json is not valid JSON.</exception>
+        [Authorize]
         [HttpGet("config")]
         public ActionResult<TransmissionConfig> GetConfig()
         {
@@ -52,6 +54,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
+        [Authorize]
         [HttpGet("restart")]
         public ActionResult Restart()
         {
@@ -59,6 +62,7 @@ namespace WebApi.Controllers
             return Ok(new { Message = "Ok" });
         }
 
+        [Authorize]
         [HttpPatch("config")]
         public IActionResult UpdateConfig([FromBody] TransmissionConfig config)
         {

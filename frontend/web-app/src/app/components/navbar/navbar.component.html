@@ -67,17 +67,20 @@
             <mat-icon>build_circle</mat-icon>
             <span>{{ 'navbar.tweak' | translate }}</span>
           </button>
-          <button mat-menu-item *ngIf="authService.isAuthenticated" (click)="onLogoutClick()">
-            <mat-icon>logout</mat-icon>
-            <span>{{ 'navbar.logout' | translate }}</span>
-          </button>
-          <button mat-menu-item>
-            <mat-icon>bug_report</mat-icon>
-            <span>{{ 'navbar.reportProblem' | translate }}</span>
-          </button>
           <button mat-menu-item [matMenuTriggerFor]="languages">
             <mat-icon>language</mat-icon>
             <span>{{ 'navbar.language' | translate }}</span>
+          </button>
+          <a href="https://github.com/h4570/armnas/issues" target="_blank">
+            <button mat-menu-item>
+              <mat-icon>bug_report</mat-icon>
+              <span>{{ 'navbar.reportProblem' | translate }}</span>
+            </button>
+          </a>
+
+          <button mat-menu-item *ngIf="authService.isAuthenticated" (click)="onLogoutClick()">
+            <mat-icon>logout</mat-icon>
+            <span>{{ 'navbar.logout' | translate }}</span>
           </button>
         </mat-menu>
 

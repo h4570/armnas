@@ -58,7 +58,7 @@
                                 {{ 'cron.armnasStartScript' | translate }}
                             </div>
                             <div class="armnas-text" *ngIf="entry.isArmansMountingPoint">
-                                {{entry.isArmnasMountingPointFor}} {{ 'cron.armnasMountingPoint' | translate }}
+                                {{entry.isArmnasMountingPointFor}} - {{ 'cron.armnasMountingPoint' | translate }}
                             </div>
                             <mat-form-field class="full-width"
                                 *ngIf="!entry.isArmansStartScript && !entry.isArmansMountingPoint">

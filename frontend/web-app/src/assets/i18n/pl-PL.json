@@ -12,6 +12,12 @@
 		"removeMessages": "Możesz usuwać wiadomości, klikając na nie",
 		"normalMode": "Tryb normalny"
 	},
+	"cron": {
+		"cronCommands": "Komendy Cron",
+		"command": "Komenda",
+		"armnasStartScript": "Skrypt startowy Armnas",
+		"armnasMountingPoint": "Punkt montujący Armnas"
+	},
 	"http": {
 		"partitionNotFoundByUuidInDb": "Partycja nie została znaleziona w bazie danych.",
 		"autoMountCheckError": "Błąd sprawdzenia auto montowania partycji. Sprawdź dodatkowe informacje w pliku z logami.",
@@ -37,6 +43,7 @@
 		"error": "Błąd",
 		"yes": "Tak",
 		"no": "Nie",
+		"nothingToTweak": "Nie ma tu nic do dostosowania!",
 		"cancel": "Anuluj",
 		"confirm": "Potwierdź"
 	}

@@ -12,6 +12,12 @@
 		"removeMessages": "You can remove messages by clicking on them",
 		"normalMode": "Normal mode"
 	},
+	"cron": {
+		"cronCommands": "Cron commands",
+		"command": "Command",
+		"armnasStartScript": "Armnas start script",
+		"armnasMountingPoint": "Armnas mounting point"
+	},
 	"http": {
 		"partitionNotFoundByUuidInDb": "Partition was not found in database.",
 		"autoMountCheckError": "Partition auto mount check error. Detailed information can be found in application log file.",
@@ -37,6 +43,7 @@
 		"error": "Error",
 		"yes": "Yes",
 		"no": "No",
+		"nothingToTweak": "Nothing to tweak here!",
 		"cancel": "Cancel",
 		"confirm": "Confirm"
 	}

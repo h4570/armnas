@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { AppService } from 'src/app/services/app.service';
 import { CronService } from 'src/app/services/cron.service';
 import { ODataService } from 'src/app/services/odata.service';
@@ -23,6 +24,7 @@ export class CronComponent implements OnInit {
     public readonly appService: AppService,
     public readonly cronService: CronService,
     public readonly odata: ODataService,
+    public readonly translate: TranslateService,
   ) { }
 
   public async ngOnInit(): Promise<void> {

@@ -13,6 +13,7 @@ import { CronComponent } from './cron.component';
 import { CronService } from 'src/app/services/cron.service';
 import { ODataService } from 'src/app/services/odata.service';
 import { SkeletonModule } from 'primeng/skeleton';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     CommonModule,
     SharedModule,
     FormsModule,
+    TranslateModule,
     MatInputModule,
     SkeletonModule,
     MatFormFieldModule,

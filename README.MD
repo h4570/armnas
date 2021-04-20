@@ -1,6 +1,4 @@
 ### Roadmap
-- Auth
-- Translation
 - Installation
 - Messages example
 - Documentation

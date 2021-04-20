@@ -30,6 +30,9 @@
 		"value": "Wartość"
 	},
 	"home": {
+		"autoMount": "Auto montowanie",
+		"mount": "Zamontuj",
+		"unmount": "Odmontouj",
 		"loading": "Ładowanie...",
 		"armnasCanUnmountItsOwn": "Armnas może odmontować tylko własne partycje.",
 		"setDisplayName": "Najpierw ustaw nazwę własną!",

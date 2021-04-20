@@ -30,6 +30,9 @@
 		"value": "Value"
 	},
 	"home": {
+		"autoMount": "Auto mount",
+		"mount": "Mount",
+		"unmount": "Unmount",
 		"loading": "Loading...",
 		"armnasCanUnmountItsOwn": "Armnas can umount its own mounts only!",
 		"setDisplayName": "Please set display name first!",

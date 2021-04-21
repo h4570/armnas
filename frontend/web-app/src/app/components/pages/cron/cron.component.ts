@@ -84,6 +84,7 @@ export class CronComponent implements OnInit {
     for (const entry of crontab) {
       const obj = new CronEntryViewModel(entry, true);
       obj.updateIsArmansMountingPoint(partitions);
+      obj.checkIfCronIsValid();
       tempEntries.push(obj);
     }
     this.clearAndInsertSortedEntries(tempEntries);

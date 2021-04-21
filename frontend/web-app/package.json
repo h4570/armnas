@@ -28,6 +28,7 @@
     "@ngx-translate/core": "^13.0.0",
     "@ngx-translate/http-loader": "^6.0.0",
     "angular-odata": "^0.22.1",
+    "cron-validator": "^1.2.1",
     "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-junit-reporter": "^2.0.1",
     "primeicons": "^4.1.0",

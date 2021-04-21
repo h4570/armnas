@@ -18,7 +18,7 @@
                         <mat-icon>help</mat-icon>
                     </button>
                 </a>
-                <button mat-stroked-button [disabled]="isSaving" (click)="onAddClick()">
+                <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving" (click)="onAddClick()">
                     <mat-icon>add</mat-icon>
                 </button>
                 <button mat-stroked-button style="margin-left:5px;" [disabled]="isSaving" (click)="onSaveClick()">
@@ -49,13 +49,23 @@
                 <ng-container *ngIf="!isLoading">
                     <div *ngFor="let entry of viewEntries" class="entry mat-elevation-z2 rounded">
 
-                        <div class="col-4-sm">
+                        <div class="col-3-sm">
                             <mat-form-field class="full-width">
                                 <mat-label>Cron</mat-label>
+                                <span matPrefix *ngIf="entry.isCronValid"
+                                    matTooltip=" {{ 'cron.validCron' | translate }}">
+                                    <mat-icon>done</mat-icon> &nbsp;
+                                </span>
+                                <span matPrefix *ngIf="!entry.isCronValid"
+                                    matTooltip=" {{ 'cron.invalidCron' | translate }}">
+                                    <mat-icon color="warn">close</mat-icon> &nbsp;
+                                </span>
                                 <input type="text" matInput
                                     [disabled]="entry.isArmansStartScript || entry.isArmansMountingPoint || isSaving"
-                                    [(ngModel)]="entry.model.cron">
+                                    (ngModelChange)="entry.onCronChange($event)" [(ngModel)]="entry.model.cron">
                             </mat-form-field>
+                            <!-- <span *ngIf="entry.isCronValid">OK</span>
+                            <span *ngIf="!entry.isCronValid">NOK</span> -->
                         </div>
 
                         <div class="col-6-sm">

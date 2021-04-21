@@ -11,9 +11,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { CronComponent } from './cron.component';
 import { CronService } from 'src/app/services/cron.service';
-import { ODataService } from 'src/app/services/odata.service';
 import { SkeletonModule } from 'primeng/skeleton';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -26,6 +26,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     MatInputModule,
     SkeletonModule,
+    MatTooltipModule,
     MatFormFieldModule,
     MatProgressBarModule,
     MatIconModule,

@@ -13,6 +13,11 @@
         </div>
         <div class="col-9-sm" style="padding-top:10px">
             <div style="float:right;">
+                <a href="https://crontab.guru/" matTooltip="{{ 'cron.cronGenerator' | translate }}" target="_blank">
+                    <button mat-stroked-button>
+                        <mat-icon>help</mat-icon>
+                    </button>
+                </a>
                 <button mat-stroked-button [disabled]="isSaving" (click)="onAddClick()">
                     <mat-icon>add</mat-icon>
                 </button>

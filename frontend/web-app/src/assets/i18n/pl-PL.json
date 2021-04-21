@@ -57,6 +57,7 @@
 	},
 	"cron": {
 		"cronCommands": "Komendy Cron",
+		"cronGenerator": "Generator Cron",
 		"command": "Komenda",
 		"armnasStartScript": "Skrypt startowy Armnas",
 		"armnasMountingPoint": "Punkt montujący Armnas"

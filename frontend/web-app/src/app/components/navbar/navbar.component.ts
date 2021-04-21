@@ -1,6 +1,5 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { OrderByObject } from 'angular-odata';
 import { Subscription } from 'rxjs';
 import { Message } from 'src/app/models/message.model';
 import { AppService } from 'src/app/services/app.service';
@@ -19,6 +18,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public authSub: Subscription;
   public newMessages: Message[] = [];
   public isMessagesIconDisabled = false;
+  public messagesAutoRefresh: any; // NodeJS.Timeout
+  private readonly autoRefreshInterval = 10000;
 
   constructor(
     public readonly translate: TranslateService,
@@ -41,10 +42,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.authSub = this.authService.onIsAuthorizedChange.subscribe(async (val) => {
       if (val) await this.refresh();
     });
+    this.messagesAutoRefresh = setInterval(async () => await this.refresh(), this.autoRefreshInterval);
   }
 
   public async ngOnDestroy(): Promise<void> {
     this.authSub.unsubscribe();
+    if (this.messagesAutoRefresh)
+      clearInterval(this.messagesAutoRefresh);
   }
 
   public async onDeleteMessageClick(msg: Message) {
@@ -77,7 +81,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   private async refresh(): Promise<void> {
     const odataMessages = this.odata.messages.entities();
-    this.isMessagesIconDisabled = false;
     this.newMessages = await odataMessages
       .filter({ hasBeenRead: false })
       .top(10)
@@ -85,6 +88,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
       .toPromise()
       .then(c => c.entities);
     this.newMessages = this.newMessages.reverse();
+    if (this.newMessages.length > 0)
+      this.isMessagesIconDisabled = false;
   }
 
   private setWinterTime(): void {

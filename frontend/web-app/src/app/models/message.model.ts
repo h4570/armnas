@@ -1,14 +1,8 @@
-export enum MessageType {
-    information,
-    warning,
-    error
-}
-
 export interface Message {
     id: number;
     shortName: string;
     tooltip: string;
-    type: MessageType;
+    type: 'Information' | 'Warning' | 'Error';
     hasBeenRead: boolean;
     author: string;
     date: Date;

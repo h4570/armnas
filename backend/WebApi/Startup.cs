@@ -64,6 +64,7 @@ namespace WebApi
                     .Filter()
                     .Count()
                     .OrderBy()
+                    .SetMaxTop(100)
                 );
             services.AddSwaggerGen(c =>
             {

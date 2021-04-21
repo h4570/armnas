@@ -1,5 +1,4 @@
 ### Roadmap
-- Last 20 messages
 - Installation
 - Messages example
 - Documentation

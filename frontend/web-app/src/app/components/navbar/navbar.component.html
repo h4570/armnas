@@ -97,9 +97,9 @@
 
           <span mat-menu-item *ngFor="let msg of newMessages" (click)="onDeleteMessageClick(msg)"
             matTooltip="{{msg.shortName}} - {{msg.tooltip}} ({{msg.date | date: 'dd.MM.yyyy HH:mm'}})">
-            <mat-icon *ngIf="msg.type === MessageType.information">info</mat-icon>
-            <mat-icon *ngIf="msg.type === MessageType.warning">warning</mat-icon>
-            <mat-icon color="warn" *ngIf="msg.type === MessageType.error">error</mat-icon>
+            <mat-icon *ngIf="msg.type === 'Information'">info</mat-icon>
+            <mat-icon *ngIf="msg.type === 'Warning'">warning</mat-icon>
+            <mat-icon color="warn" *ngIf="msg.type === 'Error'">error</mat-icon>
             {{msg.shortName}}
           </span>
 

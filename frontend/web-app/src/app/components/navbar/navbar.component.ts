@@ -1,7 +1,8 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { OrderByObject } from 'angular-odata';
 import { Subscription } from 'rxjs';
-import { Message, MessageType } from 'src/app/models/message.model';
+import { Message } from 'src/app/models/message.model';
 import { AppService } from 'src/app/services/app.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ODataService } from 'src/app/services/odata.service';
@@ -12,9 +13,6 @@ import { ODataService } from 'src/app/services/odata.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit, OnDestroy {
-
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  public MessageType: typeof MessageType = MessageType;
 
   public isWinterTime = true;
   public isScreenSmall: boolean;
@@ -82,9 +80,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.isMessagesIconDisabled = false;
     this.newMessages = await odataMessages
       .filter({ hasBeenRead: false })
+      .top(10)
       .get()
       .toPromise()
       .then(c => c.entities);
+    this.newMessages = this.newMessages.reverse();
   }
 
   private setWinterTime(): void {

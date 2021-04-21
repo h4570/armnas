@@ -103,7 +103,7 @@ namespace OSCommander
             return text.ToLower() switch
             {
                 "@yearly" => true,
-                "@annually	" => true,
+                "@annually" => true,
                 "@monthly" => true,
                 "@weekly" => true,
                 "@daily" => true,

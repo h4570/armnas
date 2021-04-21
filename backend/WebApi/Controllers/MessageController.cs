@@ -42,7 +42,6 @@ namespace WebApi.Controllers
         ///                 A concurrency violation occurs when an unexpected number of rows are affected during save.
         ///                 This is usually because the data in the database has been modified since it was loaded into memory.</exception>
         [HttpPost]
-        [Authorize]
         [EnableQuery]
         public async Task<IActionResult> Post([FromBody] MessageODataHack payload)
         {
@@ -50,12 +49,13 @@ namespace WebApi.Controllers
                 return BadRequest("Please put a valid object in request body.");
             var fixedPayload = new Message(payload) // hack, please check MessageODataHack summary.
             {
+                Id = 0,
                 HasBeenRead = false,
                 Date = DateTime.Now
             };
             await _context.Messages.AddAsync(fixedPayload);
             await _context.SaveChangesAsync();
-            return Created(payload);
+            return Created(fixedPayload);
         }
 
         /// <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException">A concurrency violation is encountered while saving to the database.

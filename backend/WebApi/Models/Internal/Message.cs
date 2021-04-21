@@ -46,6 +46,7 @@ namespace WebApi.Models.Internal
         }
 
     }
+
     /// <summary>
     /// Sandro: You can think, WTF is that?
     /// Why just not use one Message class like Partition class?

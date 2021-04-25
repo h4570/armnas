@@ -8,9 +8,22 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="Configuration.cs" />
+      <Compile Remove="Program.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="armnas.db" />
+    </ItemGroup>
+
+    <ItemGroup>
         <AssemblyAttribute Include="WebApi.Controllers.AppInfoAttribute">
             <_Parameter1>$(Version)</_Parameter1>
         </AssemblyAttribute>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Program.cs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -45,9 +58,13 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="armnas.db">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
+      <Resource Include="armnas.db">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+      <Resource Include="Configuration.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Update="start.sh">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

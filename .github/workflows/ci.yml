@@ -39,8 +39,13 @@ jobs:
       uses: einaregilsson/build-number@v3
       with:
         token: ${{secrets.github_token}}   
-
-    - name: Build
+    
+    - name: Test
+      run: |
+        echo $new_tag
+        echo $BUILD_NUMBER
+    
+    - name: Publish
       run: dotnet publish --no-restore -c Release /p:version=$new_tag /p:build=$BUILD_NUMBER --output "./publish"
       
     - name: Upload a Build Artifact
@@ -60,7 +65,7 @@ jobs:
         with:
           testcommand: run test:ci
           mocha: true
-          working-directory: ./frontend/web-app
+          working_directory: ./frontend/web-app
       
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.3

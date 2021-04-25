@@ -40,7 +40,7 @@ jobs:
       
       - name: Change directory
         run: |
-          cd fronted/web-app
+          cd frontend/web-app
       
       - name: Angular Full CI
         uses: colbyhill21/angular-full-ci/@v1.0

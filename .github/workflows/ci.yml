@@ -16,9 +16,6 @@ jobs:
     
     - name: Git Tag generator
       uses: ChloePlanet/github-tag-action@2.0.0
-      
-    - name: Get Git tag
-      uses: little-core-labs/get-git-tag@v3.0.2
     
     - name: Change directory
       run: |
@@ -43,8 +40,11 @@ jobs:
         echo $GIT_TAG_NAME
         echo $GITHUB_RUN_ID
     
+    - name: Get Git tag
+      uses: little-core-labs/get-git-tag@v3.0.2
+    
     - name: Publish
-      run: dotnet publish --no-restore -c Release /p:version=$new_tag /p:build=$GITHUB_RUN_ID --output "./publish"
+      run: dotnet publish --no-restore -c Release /p:version=$GIT_TAG_NAME /p:build=$GITHUB_RUN_ID --output "./publish"
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.3
@@ -66,7 +66,7 @@ jobs:
           
       - name: Install Angular
         run: |
-          npm install @angul/cli -g
+          npm install @angular/cli -g
           
       - name: Build
         run: |

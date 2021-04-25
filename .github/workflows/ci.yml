@@ -61,7 +61,7 @@ jobs:
         with:
           testcommand: run test:ci
           mocha: true
-          working_directory: frontend/web-app
+          entryPoint: frontend/web-app
       
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.3

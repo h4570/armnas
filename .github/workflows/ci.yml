@@ -20,10 +20,6 @@ jobs:
       with:
         default_bump: patch
         github_token: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Change directory
-      run: |
-        cd backend/WebApi
         
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
@@ -39,31 +35,21 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     
-   # - name: Get Git tag
-   #   uses: little-core-labs/get-git-tag@v3.0.2
-   #   with:
-   #     tag_name: ${{ steps.tag_version.outputs.new_tag }}
-    
     - name: Publish
       run: dotnet publish --no-restore -c Release /p:version=${{ steps.tag_version.outputs.new_version }} /p:build=$GITHUB_RUN_ID --output "./publish"
-        
+      working-directory: ./backend/WebApi/
+      
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.3
       with:
         name: web-api
         path: ./backend/WebApi/publish
 
-    - name: EchoTest
-      run: |
-        echo $GIT_TAG_NAME
-        echo $GITHUB_RUN_ID
-        
   build_angular:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      
       
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.1.5

@@ -14,8 +14,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     
-    - name: Git Tag generator
-      uses: ChloePlanet/github-tag-action@2.0.0
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v5.5
+      with:
+        default_bump: patch
+        github_token: ${{ secrets.GITHUB_TOKEN }}
     
     - name: Change directory
       run: |
@@ -35,23 +39,25 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     
-    - name: EchoTest
-      run: |
-        echo $GIT_TAG_NAME
-        echo $GITHUB_RUN_ID
-    
-    - name: Get Git tag
-      uses: little-core-labs/get-git-tag@v3.0.2
+   # - name: Get Git tag
+   #   uses: little-core-labs/get-git-tag@v3.0.2
+   #   with:
+   #     tag_name: ${{ steps.tag_version.outputs.new_tag }}
     
     - name: Publish
-      run: dotnet publish --no-restore -c Release /p:version=$GIT_TAG_NAME /p:build=$GITHUB_RUN_ID --output "./publish"
-      
+      run: dotnet publish --no-restore -c Release /p:version=${{ steps.tag_version.outputs.new_version }} /p:build=$GITHUB_RUN_ID --output "./publish"
+        
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.3
       with:
         name: web-api
         path: ./backend/WebApi/publish
 
+    - name: EchoTest
+      run: |
+        echo $GIT_TAG_NAME
+        echo $GITHUB_RUN_ID
+        
   build_angular:
     runs-on: ubuntu-latest
     steps:
@@ -71,6 +77,7 @@ jobs:
       - name: Build
         run: |
           cd frontend/web-app
+          npm ci
           ng build --configuration=production --output-hashing=all --output-path=./dist
       
       - name: Upload a Build Artifact

@@ -44,17 +44,19 @@ namespace OSCommanderTests
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
+        /// <exception cref="T:System.ArgumentNullException">Thrown when the collection is null</exception>
         [Fact]
         public void GetTest_Bad_EmptyResult()
         {
-            Assert.Throws<CommandResponseParsingException>(() => _empty.Get());
+            var res = _empty.Get();
+            Assert.Empty(res);
         }
 
         /// <exception cref="T:OSCommander.CommandResponseParsingException">If there is command response, but parsing will fail.</exception>
         [Fact]
         public void GetTest_Bad_Exception()
         {
-            Assert.Throws<CommandFailException>(() => _exception.Get());
+            Assert.Throws<CommandResponseParsingException>(() => _exception.Get());
         }
 
         // ---

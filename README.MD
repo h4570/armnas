@@ -1,4 +1,5 @@
 ### Roadmap
+- CI/CD
 - Installation
 - Messages example
 - Documentation

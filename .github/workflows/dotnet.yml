@@ -1,0 +1,49 @@
+name: .NET
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build_net:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+    - uses: actions/checkout@v2
+    
+    - name: Change directory
+      run: |
+        cd backend/WebApi
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+  build_angular:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+      - uses: actions/checkout@v2
+      
+      - name: Change directory
+        run: |
+          cd fronted/web-app
+      
+      - name: Angular Full CI
+        uses: colbyhill21/angular-full-ci/@v1.0
+        with:
+          testcommand: run test:ci
+          mocha: true

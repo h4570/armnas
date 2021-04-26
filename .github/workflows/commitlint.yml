@@ -2,12 +2,10 @@ name: Lint Commit Messages
 on: [pull_request]
 
 jobs:
-  commitlint:
+  commit_lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v3
-        with:
-          failOnWarnings: true

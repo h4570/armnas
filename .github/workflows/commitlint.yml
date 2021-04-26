@@ -16,7 +16,7 @@ jobs:
         uses: wagoid/commitlint-github-action@v3
         with:
           failOnWarnings: false
-        #continue-on-error: true
+        continue-on-error: true
         
       - name: Add lint comment
         uses: unsplash/comment-on-pr@master

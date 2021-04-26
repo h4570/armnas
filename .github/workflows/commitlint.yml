@@ -13,14 +13,6 @@ jobs:
           
       - name: Lint commit
         id: linter
-        uses: wagoid/commitlint-github-action@v3
+        uses: wagoid/commitlint-github-action@v2.0.3
         with:
           failOnWarnings: false
-        continue-on-error: true
-        
-      - name: Add lint comment
-        uses: unsplash/comment-on-pr@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          msg: ${{ steps.linter.outputs.results }}

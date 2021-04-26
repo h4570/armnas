@@ -56,22 +56,34 @@ jobs:
         ng build --configuration=production --output-hashing=all --output-path=./dist
       working-directory: ./frontend/web-app
 
-    - name: Upload .NET artifact
-      uses: actions/upload-artifact@v2.2.3
-      with:
-        name: web-api
-        path: ./backend/WebApi/publish
+    #- name: Upload .NET artifact
+    #  uses: actions/upload-artifact@v2.2.3
+    #  with:
+    #    name: web-api
+    #    path: ./backend/WebApi/publish
 
-    - name: Upload Angular artifact
-      uses: actions/upload-artifact@v2.2.3
+    #- name: Upload Angular artifact
+    #  uses: actions/upload-artifact@v2.2.3
+    #  with:
+    #    name: web-app
+    #    path: ./frontend/web-app/dist
+       
+    - name: Create .NET artifact (zip)
+      uses: TheDoctor0/zip-release@0.4.1
       with:
-        name: web-app
-        path: ./frontend/web-app/dist
+        filename: web-api.zip
+        path: ./backend/WebApi/publish
         
-    - name: Create a Release
-      uses: ncipollo/release-action@v1
+    - name: Create Angular artifact (zip)
+      uses: TheDoctor0/zip-release@0.4.1
       with:
-        artifacts: "web-app,web-api"
+        filename: web-app.zip
+        path: ./frontend/web-app/dist
+      
+    - name: Create a Release
+      uses: ncipollo/release-action@v1.8.4
+      with:
+        artifacts: web-app.zip,web-api.zip
         tag: ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
         name: Release ${{ steps.tag_version.outputs.new_tag }}

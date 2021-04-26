@@ -27,7 +27,14 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-        
+
+    - name: Bump version and push tag
+      id: tag_version
+      uses: mathieudutour/github-tag-action@v5.5
+      with:
+        default_bump: patch
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Restore dependencies
       run: dotnet restore
       
@@ -50,13 +57,6 @@ jobs:
       run: |
         ng build --configuration=production --output-hashing=all --output-path=./dist
       working-directory: ./frontend/web-app
-
-    - name: Bump version and push tag
-      id: tag_version
-      uses: mathieudutour/github-tag-action@v5.5
-      with:
-        default_bump: patch
-        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload .NET artifact
       uses: actions/upload-artifact@v2.2.3

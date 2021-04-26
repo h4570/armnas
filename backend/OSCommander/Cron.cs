@@ -31,7 +31,7 @@ namespace OSCommander
         /// <param name="user">Cron user</param>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
-        public void Add(string cron, string command, string user = "root")
+        public void Add(string cron, string command, string user = "armnas")
         {
             command = command.Replace("\"", "\\\"");
             _commandRepo.Execute($"(crontab -u {user} -l ; echo \"{cron} {command}\") | crontab -u {user} -", true);
@@ -44,7 +44,7 @@ namespace OSCommander
         /// <param name="user">Cron user</param>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
-        public void Remove(string command, string user = "root")
+        public void Remove(string command, string user = "armnas")
         {
             _commandRepo.Execute($"crontab -u {user} -l | grep -v '{command}' | crontab -u {user} -", true);
         }
@@ -56,7 +56,7 @@ namespace OSCommander
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.Exceptions.CronParseException">Wrapper exception for Cron parsing fail.</exception>
-        public IEnumerable<CronEntry> GetAll(string user = "root")
+        public IEnumerable<CronEntry> GetAll(string user = "armnas")
         {
             var crontab = _commandRepo.Execute($"crontab -u {user} -l | grep -v ^\\#.");
             try
@@ -121,7 +121,7 @@ namespace OSCommander
         /// <param name="user">Cron user</param>
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
-        public bool Check(string cron, string command, string user = "root")
+        public bool Check(string cron, string command, string user = "armnas")
         {
             var res = _commandRepo.Execute($"crontab -u {user} -l | grep -c '{cron} {command}'");
             try

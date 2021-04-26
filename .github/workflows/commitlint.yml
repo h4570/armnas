@@ -5,8 +5,22 @@ jobs:
   commit_lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+    
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v3
-        continue-on-error: true
+          
+      - name: Lint commit
+        id: linter
+        uses: wagoid/commitlint-github-action@v3
+        with:
+          failOnWarnings: false
+        #continue-on-error: true
+        
+      - name: Add lint comment
+        uses: unsplash/comment-on-pr@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          msg: ${{ steps.linter.outputs.results }}

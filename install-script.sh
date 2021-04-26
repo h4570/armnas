@@ -263,10 +263,13 @@ step_9() {
   usermod -aG debian-transmission armnas
   jq '."incomplete-dir-enabled"=true' /etc/transmission-daemon/settings.json > /etc/transmission-daemon/settings.json
   jq '."rpc-authentication-required"=false' /etc/transmission-daemon/settings.json > /etc/transmission-daemon/settings.json
-  jq ".\"rpc-host-whitelist\"=$web_app_ip_domain" /etc/transmission-daemon/settings.json > /etc/transmission-daemon/settings.json
+  jq ".\"rpc-host-whitelist\"=\"$web_app_ip_domain\"" /etc/transmission-daemon/settings.json > /etc/transmission-daemon/settings.json
   jq '."rpc-whitelist-enabled"=false' /etc/transmission-daemon/settings.json > /etc/transmission-daemon/settings.json
   ufw allow 9091
+  chown debian-transmission /etc/transmission-daemon/settings.json 
+  chmod 755 /etc/transmission-daemon/settings.json
   systemctl enable transmission-daemon
+  systemctl start transmission-daemon
 }
 
 #==== Start

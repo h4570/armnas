@@ -1,0 +1,58 @@
+name: Full CI
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+jobs:
+
+  build_net:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+        
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    
+    - name: Publish
+      run: dotnet publish --no-restore -c Release /p:version=0.0.0 /p:build=1337 --output "./publish"
+      working-directory: ./backend/WebApi/
+
+  build_angular:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.5
+        with:
+          node-version: 14.x
+          
+      - name: Install Angular
+        run: |
+          npm install @angular/cli -g
+
+      - name: Install dependencies
+        run: |
+          npm ci
+        working-directory: ./frontend/web-app
+
+      - name: Build
+        run: |
+          ng build --configuration=production --output-hashing=all --output-path=./dist
+        working-directory: ./frontend/web-app

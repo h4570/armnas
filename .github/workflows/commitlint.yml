@@ -9,3 +9,4 @@ jobs:
         with:
           fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v3
+        continue-on-error: true

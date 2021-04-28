@@ -141,18 +141,20 @@ step_5() {
     mkdir /var/www/armnas
   fi
   
-  if [ -d /var/www/armnas/frontend/ ]; then
+  if [ -d /var/www/armnas/frontend/web-app ]; then
     rm -rf /var/www/armnas/frontend
   fi
   mkdir /var/www/armnas/frontend
 
-  if [ -d /var/www/armnas/backend/ ]; then
-    mv /var/www/armnas/backend/armnas.db /var/www/armnas/
+  if [ -d /var/www/armnas/backend/WebApi ]; then
+    mv /var/www/armnas/backend/WebApi/armnas.db /var/www/armnas/
     rm -rf /var/www/armnas/backend
 	mkdir /var/www/armnas/backend
-	mv /var/www/armnas/armnas.db /var/www/armnas/backend/
+	mkdir /var/www/armnas/WebApi
+	mv /var/www/armnas/armnas.db /var/www/armnas/backend/WebApi/
   else
     mkdir /var/www/armnas/backend
+	mkdir /var/www/armnas/WebApi
   fi
 
   # --- Angular
@@ -173,9 +175,7 @@ step_5() {
 
   # --- .NET
   
-  cd /var/www/armnas/backend
-  mkdir WebApi
-  cd WebApi
+  cd /var/www/armnas/backend/WebApi
   curl -s https://api.github.com/repos/h4570/armnas/releases/latest \
   | grep "browser_download_url.*web-api.zip" \
   | cut -d : -f 2,3 \

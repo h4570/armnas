@@ -46,6 +46,8 @@ show_steps() {
   set_step_color $step 9
   echo "👉 Install Transmission"
   set_step_color $step 10
+  echo "👉 Install SSH (optional)"
+  set_step_color $step 11
   echo "👉 Finish"
   color_cyan
 }
@@ -272,6 +274,12 @@ step_9() {
   systemctl start transmission-daemon
 }
 
+step_10() {
+  if $install_ssh ; then
+    apt-get install -y openssh-server
+  fi
+}
+
 #==== Start
 
 #== Get variables
@@ -359,10 +367,22 @@ while true; do
 done
 
 while true; do
-  read -p "Install .NET Core SDK/Runtime which is needed only for armnas development? (y/N): " yn
+  read -p "Install .NET SDK/Runtime which is needed for armnas development? (y/N): " yn
   case $yn in
     [Yy]* ) install_sdk_runtime=true; break;;
     [Nn]* ) install_sdk_runtime=false; break;;
+    * ) 
+	  color_cyan
+	  echo "Please answer yes or no."
+      color_magenta;;
+  esac
+done
+
+while true; do
+  read -p "Install SSH server? (y/N): " yn
+  case $yn in
+    [Yy]* ) install_ssh=true; break;;
+    [Nn]* ) install_ssh=false; break;;
     * ) 
 	  color_cyan
 	  echo "Please answer yes or no."
@@ -398,6 +418,9 @@ step_8
 
 show_steps 9
 step_9
+
+show_steps 10
+step_10
 
 #=====
 

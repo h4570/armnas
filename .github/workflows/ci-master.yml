@@ -60,14 +60,12 @@ jobs:
       uses: TheDoctor0/zip-release@0.4.1
       with:
         filename: web-api.zip
-        path: ./backend/WebApi/publish
         directory: ./backend/WebApi/publish
         
     - name: Create Angular artifact (zip)
       uses: TheDoctor0/zip-release@0.4.1
       with:
         filename: web-app.zip
-        path: ./frontend/web-app/dist
         directory: ./frontend/web-app/dist
       
     - name: Create a Release

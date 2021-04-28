@@ -16,11 +16,33 @@ namespace OSCommander.Services
     public class SambaService : ISambaService
     {
 
+        private readonly Service _serviceService;
+
         private readonly CommandRepository _commandRepo;
-        public SambaService(SshCredentials ssh) { _commandRepo = new CommandRepository(ssh); }
-        public SambaService() { _commandRepo = new CommandRepository(); }
-        public SambaService(ILogger logger) { _commandRepo = new CommandRepository(logger); }
-        public SambaService(ILogger logger, SshCredentials ssh) { _commandRepo = new CommandRepository(logger, ssh); }
+
+        public SambaService(SshCredentials ssh)
+        {
+            _commandRepo = new CommandRepository(ssh);
+            _serviceService = new Service(ssh);
+        }
+
+        public SambaService()
+        {
+            _commandRepo = new CommandRepository();
+            _serviceService = new Service();
+        }
+
+        public SambaService(ILogger logger)
+        {
+            _commandRepo = new CommandRepository(logger);
+            _serviceService = new Service(logger);
+        }
+
+        public SambaService(ILogger logger, SshCredentials ssh)
+        {
+            _commandRepo = new CommandRepository(logger, ssh);
+            _serviceService = new Service(logger, ssh);
+        }
 
         /// <summary>
         /// Get content of smb.conf file
@@ -54,14 +76,14 @@ namespace OSCommander.Services
                 sb.Append('\n');
                 _commandRepo.Execute("cp -f /etc/samba/smb.conf /etc/samba/smb.conf.bak", true);
                 _commandRepo.Execute($"echo \"{sb}\" > /etc/samba/smb.conf", true);
-                _commandRepo.Execute("systemctl restart smbd", true);
+                _serviceService.Restart("smbd");
             }
             catch (Exception ex)
             {
                 try
                 {
                     _commandRepo.Execute("cp -f /etc/samba/smb.conf.bak /etc/samba/smb.conf", true);
-                    _commandRepo.Execute("systemctl restart smbd", true);
+                    _serviceService.Restart("smbd");
                 }
                 catch (Exception)
                 {

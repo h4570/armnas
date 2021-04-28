@@ -251,7 +251,7 @@ step_7() {
   sleep 5s
 
   # Add main user to armnas
-  curl --fail --header "Content-Type: application/json" \
+  curl --header "Content-Type: application/json" \
     --request POST \
     --data "{\"id\":0,\"login\":\"admin\",\"password\":\"$armnas_password\"}" \
     http://$web_api_ip_domain/user/register

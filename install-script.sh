@@ -233,7 +233,7 @@ http://$web_app_ip_domain {
 }
 
 http://$web_api_ip_domain {
-    reverse_proxy localhost:5000
+    reverse_proxy localhost:5070
 }" > /etc/caddy/Caddyfile
   
   systemctl reload caddy

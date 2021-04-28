@@ -148,9 +148,9 @@ step_5() {
     /bin/su -c "/var/www/armnas/backend/WebApi/stop.sh" - armnas
     mv /var/www/armnas/backend/WebApi/armnas.db /var/www/armnas/
     rm -rf /var/www/armnas/backend
-	mkdir /var/www/armnas/backend
-	mkdir /var/www/armnas/backend/WebApi
-	mv /var/www/armnas/armnas.db /var/www/armnas/backend/WebApi/
+	  mkdir /var/www/armnas/backend
+	  mkdir /var/www/armnas/backend/WebApi
+	  mv /var/www/armnas/armnas.db /var/www/armnas/backend/WebApi/
   else
     mkdir /var/www/armnas/backend
 	  mkdir /var/www/armnas/backend/WebApi
@@ -256,7 +256,7 @@ step_8() {
   echo "samba-common samba-common/do_debconf boolean true" | debconf-set-selections
   apt-get install samba -y
   ufw allow samba
-  setfacl -R -m u:armnas:rwx /etc/samba
+  setfacl -R -m u:armnas:rwx /etc/samba/
 }
 
 step_9() {
@@ -268,11 +268,11 @@ step_9() {
   echo "$( jq ".\"rpc-host-whitelist\"=\"$web_app_ip_domain\"" /etc/transmission-daemon/settings.json )" > /etc/transmission-daemon/settings.json
   echo "$( jq '."rpc-whitelist-enabled"=false' /etc/transmission-daemon/settings.json )" > /etc/transmission-daemon/settings.json
   ufw allow 9091
-  chown debian-transmission /etc/transmission-daemon/settings.json 
-  chmod 755 /etc/transmission-daemon/settings.json
-  setfacl -R -m u:armnas:rwx /etc/transmission-daemon
   systemctl enable transmission-daemon
   systemctl start transmission-daemon
+  chown debian-transmission /etc/transmission-daemon/settings.json 
+  chmod 755 /etc/transmission-daemon/settings.json
+  setfacl -R -m u:armnas:rwx /etc/transmission-daemon/
 }
 
 step_10() {

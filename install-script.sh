@@ -150,11 +150,11 @@ step_5() {
     mv /var/www/armnas/backend/WebApi/armnas.db /var/www/armnas/
     rm -rf /var/www/armnas/backend
 	mkdir /var/www/armnas/backend
-	mkdir /var/www/armnas/WebApi
+	mkdir /var/www/armnas/backend/WebApi
 	mv /var/www/armnas/armnas.db /var/www/armnas/backend/WebApi/
   else
     mkdir /var/www/armnas/backend
-	mkdir /var/www/armnas/WebApi
+	  mkdir /var/www/armnas/backend/WebApi
   fi
 
   # --- Angular

@@ -55,30 +55,20 @@ jobs:
       run: |
         ng build --configuration=production --output-hashing=all --output-path=./dist
       working-directory: ./frontend/web-app
-
-    #- name: Upload .NET artifact
-    #  uses: actions/upload-artifact@v2.2.3
-    #  with:
-    #    name: web-api
-    #    path: ./backend/WebApi/publish
-
-    #- name: Upload Angular artifact
-    #  uses: actions/upload-artifact@v2.2.3
-    #  with:
-    #    name: web-app
-    #    path: ./frontend/web-app/dist
        
     - name: Create .NET artifact (zip)
       uses: TheDoctor0/zip-release@0.4.1
       with:
         filename: web-api.zip
         path: ./backend/WebApi/publish
+        directory: ./backend/WebApi/publish
         
     - name: Create Angular artifact (zip)
       uses: TheDoctor0/zip-release@0.4.1
       with:
         filename: web-app.zip
         path: ./frontend/web-app/dist
+        directory: ./frontend/web-app/dist
       
     - name: Create a Release
       uses: ncipollo/release-action@v1.8.4

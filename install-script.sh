@@ -46,6 +46,8 @@ show_steps() {
   set_step_color $step 9
   echo "👉 Install Transmission"
   set_step_color $step 10
+  echo "👉 Install SSH (optional)"
+  set_step_color $step 11
   echo "👉 Finish"
   color_cyan
 }
@@ -139,18 +141,20 @@ step_5() {
     mkdir /var/www/armnas
   fi
   
-  if [ -d /var/www/armnas/frontend/ ]; then
+  if [ -d /var/www/armnas/frontend/web-app ]; then
     rm -rf /var/www/armnas/frontend
   fi
   mkdir /var/www/armnas/frontend
 
-  if [ -d /var/www/armnas/backend/ ]; then
-    mv /var/www/armnas/backend/armnas.db /var/www/armnas/
+  if [ -d /var/www/armnas/backend/WebApi ]; then
+    mv /var/www/armnas/backend/WebApi/armnas.db /var/www/armnas/
     rm -rf /var/www/armnas/backend
 	mkdir /var/www/armnas/backend
-	mv /var/www/armnas/armnas.db /var/www/armnas/backend/
+	mkdir /var/www/armnas/backend/WebApi
+	mv /var/www/armnas/armnas.db /var/www/armnas/backend/WebApi/
   else
     mkdir /var/www/armnas/backend
+	  mkdir /var/www/armnas/backend/WebApi
   fi
 
   # --- Angular
@@ -171,9 +175,7 @@ step_5() {
 
   # --- .NET
   
-  cd /var/www/armnas/backend
-  mkdir WebApi
-  cd WebApi
+  cd /var/www/armnas/backend/WebApi
   curl -s https://api.github.com/repos/h4570/armnas/releases/latest \
   | grep "browser_download_url.*web-api.zip" \
   | cut -d : -f 2,3 \
@@ -206,6 +208,9 @@ step_5() {
   if ! crontab -u armnas -l | grep -c '@reboot /var/www/armnas/backend/WebApi/start.sh'; then
     echo "@reboot /var/www/armnas/backend/WebApi/start.sh" | crontab -u armnas -
   fi
+  
+  # Run as armnas
+  /bin/su -c "/var/www/armnas/backend/WebApi/start.sh" - armnas
 
 }
 
@@ -233,7 +238,7 @@ http://$web_app_ip_domain {
 }
 
 http://$web_api_ip_domain {
-    reverse_proxy localhost:5000
+    reverse_proxy localhost:5070
 }" > /etc/caddy/Caddyfile
   
   systemctl reload caddy
@@ -261,15 +266,21 @@ step_9() {
   apt-get install -y transmission-cli transmission-common transmission-daemon
   systemctl stop transmission-daemon
   usermod -aG debian-transmission armnas
-  jq '."incomplete-dir-enabled"=true' /etc/transmission-daemon/settings.json > /etc/transmission-daemon/settings.json
-  jq '."rpc-authentication-required"=false' /etc/transmission-daemon/settings.json > /etc/transmission-daemon/settings.json
-  jq ".\"rpc-host-whitelist\"=\"$web_app_ip_domain\"" /etc/transmission-daemon/settings.json > /etc/transmission-daemon/settings.json
-  jq '."rpc-whitelist-enabled"=false' /etc/transmission-daemon/settings.json > /etc/transmission-daemon/settings.json
+  echo "$( jq '."incomplete-dir-enabled"=true' /etc/transmission-daemon/settings.json )" > /etc/transmission-daemon/settings.json
+  echo "$( jq '."rpc-authentication-required"=false' /etc/transmission-daemon/settings.json )" > /etc/transmission-daemon/settings.json
+  echo "$( jq ".\"rpc-host-whitelist\"=\"$web_app_ip_domain\"" /etc/transmission-daemon/settings.json )" > /etc/transmission-daemon/settings.json
+  echo "$( jq '."rpc-whitelist-enabled"=false' /etc/transmission-daemon/settings.json )" > /etc/transmission-daemon/settings.json
   ufw allow 9091
   chown debian-transmission /etc/transmission-daemon/settings.json 
   chmod 755 /etc/transmission-daemon/settings.json
   systemctl enable transmission-daemon
   systemctl start transmission-daemon
+}
+
+step_10() {
+  if $install_ssh ; then
+    apt-get install -y openssh-server
+  fi
 }
 
 #==== Start
@@ -359,10 +370,22 @@ while true; do
 done
 
 while true; do
-  read -p "Install .NET Core SDK/Runtime which is needed only for armnas development? (y/N): " yn
+  read -p "Install .NET SDK/Runtime which is needed for armnas development? (y/N): " yn
   case $yn in
     [Yy]* ) install_sdk_runtime=true; break;;
     [Nn]* ) install_sdk_runtime=false; break;;
+    * ) 
+	  color_cyan
+	  echo "Please answer yes or no."
+      color_magenta;;
+  esac
+done
+
+while true; do
+  read -p "Install SSH server? (y/N): " yn
+  case $yn in
+    [Yy]* ) install_ssh=true; break;;
+    [Nn]* ) install_ssh=false; break;;
     * ) 
 	  color_cyan
 	  echo "Please answer yes or no."
@@ -398,6 +421,9 @@ step_8
 
 show_steps 9
 step_9
+
+show_steps 10
+step_10
 
 #=====
 

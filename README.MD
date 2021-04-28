@@ -4,7 +4,6 @@
 
 ### Roadmap
 - Installation
-  - Check why transmission's settings.json is empty after installation
   - Check if login works with password entered in installer
   - Check how to set transmission folders  
 `
@@ -13,10 +12,8 @@ https://askubuntu.com/questions/268606/transmission-daemon-permission-denied-eve
 `
   - Name install script as install.sh
   - Check & fix multiple run on install.sh
-  - Ask for SSH, setup ssh and ufw for it
   - Create uninstall.sh
   - Fix bugs on Debian x64
-  - Add login with enter button (keyboard)
 - Documentation
   - How to add message (with example)
   - How to install Armbian

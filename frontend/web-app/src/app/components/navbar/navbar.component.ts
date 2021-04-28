@@ -39,10 +39,13 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.updateIsScreenSmallVariable();
     if (this.authService.isAuthenticated)
       await this.refresh();
-    this.authSub = this.authService.onIsAuthorizedChange.subscribe(async (val) => {
+    this.authSub = this.authService.onIsAuthenticatedChange.subscribe(async (val) => {
       if (val) await this.refresh();
     });
-    this.messagesAutoRefresh = setInterval(async () => await this.refresh(), this.autoRefreshInterval);
+    this.messagesAutoRefresh = setInterval(async () => {
+      if (this.authService.isAuthenticated)
+        await this.refresh();
+    }, this.autoRefreshInterval);
   }
 
   public async ngOnDestroy(): Promise<void> {

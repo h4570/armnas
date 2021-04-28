@@ -71,7 +71,7 @@ jobs:
     - name: Create a Release
       uses: ncipollo/release-action@v1.8.4
       with:
-        artifacts: web-app.zip,web-api.zip
+        artifacts: ./frontend/web-app/dist/web-app.zip,./backend/WebApi/publish/web-api.zip
         tag: ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
         name: Release ${{ steps.tag_version.outputs.new_tag }}

@@ -44,7 +44,7 @@ namespace WebApi
             }
 
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite($"Data Source={Environment.ContentRootPath}\\{env.SqlliteDbName};")
+                options.UseSqlite($"Data Source={Environment.ContentRootPath}/{env.SqlliteDbName};")
                 );
 
             services.AddCors(options =>

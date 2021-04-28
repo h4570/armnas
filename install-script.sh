@@ -208,6 +208,9 @@ step_5() {
   if ! crontab -u armnas -l | grep -c '@reboot /var/www/armnas/backend/WebApi/start.sh'; then
     echo "@reboot /var/www/armnas/backend/WebApi/start.sh" | crontab -u armnas -
   fi
+  
+  # Run as armnas
+  /bin/su -c "/var/www/armnas/backend/WebApi/start.sh" - armnas
 
 }
 

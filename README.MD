@@ -4,7 +4,6 @@
 
 ### Roadmap
 - Installation
-  - Check why transmission's settings.json is empty after installation
   - Check if login works with password entered in installer
   - Check how to set transmission folders  
 `

@@ -166,11 +166,13 @@ namespace OSCommander
                                 Regex.Replace(partition.Size, "[^0-9.]", ""),
                                 CultureInfo.InvariantCulture
                             );
+                            var memoryInMB = (int)(pClearSize * pMultiplier);
+                            if (partition.FsType == "swap" || memoryInMB == 0) continue;
                             disk.Partitions.Add(new LsblkPartitionInfo()
                             {
                                 Name = partition.Name,
                                 MountingPoint = partition.MountPoint,
-                                MemoryInMB = (int)(pClearSize * pMultiplier),
+                                MemoryInMB = memoryInMB,
                                 Uuid = partition.Uuid
                             });
                         }

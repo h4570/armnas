@@ -15,16 +15,23 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   @Input() public refreshInterval: number;
 
+  // Static
   public distro = this.translate.instant('home.loading');
   public kernel = this.translate.instant('home.loading');
+  public ip = this.translate.instant('home.loading');
+
+  // Dynamic
   public cpuTemp = 0;
   public cpuUsage = 0;
   public ramUsage = 0;
   public osDiskUsage = 0;
-  public ip = this.translate.instant('home.loading');
   public upTime = this.translate.instant('home.loading');
-  public loading = true;
 
+  private cpuInfoFailed = false;
+  private ramInfoFailed = false;
+  private diskInfoFailed = false;
+  private uptimeFailed = false;
+  public loading = true;
   private isNgDestroyed = false;
 
   constructor(
@@ -62,10 +69,14 @@ export class SysInfoComponent implements OnInit, OnDestroy {
 
   private async loadDynamic(): Promise<void> {
     const promises: Promise<any>[] = [];
-    promises.push(this.loadCPUInfo());
-    promises.push(this.loadRAMInfo());
-    promises.push(this.loadDiskInfo());
-    promises.push(this.loadUpTime());
+    if (!this.cpuInfoFailed)
+      promises.push(this.loadCPUInfo());
+    if (!this.ramInfoFailed)
+      promises.push(this.loadRAMInfo());
+    if (!this.diskInfoFailed)
+      promises.push(this.loadDiskInfo());
+    if (!this.uptimeFailed)
+      promises.push(this.loadUpTime());
     await Promise.all(promises);
   }
 
@@ -91,6 +102,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
       this.cpuTemp = cpuInfo.temperature;
       this.cpuUsage = cpuInfo.percentageUsage;
     } catch {
+      this.cpuInfoFailed = true;
       this.cpuTemp = 0;
       this.cpuUsage = 0;
     }
@@ -102,6 +114,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
       const perc = (ramInfo.usedInMB / ramInfo.totalInMB) * 100;
       this.ramUsage = parseFloat(perc.toFixed(2));
     } catch {
+      this.ramInfoFailed = true;
       this.ramUsage = 0;
     }
   }
@@ -113,6 +126,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
       const perc = (mainDisk.usedMemoryInMB / mainDisk.memoryInMB) * 100;
       this.osDiskUsage = parseFloat(perc.toFixed(2));
     } catch {
+      this.diskInfoFailed = true;
       this.osDiskUsage = 0;
     }
   }
@@ -132,6 +146,7 @@ export class SysInfoComponent implements OnInit, OnDestroy {
       const diff = start.difference(now, 1000 * 60);
       this.upTime = `${Math.floor(diff / 60)}h ${diff % 60}m`;
     } catch {
+      this.uptimeFailed = true;
       this.upTime = this.translate.instant('common.error');
     }
   }

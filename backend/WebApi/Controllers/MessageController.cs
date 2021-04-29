@@ -41,6 +41,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException">A concurrency violation is encountered while saving to the database.
         ///                 A concurrency violation occurs when an unexpected number of rows are affected during save.
         ///                 This is usually because the data in the database has been modified since it was loaded into memory.</exception>
+        /// <exception cref="T:System.OperationCanceledException">If the <see cref="T:System.Threading.CancellationToken" /> is canceled.</exception>
         [HttpPost]
         [EnableQuery]
         public async Task<IActionResult> Post([FromBody] MessageODataHack payload)
@@ -64,6 +65,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateException">An error is encountered while saving to the database.</exception>
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        /// <exception cref="T:System.OperationCanceledException">If the <see cref="T:System.Threading.CancellationToken" /> is canceled.</exception>
         [HttpPatch]
         [Authorize]
         [EnableQuery]
@@ -76,7 +78,7 @@ namespace WebApi.Controllers
                 return BadRequest("Object with this Id was not found.");
             obj.HasBeenRead = payload.HasBeenRead;
             await _context.SaveChangesAsync();
-            return Updated(payload);
+            return Updated(obj);
         }
 
     }

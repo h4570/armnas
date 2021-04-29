@@ -49,7 +49,7 @@ namespace WebApi.Models.Internal
 
     /// <summary>
     /// Sandro: You can think, WTF is that?
-    /// Why just not use one Message class like Partition class?
+    /// Why just not use one Message?
     /// Reason: At the moment of writing this code (18.04.2021) oData had weird bug.
     /// I couldn't use a Message class as a [BodyParameter] in POST method. POST payload was always null.
     /// When I split Message class to two instances - first 'Message' for OData configuration,

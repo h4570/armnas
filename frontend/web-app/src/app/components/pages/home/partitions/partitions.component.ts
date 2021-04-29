@@ -14,6 +14,7 @@ import { PartitionService } from 'src/app/services/partition.service';
 import { FastDialogService } from 'src/app/services/fast-dialog.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DialogButtonType, DialogType } from 'src/app/components/shared/fast-dialog/fast-dialog.component';
+import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 
 @Component({
   selector: 'app-partitions',
@@ -34,6 +35,7 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     public readonly appService: AppService,
     public readonly translate: TranslateService,
     private readonly snackbar: MatSnackBar,
+    private readonly errHandler: ErrorHandlingService,
     private readonly sysInfoService: SystemInformationService,
     private readonly partitionService: PartitionService,
     private readonly fastDialog: FastDialogService,
@@ -284,11 +286,14 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     const partitions = this.odata.partitions.entities();
     if (partition.dbId) {
       const ref = partitions.entity(partition.dbId);
-      await ref.patch(payload).toPromise();
+      await ref.patch(payload)
+        .toPromise()
+        .catch(async (err: HttpErrorResponse) => { throw await this.errHandler.handleHttpError(err); });
     } else {
       const res = await partitions
         .post(payload)
-        .toPromise();
+        .toPromise()
+        .catch(async (err: HttpErrorResponse) => { throw await this.errHandler.handleHttpError(err); });
       partition.dbId = res.entity.id;
     }
   }

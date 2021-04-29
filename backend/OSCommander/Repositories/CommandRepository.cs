@@ -19,6 +19,21 @@ namespace OSCommander.Repositories
         internal CommandRepository(ILogger logger) { _logger = logger; }
         internal CommandRepository(ILogger logger, SshCredentials ssh) { _logger = logger; _ssh = ssh; }
 
+        /// <summary>
+        /// Create new file/replace existing file with given text.
+        /// </summary>
+        /// <param name="fullPath">Ex.: /etc/file.txt</param>
+        /// <param name="text">Text</param>
+        /// <returns>Stdout of Linux command</returns>
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">
+        /// If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.
+        /// </exception>
+        internal void ReplaceFileSudo(string fullPath, string text)
+        {
+            var textWithEscapedQuotas = text.Replace("\"", "\\\"");
+            Execute($"sudo bash -c 'printf \"{textWithEscapedQuotas}\" > {fullPath}'", true);
+        }
 
         /// <summary>
         /// Create new file/replace existing file with given text.

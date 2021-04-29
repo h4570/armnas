@@ -25,7 +25,7 @@ namespace OSCommander
         public void MountByUuid(string uuid, string directoryName)
         {
             _commandRepo.Execute($"mkdir -p /mnt/armnas/{directoryName}", true); // create dir
-            _commandRepo.Execute($"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{directoryName}", true);
+            _commandRepo.Execute($"sudo mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{directoryName}", true);
         }
 
         /// <summary>Mount partition. If mount directory not exist, it is automatically created.</summary>
@@ -36,7 +36,7 @@ namespace OSCommander
         public void MountByDevice(string device, string directoryName)
         {
             _commandRepo.Execute($"mkdir -p /mnt/armnas/{directoryName}", true); // create dir
-            _commandRepo.Execute($"mount -t auto {device} /mnt/armnas/{directoryName}", true);
+            _commandRepo.Execute($"sudo mount -t auto {device} /mnt/armnas/{directoryName}", true);
         }
 
         /// <summary>Unmount partition.</summary>
@@ -45,7 +45,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public void Unmount(string directoryName)
         {
-            _commandRepo.Execute($"umount /mnt/armnas/{directoryName}", true);
+            _commandRepo.Execute($"sudo umount /mnt/armnas/{directoryName}", true);
         }
 
     }

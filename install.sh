@@ -75,7 +75,7 @@ step_2() {
 }
 
 step_3() {
-  apt-get install debian-keyring unzip jq curl debian-archive-keyring ufw apt-transport-https -y
+  apt-get install debian-keyring unzip jq curl debian-archive-keyring ntfs-3g ufw apt-transport-https -y
   # Check if caddy repo was already added. Add if not
   if [ ! -f /etc/apt/sources.list.d/caddy-stable.list ]; then
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -
@@ -256,7 +256,7 @@ step_8() {
   echo "samba-common samba-common/do_debconf boolean true" | debconf-set-selections
   apt-get install samba -y
   ufw allow samba
-  setfacl -R -m u:armnas:rwx /etc/samba/
+  setfacl -R -m u:armnas:rwx /etc/samba
 }
 
 step_9() {
@@ -268,11 +268,13 @@ step_9() {
   echo "$( jq ".\"rpc-host-whitelist\"=\"$web_app_ip_domain\"" /etc/transmission-daemon/settings.json )" > /etc/transmission-daemon/settings.json
   echo "$( jq '."rpc-whitelist-enabled"=false' /etc/transmission-daemon/settings.json )" > /etc/transmission-daemon/settings.json
   ufw allow 9091
-  systemctl enable transmission-daemon
-  systemctl start transmission-daemon
   chown debian-transmission /etc/transmission-daemon/settings.json 
   chmod 755 /etc/transmission-daemon/settings.json
-  setfacl -R -m u:armnas:rwx /etc/transmission-daemon/
+  # This unfortunately not work, because transmission service is changing 
+  # directory permissions every start :/
+  # setfacl -R -m u:armnas:rwx /etc/transmission-daemon
+  systemctl enable transmission-daemon
+  systemctl start transmission-daemon
 }
 
 step_10() {

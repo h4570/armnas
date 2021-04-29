@@ -14,6 +14,8 @@ https://askubuntu.com/questions/268606/transmission-daemon-permission-denied-eve
   - Test Raspbian
 - Documentation
   - How to add message (with example)
+  - How to check logs
+  - Add info: Devices must have partitions, partitions must have UUID (create partition with parted and format `mkfs.ntfs -f /dev/sdb1`)
   - How to install Armbian
     - If running on Armbian  
 `add-apt-repository ppa:transmissionbt/ppa -y`

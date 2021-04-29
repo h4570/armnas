@@ -46,10 +46,17 @@ export class TransmissionComponent implements OnInit {
 
   public async onSaveClick(): Promise<void> {
     this.isFreezed = true;
-    await this.transmissionService.updateConfig({ completedDir: this.completedDir, incompletedDir: this.incompletedDir });
-    await this.restartTransmissionService();
-    await this.getLatestConfig();
-    this.snackbar.open(this.translate.instant('common.done'), 'Ok!', { duration: 3000 });
+    try {
+      await this.transmissionService.updateConfig({ completedDir: this.completedDir, incompletedDir: this.incompletedDir });
+      await this.restartTransmissionService();
+      await this.getLatestConfig();
+      this.snackbar.open(this.translate.instant('common.done'), 'Ok!', { duration: 3000 });
+    } catch (raw) {
+      const err = raw as HttpErrorResponse;
+      const title = this.translate.instant('common.error') as string;
+      const text = [this.translate.instant(err.error) as string];
+      await this.fastDialog.open(DialogType.error, DialogButtonType.ok, title, text);
+    }
     this.isFreezed = false;
   }
 

@@ -66,16 +66,18 @@ namespace WebApi.Controllers
         /// <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException">A concurrency violation is encountered while saving to the database.
         ///                 A concurrency violation occurs when an unexpected number of rows are affected during save.
         ///                 This is usually because the data in the database has been modified since it was loaded into memory.</exception>
+        /// <exception cref="T:System.OperationCanceledException">If the <see cref="T:System.Threading.CancellationToken" /> is canceled.</exception>
         [HttpPost]
         [Authorize]
         [EnableQuery]
-        public async Task<IActionResult> Post([FromBody] Partition payload)
+        public async Task<IActionResult> Post([FromBody] PartitionODataHack payload)
         {
             if (payload == null)
                 return BadRequest("Please put valid object in request body.");
-            await _context.Partitions.AddAsync(payload);
+            var part = new Partition(payload);
+            await _context.Partitions.AddAsync(part);
             await _context.SaveChangesAsync();
-            return Created(payload);
+            return Created(part);
         }
 
         /// <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateConcurrencyException">A concurrency violation is encountered while saving to the database.
@@ -84,10 +86,11 @@ namespace WebApi.Controllers
         /// <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateException">An error is encountered while saving to the database.</exception>
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        /// <exception cref="T:System.OperationCanceledException">If the <see cref="T:System.Threading.CancellationToken" /> is canceled.</exception>
         [HttpPatch]
         [Authorize]
         [EnableQuery]
-        public async Task<IActionResult> Patch([FromBody] Partition payload, int key)
+        public async Task<IActionResult> Patch([FromBody] PartitionODataHack payload, int key)
         {
             if (payload == null || key == 0)
                 return BadRequest("Please put valid object in request body.");
@@ -97,11 +100,12 @@ namespace WebApi.Controllers
             obj.DisplayName = payload.DisplayName;
             obj.Uuid = payload.Uuid;
             await _context.SaveChangesAsync();
-            return Updated(payload);
+            return Updated(obj);
         }
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        /// <exception cref="T:System.OperationCanceledException">If the <see cref="T:System.Threading.CancellationToken" /> is canceled.</exception>
         [Authorize]
         [HttpGet("/partition/check-auto-mount/{uuid}")]
         public async Task<IActionResult> CheckAutoMount(string uuid)
@@ -114,6 +118,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        /// <exception cref="T:System.OperationCanceledException">If the <see cref="T:System.Threading.CancellationToken" /> is canceled.</exception>
         [Authorize]
         [HttpPost("/partition/enable-auto-mount/{uuid}")]
         public async Task<IActionResult> EnableAutoMount(string uuid)
@@ -126,6 +131,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        /// <exception cref="T:System.OperationCanceledException">If the <see cref="T:System.Threading.CancellationToken" /> is canceled.</exception>
         [Authorize]
         [HttpPost("/partition/disable-auto-mount/{uuid}")]
         public async Task<IActionResult> DisableAutoMount(string uuid)
@@ -141,6 +147,7 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         /// <exception cref="T:OSCommander.Exceptions.JsonParsingException">When JSON parsing fail.</exception>
+        /// <exception cref="T:System.OperationCanceledException">If the <see cref="T:System.Threading.CancellationToken" /> is canceled.</exception>
         [Authorize]
         [HttpPost("/partition/mount/{uuid}")]
         public async Task<IActionResult> Mount(string uuid)
@@ -154,6 +161,7 @@ namespace WebApi.Controllers
 
         /// <exception cref="T:System.ArgumentNullException"></exception>
         /// <exception cref="T:System.InvalidOperationException"></exception>
+        /// <exception cref="T:System.OperationCanceledException">If the <see cref="T:System.Threading.CancellationToken" /> is canceled.</exception>
         [Authorize]
         [HttpPost("/partition/unmount/{uuid}")]
         public async Task<IActionResult> Unmount(string uuid)

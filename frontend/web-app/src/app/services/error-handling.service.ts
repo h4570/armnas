@@ -5,6 +5,7 @@ import { DialogType, DialogButtonType } from '../components/shared/fast-dialog/f
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorHandlingService extends ErrorHandler {
@@ -13,6 +14,7 @@ export class ErrorHandlingService extends ErrorHandler {
         private readonly fastDialog: FastDialogService,
         private readonly translate: TranslateService,
         private readonly authService: AuthService,
+        private readonly router: Router,
     ) {
         super();
     }
@@ -50,6 +52,7 @@ export class ErrorHandlingService extends ErrorHandler {
             texts = [this.translate.instant('httpErrors.error401Subtitle') as string];
             type = DialogType.alert;
             this.authService.logout(); // Logout, when we have 401 err and token in localStorage
+            this.router.navigateByUrl('/');
             // TODO, log to external website new Error(JSON.stringify(err))
         }
         return new Promise<HttpErrorResponse>(async (res, rej) => {

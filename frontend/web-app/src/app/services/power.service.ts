@@ -15,16 +15,14 @@ export class PowerService {
         const uri = `power/off`;
         return this.http
             .get<any>(`${environment.urls.api}` + uri)
-            .toPromise()
-            .catch(async (err: HttpErrorResponse) => { throw await this.errHandler.handleHttpError(err); });
+            .toPromise();
     }
 
     public async restart(): Promise<void> {
         const uri = `power/restart`;
         return this.http
             .get<any>(`${environment.urls.api}` + uri)
-            .toPromise()
-            .catch(async (err: HttpErrorResponse) => { throw await this.errHandler.handleHttpError(err); });
+            .toPromise();
     }
 
 }

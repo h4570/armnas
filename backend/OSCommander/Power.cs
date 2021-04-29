@@ -22,7 +22,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public void PowerOff()
         {
-            _commandRepo.Execute($"halt", true);
+            _commandRepo.Execute($"sudo halt", true);
         }
 
         /// <summary>Reboot machine</summary>
@@ -30,7 +30,7 @@ namespace OSCommander
         /// Detailed information can be checked in provided logger.</exception>
         public void Restart()
         {
-            _commandRepo.Execute($"reboot now", true);
+            _commandRepo.Execute($"sudo reboot now", true);
         }
 
     }

@@ -9,7 +9,6 @@
 chgrp debian-transmission /mnt/usbel/Torrents/mytrasnmission/incomplete
 https://askubuntu.com/questions/268606/transmission-daemon-permission-denied-even-if-debian-transmission-has-root-grou
 `
-  - Create uninstall.sh
   - Test Armbian
   - Test Raspbian
 - Documentation

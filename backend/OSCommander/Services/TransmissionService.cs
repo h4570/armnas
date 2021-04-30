@@ -52,6 +52,8 @@ namespace OSCommander.Services
             {
                 var json = _commandRepo.Execute("sudo cat /etc/transmission-daemon/settings.json");
                 var obj = JObject.Parse(json);
+                _commandRepo.Execute($"sudo setfacl -R -m u:armnas:rwx {config.CompletedDir}", true);
+                _commandRepo.Execute($"sudo setfacl -R -m u:armnas:rwx {config.IncompletedDir}", true);
                 obj["download-dir"] = config.CompletedDir;
                 obj["incomplete-dir"] = config.IncompletedDir;
                 _commandRepo.ReplaceFileSudo("/etc/transmission-daemon/settings.json", obj.ToString());

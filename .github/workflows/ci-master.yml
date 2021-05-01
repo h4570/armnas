@@ -50,7 +50,7 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ./backend/OSCommanderTests/
+        path-to-lcov: ./backend/OSCommanderTests/lcov.info
  
 #    - name: Upload coverage report
 #      run: csmacnz.Coveralls --opencover -i ./backend/OSCommanderTests/coverage.opencover.xml --repoToken $COVERALLS_TOKEN

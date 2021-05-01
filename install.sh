@@ -75,7 +75,7 @@ step_2() {
 }
 
 step_3() {
-  apt-get install debian-keyring unzip jq curl debian-archive-keyring ntfs-3g ufw apt-transport-https -y
+  apt-get install debian-keyring acl unzip jq curl debian-archive-keyring ntfs-3g ufw apt-transport-https -y
   # Check if caddy repo was already added. Add if not
   if [ ! -f /etc/apt/sources.list.d/caddy-stable.list ]; then
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -
@@ -241,7 +241,7 @@ http://$web_api_ip_domain {
 
 step_7() {
   # Give a chance to caddy and .NET to wake up
-  sleep 5s
+  sleep 10s
 
   # Add main user to armnas
   curl --header "Content-Type: application/json" \
@@ -289,7 +289,7 @@ step_10() {
 
 # Check if script is running with root privileges
 if [ `id -u` -ne 0 ] ; then echo "Please run as root" ; exit 1 ; fi
-myip="$(hostname -I | xargs)"
+myip="$(hostname -I | xargs | awk '{gsub(/ /,", ")}1')"
 
 color_green
 echo "=========================="
@@ -370,7 +370,7 @@ while true; do
 done
 
 while true; do
-  read -p "Install .NET SDK/Runtime which is needed for armnas development? (y/N): " yn
+  read -p "Install .NET SDK/Runtime? Not needed by Armnas. (y/N): " yn
   case $yn in
     [Yy]* ) install_sdk_runtime=true; break;;
     [Nn]* ) install_sdk_runtime=false; break;;

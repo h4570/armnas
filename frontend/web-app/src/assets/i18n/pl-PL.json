@@ -34,7 +34,7 @@
 		"mount": "Zamontuj",
 		"unmount": "Odmontuj",
 		"loading": "Ładowanie...",
-		"armnasCanUnmountItsOwn": "Armnas może odmontować tylko własne partycje.",
+		"armnasCanUnmountItsOwn": "Armnas może odmontować tylko własne partycje. Odmontuj manualnie i zrestartuj stronę.",
 		"setDisplayName": "Najpierw ustaw nazwę własną!",
 		"goodbye": "Do zobaczenia!",
 		"seeYou": "Widzimy się za kilka minut!",

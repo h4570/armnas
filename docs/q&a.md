@@ -1,0 +1,2 @@
+- .NET Crashing on Hardkernel's Ubuntu
+- Add info: Devices must have partitions, partitions must have UUID (create partition with parted and format `mkfs.ntfs -f /dev/sdb1`)

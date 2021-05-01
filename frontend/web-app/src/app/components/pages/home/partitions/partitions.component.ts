@@ -226,8 +226,10 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     newDisks.forEach(newDisk => newDisk.partitions.forEach(partition => {
       if (!partition.displayName) {
         const cache = this.partitions.find(c => c.uuid === partition.uuid);
-        if (cache)
+        if (cache) {
           partition.displayName = cache.displayName;
+          partition.updateCachedDisplayName();
+        }
       }
     }));
   }

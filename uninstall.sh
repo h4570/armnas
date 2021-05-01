@@ -15,7 +15,7 @@ echo "Removed armnas user"
 color_default
 
 color_magenta
-cat /etc/sudoers | grep -v 'armnas ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers
+grep -v 'armnas ALL=(ALL) NOPASSWD: ALL' /etc/sudoers > temp && mv temp /etc/sudoers
 echo "Removed armnas from sudoers (nopasswd)"
 color_default
 

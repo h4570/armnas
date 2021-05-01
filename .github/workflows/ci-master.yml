@@ -47,7 +47,7 @@ jobs:
       working-directory: ./backend/OSCommanderTests/
     
     - name: Upload coverage report
-      run: csmacnz.Coveralls --opencover -i ./backend/OSCommanderTests/coverage.opencover.xml --repoToken "$COVERALLS_TOKEN"
+      run: csmacnz.Coveralls --opencover -i ./backend/OSCommanderTests/coverage.opencover.xml --repoToken $COVERALLS_TOKEN
       env:
         COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
       

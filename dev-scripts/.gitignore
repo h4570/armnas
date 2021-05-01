@@ -1,0 +1,7 @@
+# Ignore everything
+*
+
+# Except these
+!.gitignore
+!deploy-dbg-example.ps1
+!deploy-prd-example.ps1

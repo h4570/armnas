@@ -5,6 +5,8 @@ project.lock.json
 *.pyc
 nupkg/
 
+coverage.opencover.xml
+
 # Visual Studio Code
 .vscode
 

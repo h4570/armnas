@@ -1,8 +1,8 @@
 # TODO: Install, uninstall, update
 
 ## Install
-**For Armbian users**, please add transmission repo (only once):  
-`add-apt-repository ppa:transmissionbt/ppa -y`
+
+Please check Q&A before installation!  
 
 1. Download install script  
 `sudo wget https://raw.githubusercontent.com/h4570/armnas/main/install.sh`

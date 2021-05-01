@@ -9,6 +9,7 @@
 - Documentation
   - How to add message (with example)
   - How to check logs
+  - How to develop
   - Add info: Devices must have partitions, partitions must have UUID (create partition with parted and format `mkfs.ntfs -f /dev/sdb1`)
   - How to install Armbian
     - If running on Armbian  

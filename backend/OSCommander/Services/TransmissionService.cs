@@ -52,6 +52,8 @@ namespace OSCommander.Services
             {
                 var json = _commandRepo.Execute("sudo cat /etc/transmission-daemon/settings.json");
                 var obj = JObject.Parse(json);
+                _commandRepo.Execute($"sudo setfacl -R -m u:debian-transmission:rwx {config.CompletedDir}", true);
+                _commandRepo.Execute($"sudo setfacl -R -m u:debian-transmission:rwx {config.IncompletedDir}", true);
                 _commandRepo.Execute($"sudo setfacl -R -m u:armnas:rwx {config.CompletedDir}", true);
                 _commandRepo.Execute($"sudo setfacl -R -m u:armnas:rwx {config.IncompletedDir}", true);
                 obj["download-dir"] = config.CompletedDir;

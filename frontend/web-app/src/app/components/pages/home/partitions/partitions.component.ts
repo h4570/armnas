@@ -77,7 +77,11 @@ export class PartitionsComponent implements OnInit, OnDestroy {
     // remove mount/auto mount with old name!
     const weShouldDisableAutoMount = partition.isAutoMountEnabled;
     const weShouldUnmount = partition.mountingPoint; // is mounted
-
+    if ((weShouldDisableAutoMount || weShouldUnmount) && !this.isPartitionSavedInDb(partition)) {
+      this.snackbar.open(this.translate.instant('home.armnasCanUnmountItsOwn'), '😶', { duration: 3000 });
+      partition.isFreezed = false;
+      return;
+    }
     if (weShouldDisableAutoMount)
       await this.partitionService.disableAutoMount(partition.uuid);
     if (weShouldUnmount)
@@ -176,7 +180,7 @@ export class PartitionsComponent implements OnInit, OnDestroy {
   }
 
   private isPartitionSavedInDb(partition: LsblkPartitionInfoView): boolean {
-    if (!partition.displayName) return false;
+    if (!partition.cachedDisplayName) return false;
     return true;
   }
 

@@ -33,7 +33,7 @@ namespace OSCommander.Services
         /// <exception cref="T:Newtonsoft.Json.JsonReaderException">When output of settings.json is not valid JSON.</exception>
         public TransmissionConfig GetConfig()
         {
-            var json = _commandRepo.Execute("cat /etc/transmission-daemon/settings.json");
+            var json = _commandRepo.Execute("sudo cat /etc/transmission-daemon/settings.json");
             var obj = JObject.Parse(json);
             return new TransmissionConfig()
             {
@@ -50,11 +50,15 @@ namespace OSCommander.Services
         {
             try
             {
-                var json = _commandRepo.Execute("cat /etc/transmission-daemon/settings.json");
+                var json = _commandRepo.Execute("sudo cat /etc/transmission-daemon/settings.json");
                 var obj = JObject.Parse(json);
+                _commandRepo.Execute($"sudo setfacl -R -m u:debian-transmission:rwx {config.CompletedDir}", true);
+                _commandRepo.Execute($"sudo setfacl -R -m u:debian-transmission:rwx {config.IncompletedDir}", true);
+                _commandRepo.Execute($"sudo setfacl -R -m u:armnas:rwx {config.CompletedDir}", true);
+                _commandRepo.Execute($"sudo setfacl -R -m u:armnas:rwx {config.IncompletedDir}", true);
                 obj["download-dir"] = config.CompletedDir;
                 obj["incomplete-dir"] = config.IncompletedDir;
-                _commandRepo.ReplaceFile("/etc/transmission-daemon/settings.json", obj.ToString());
+                _commandRepo.ReplaceFileSudo("/etc/transmission-daemon/settings.json", obj.ToString());
             }
             catch (Exception ex) { throw new TransmissionUpdateException(ex); }
         }

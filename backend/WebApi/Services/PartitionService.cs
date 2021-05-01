@@ -5,7 +5,6 @@ using Microsoft.Extensions.Logging;
 using OSCommander;
 using OSCommander.Models;
 using WebApi.Dtos.Internal;
-using WebApi.Exceptions;
 using WebApi.Models.Internal;
 using WebApi.Utilities;
 
@@ -39,7 +38,7 @@ namespace WebApi.Services
             {
                 var result = new EndpointResult<bool>();
                 var kebabDisplayName = partition.DisplayName.ToKebabCase();
-                var res = _cron.Check("@reboot", $"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
+                var res = _cron.Check("@reboot", $"sudo mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
                 result.Succeed = true;
                 result.Result = res;
                 return result;
@@ -64,7 +63,7 @@ namespace WebApi.Services
             {
                 var result = new EndpointResult<string>();
                 var kebabDisplayName = partition.DisplayName.ToKebabCase();
-                _cron.Add("@reboot", $"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
+                _cron.Add("@reboot", $"sudo mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
                 result.Succeed = true;
                 result.Result = "Partition auto mount enabled.";
                 return result;
@@ -89,7 +88,7 @@ namespace WebApi.Services
             {
                 var result = new EndpointResult<string>();
                 var kebabDisplayName = partition.DisplayName.ToKebabCase();
-                _cron.Remove($"mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
+                _cron.Remove($"sudo mount -t auto /dev/disk/by-uuid/{uuid} /mnt/armnas/{kebabDisplayName}");
                 result.Succeed = true;
                 result.Result = "Partition auto mount disabled.";
                 return result;

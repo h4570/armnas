@@ -39,9 +39,24 @@ jobs:
     - name: Build .NET
       run: dotnet build --no-restore
       
+#    - name: Install Coveralls tool
+#      run: dotnet tool install --global coveralls.net
+     
     - name: Test .NET
-      run: dotnet test --no-build --verbosity normal
-    
+      run: dotnet test --no-build --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=lcov /p:CoverletOutput=./lcov.info
+      working-directory: ./backend/OSCommanderTests/
+ 
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        path-to-lcov: ./backend/OSCommanderTests/lcov.info
+ 
+#    - name: Upload coverage report
+#      run: csmacnz.Coveralls --opencover -i ./backend/OSCommanderTests/coverage.opencover.xml --repoToken $COVERALLS_TOKEN
+#      env:
+#        COVERALLS_TOKEN: ${{ secrets.COVERALLS_TOKEN }}
+      
     - name: Build .NET (publish)
       run: dotnet publish --no-restore -c Release /p:version=${{ steps.tag_version.outputs.new_version }} /p:build=$GITHUB_RUN_ID --output "./publish"
       working-directory: ./backend/WebApi/
@@ -55,23 +70,23 @@ jobs:
       run: |
         ng build --configuration=production --output-hashing=all --output-path=./dist
       working-directory: ./frontend/web-app
-
-    - name: Upload .NET artifact
-      uses: actions/upload-artifact@v2.2.3
+       
+    - name: Create .NET artifact (zip)
+      uses: TheDoctor0/zip-release@0.4.1
       with:
-        name: web-api
-        path: ./backend/WebApi/publish
-
-    - name: Upload Angular artifact
-      uses: actions/upload-artifact@v2.2.3
-      with:
-        name: web-app
-        path: ./frontend/web-app/dist
+        filename: web-api.zip
+        directory: ./backend/WebApi/publish
         
-    - name: Create a Release
-      uses: ncipollo/release-action@v1
+    - name: Create Angular artifact (zip)
+      uses: TheDoctor0/zip-release@0.4.1
       with:
-        artifacts: "web-app,web-api"
+        filename: web-app.zip
+        directory: ./frontend/web-app/dist
+      
+    - name: Create a Release
+      uses: ncipollo/release-action@v1.8.4
+      with:
+        artifacts: ./frontend/web-app/dist/web-app.zip,./backend/WebApi/publish/web-api.zip
         tag: ${{ steps.tag_version.outputs.new_tag }}
         body: ${{ steps.tag_version.outputs.changelog }}
         name: Release ${{ steps.tag_version.outputs.new_tag }}

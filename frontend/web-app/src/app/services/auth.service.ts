@@ -6,13 +6,13 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable()
 export class AuthService {
 
-    public onIsAuthorizedChange: BehaviorSubject<boolean>;
+    public onIsAuthenticatedChange: BehaviorSubject<boolean>;
 
     constructor(
         private readonly jwtHelper: JwtHelperService,
         private readonly router: Router
     ) {
-        this.onIsAuthorizedChange = new BehaviorSubject<boolean>(this.isAuthenticated);
+        this.onIsAuthenticatedChange = new BehaviorSubject<boolean>(this.isAuthenticated);
     }
 
     /** Returns auth token from localStorage */
@@ -23,7 +23,7 @@ export class AuthService {
     /** Set's JWT auth token in localStorage */
     public saveToken(token: string): void {
         localStorage.setItem('auth-token', token);
-        this.onIsAuthorizedChange.next(this.isAuthenticated);
+        this.onIsAuthenticatedChange.next(this.isAuthenticated);
     }
 
     /** Check's if auth token exists and if is not expired */
@@ -35,7 +35,7 @@ export class AuthService {
 
     public logout(): void {
         localStorage.setItem('auth-token', '');
-        this.onIsAuthorizedChange.next(this.isAuthenticated);
+        this.onIsAuthenticatedChange.next(this.isAuthenticated);
         this.router.navigateByUrl('/login');
     }
 

@@ -34,7 +34,7 @@
 		"mount": "Mount",
 		"unmount": "Unmount",
 		"loading": "Loading...",
-		"armnasCanUnmountItsOwn": "Armnas can umount its own mounts only!",
+		"armnasCanUnmountItsOwn": "Armnas can umount its own mounts only! Umount manually and restart the webpage.",
 		"setDisplayName": "Please set display name first!",
 		"goodbye": "Goodbye!",
 		"seeYou": "See you in few minutes!",

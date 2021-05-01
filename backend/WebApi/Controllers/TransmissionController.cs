@@ -55,6 +55,26 @@ namespace WebApi.Controllers
         /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
         /// Detailed information can be checked in provided logger.</exception>
         [Authorize]
+        [HttpGet("stop")]
+        public ActionResult Stop()
+        {
+            _serviceService.Stop("transmission-daemon");
+            return Ok(new { Message = "Ok" });
+        }
+
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        [Authorize]
+        [HttpGet("start")]
+        public ActionResult Start()
+        {
+            _serviceService.Start("transmission-daemon");
+            return Ok(new { Message = "Ok" });
+        }
+
+        /// <exception cref="T:OSCommander.Repositories.CommandFailException">If there will be STDERR or other OS related exceptions occur.
+        /// Detailed information can be checked in provided logger.</exception>
+        [Authorize]
         [HttpGet("restart")]
         public ActionResult Restart()
         {

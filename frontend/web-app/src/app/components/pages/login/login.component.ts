@@ -11,7 +11,8 @@ export class LoginComponent {
 
   public password: string;
   public isFreezed: boolean;
-  public failed: boolean;
+  public loginFailed: boolean;
+  public adminNotFound: boolean;
 
   constructor(
     public readonly userService: UserService,
@@ -20,15 +21,19 @@ export class LoginComponent {
 
   public async onLoginClick(): Promise<void> {
     this.isFreezed = true;
+    this.adminNotFound = false;
     if (this.password.trim().length === 0) {
-      this.failed = true;
+      this.loginFailed = true;
       this.password = '';
     }
     const res = await this.userService.login({ id: 0, login: 'admin', password: this.password });
     if (res === LoginResponse.success) {
       this.router.navigateByUrl('/home');
+    }
+    else if (res === LoginResponse.adminNotFound) {
+      this.adminNotFound = true;
     } else {
-      this.failed = true;
+      this.loginFailed = true;
       this.password = '';
     }
     this.isFreezed = false;

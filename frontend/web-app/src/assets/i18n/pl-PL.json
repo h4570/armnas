@@ -16,7 +16,8 @@
 		"header": "Logowanie",
 		"password": "Hasło",
 		"loginBtn": "Zaloguj",
-		"loginFailed": "Logowanie nie powiodło się"
+		"loginFailed": "Logowanie nie powiodło się",
+		"adminNotFound": "Administrator nie został znaleziony! Instalacja przebiegła pomyślnie?"
 	},
 	"transmission": {
 		"completedDir": "Folder ukończonych",

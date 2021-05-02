@@ -16,7 +16,8 @@
 		"header": "Login",
 		"password": "Password",
 		"loginBtn": "Login",
-		"loginFailed": "Login failed"
+		"loginFailed": "Login failed",
+		"adminNotFound": "Admin user not found! Installation went correctly?"
 	},
 	"transmission": {
 		"completedDir": "Completed dir",

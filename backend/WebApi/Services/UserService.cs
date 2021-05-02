@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Auth;
@@ -46,11 +47,12 @@ namespace WebApi.Services
         ///  -and-
         ///  <see cref="P:System.Text.Encoding.EncoderFallback" /> is set to <see cref="T:System.Text.EncoderExceptionFallback" />.</exception>
         /// <exception cref="T:System.InvalidOperationException">(Asynchronous) The sequence contains more than one element that satisfies the condition in the predicate.</exception>
+        /// <exception cref="T:WebApi.Services.AdminNotFoundException">Admin not found in database!</exception>
         public async Task<User> CheckCredentials(string login, string password, ConfigEnvironment config)
         {
             var generatedHash = AuthUtilities.ComputeSha256Hash(password, config.Salt);
             var user = await _context.Users.SingleOrDefaultAsync(c => c.Login.Trim() == login);
-            if (user == null) return null;
+            if (user == null) throw new AdminNotFoundException("Admin not found in database!");
             return user.Password == generatedHash ? user : null;
         }
 
@@ -63,5 +65,16 @@ namespace WebApi.Services
         }
 
     }
+
+    /// <summary>
+    /// Wrapper exception for command execution fail.
+    /// </summary>
+    [Serializable]
+    public class AdminNotFoundException : Exception
+    {
+        public AdminNotFoundException(string name) : base(name) { }
+        public AdminNotFoundException(Exception innerEx) : base(innerEx.Message, innerEx) { }
+    }
+
 
 }

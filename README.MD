@@ -148,6 +148,9 @@ Distributed under the Apache License 2.0 License. See `LICENSE` for more informa
 
 * [.NET 5.0.5](https://devblogs.microsoft.com/dotnet/net-april-2021-updates/)  
 * [Angular 11](https://angular.io/)  
+* [Caddy](https://caddyserver.com/)  
+* [oData](https://www.odata.org/)  
+* [Swagger](https://swagger.io/)  
 
 Project Link: [https://github.com/h4570/armnas](https://github.com/h4570/armnas)  
 Sandro Sobczyński - sandro.sobczynski@gmail.com  

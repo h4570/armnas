@@ -9,9 +9,9 @@ $TARGET = "armnas@192.168.0.155"
 # For your safety, the new file will NOT be tracked by git.
 
 $SSH = 'plink.exe'
-$SSH_DEFAULT_ARGS = '-batch', '-pw', 'Sandrox1'
+$SSH_DEFAULT_ARGS = '-batch', '-pw', 'PUT_ARMNAS_PASSWORD_HERE'
 $SCP = 'pscp.exe'
-$SCP_DEFAULT_ARGS = '-r', '-P', '22', '-pw', 'Sandrox1'
+$SCP_DEFAULT_ARGS = '-r', '-P', '22', '-pw', 'PUT_ARMNAS_PASSWORD_HERE'
 # ---
 
 Set-Location ..

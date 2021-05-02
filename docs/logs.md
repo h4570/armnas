@@ -1,1 +1,0 @@
-# TODO: How to check logs

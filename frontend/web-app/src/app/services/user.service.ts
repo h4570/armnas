@@ -6,6 +6,7 @@ import { User } from '../models/user.model';
 export enum LoginResponse {
     success,
     loginFailed,
+    adminNotFound,
     unknownHttpError,
     unknownError
 }
@@ -29,6 +30,7 @@ export class UserService {
             } catch (err) {
                 if (err instanceof HttpErrorResponse) {
                     if (err.status === 460) res(LoginResponse.loginFailed);
+                    if (err.status === 461) res(LoginResponse.adminNotFound);
                     else res(LoginResponse.unknownHttpError);
                 } else res(LoginResponse.unknownError);
             }

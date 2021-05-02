@@ -9,9 +9,14 @@
             </mat-form-field>
             <button mat-raised-button color="primary" (click)="onLoginClick()" [disabled]="isFreezed">{{
                 'login.loginBtn' | translate }}</button>
-            <div class="row" *ngIf="failed">
+            <div class="row" *ngIf="loginFailed">
                 <div class="col-12 failed-container mat-elevation-z1 rounded">
-                    {{ 'login.loginFailed' | translate }}.
+                    {{ 'login.loginFailed' | translate }}
+                </div>
+            </div>
+            <div class="row" *ngIf="adminNotFound">
+                <div class="col-12 failed-container mat-elevation-z1 rounded">
+                    {{ 'login.adminNotFound' | translate }}
                 </div>
             </div>
         </div>

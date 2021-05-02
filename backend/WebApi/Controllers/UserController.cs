@@ -81,11 +81,15 @@ namespace WebApi.Controllers
                 HttpContext.Response.Headers.Add("x-auth-token", $"{jwt}");
                 return Ok(newUser);
             }
+            catch (AdminNotFoundException)
+            {
+                return StatusCode(461, "Admin user not found!");
+            }
             catch
             {
                 // For security issues
                 // ReSharper disable once ThrowFromCatchWithNoInnerException
-                throw new LoginOperationException("Internal server error  occurred during login operation.");
+                throw new LoginOperationException("Internal server error occurred during login operation.");
             }
         }
 

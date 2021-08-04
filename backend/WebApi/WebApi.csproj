@@ -17,7 +17,7 @@
         <PackageReference Include="AutoMapper" Version="10.1.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" />
-        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.0-rc" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0-preview.3.21201.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0-preview.3.21201.2" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0-preview.3.21201.2">
@@ -49,7 +49,7 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
-	
+
     <ItemGroup>
         <None Update="start.sh">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

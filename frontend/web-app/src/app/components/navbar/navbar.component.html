@@ -36,6 +36,10 @@
             <mat-icon>schedule</mat-icon>
             <span>Cron</span>
           </button>
+          <a href="{{keycloakUrl}}" style="color: black !important;" target="_blank" class="nav-btn" mat-menu-item>
+            <mat-icon>admin_panel_settings</mat-icon>
+            <span>Keycloak</span>
+          </a>
         </mat-menu>
 
         <button mat-icon-button *ngIf="authService.isAuthenticated && newMessages.length > 0"

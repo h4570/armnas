@@ -3,6 +3,8 @@
 # Stop on error
 set -e
 
+PATH=$PATH:/usr/sbin
+
 #==== Aliases
 alias clear_screen='printf "\033c"'
 alias color_default='printf "\e[39m"'
@@ -48,6 +50,10 @@ show_steps() {
   set_step_color $step 10
   echo "👉 Install SSH (optional)"
   set_step_color $step 11
+  echo "👉 Install Java 11 (JRE+JDK, optional)"
+  set_step_color $step 12
+  echo "👉 Install Keycloak (Java needed, optional)"
+  set_step_color $step 13
   echo "👉 Finish"
   color_cyan
 }
@@ -65,7 +71,7 @@ step_2() {
   # If you want to add armnas user again, please run this command before starting this script:
   # sudo killall -u armnas && sudo deluser --remove-home -f armnas
   if ! getent passwd "armnas" > /dev/null 2>&1; then
-    useradd -g users -d /home/armnas -s /bin/bash armnas
+	useradd -g users -d /home/armnas -s /bin/bash armnas
     echo armnas:$armnas_password | chpasswd
     adduser armnas sudo
     mkhomedir_helper armnas
@@ -97,24 +103,24 @@ step_4() {
     case $architecture in
       arm64) wget https://download.visualstudio.microsoft.com/download/pr/3acd1792-c80d-4336-8ffc-552776a1297c/08af3aa6f51d6e8670bb422b6bec5541/aspnetcore-runtime-5.0.5-linux-arm64.tar.gz -O aspnet.tar.gz;;
       arm32) wget https://download.visualstudio.microsoft.com/download/pr/254a9fbb-e834-470c-af08-294c274a349f/ee755caf0b8a801cf30dcdc0c9e4273d/aspnetcore-runtime-5.0.5-linux-arm.tar.gz -O aspnet.tar.gz;;
-    x64) wget https://download.visualstudio.microsoft.com/download/pr/827b12a8-8dea-43da-92a2-2d24c4936236/d2d61b3ed4b5ba3f682de3e04fc4d243/aspnetcore-runtime-5.0.5-linux-x64.tar.gz -O aspnet.tar.gz;;
+      x64) wget https://download.visualstudio.microsoft.com/download/pr/827b12a8-8dea-43da-92a2-2d24c4936236/d2d61b3ed4b5ba3f682de3e04fc4d243/aspnetcore-runtime-5.0.5-linux-x64.tar.gz -O aspnet.tar.gz;;
     esac
     tar zxf aspnet.tar.gz -C .dotnet
     rm -rf aspnet.tar.gz
   
     if $install_sdk_runtime ; then
-    case $architecture in
+      case $architecture in
         arm64) wget https://download.visualstudio.microsoft.com/download/pr/7f6c5b75-07c9-47aa-bc31-9e1343f42929/ad787b9a12b164a7c967ba498151f6aa/dotnet-runtime-5.0.5-linux-arm64.tar.gz -O runtime.tar.gz;;
         arm32) wget https://download.visualstudio.microsoft.com/download/pr/09600837-0358-45ce-b530-a25a49490e61/db0ac3b43d1164a0fdd428f64316d188/dotnet-runtime-5.0.5-linux-arm.tar.gz -O runtime.tar.gz;;
-      x64) wget https://download.visualstudio.microsoft.com/download/pr/6f26a190-5979-4fc4-b67a-df4e5b263e39/39e43561651183bb731ee6f3290fdcff/dotnet-runtime-5.0.5-linux-x64.tar.gz -O runtime.tar.gz;;
+        x64) wget https://download.visualstudio.microsoft.com/download/pr/6f26a190-5979-4fc4-b67a-df4e5b263e39/39e43561651183bb731ee6f3290fdcff/dotnet-runtime-5.0.5-linux-x64.tar.gz -O runtime.tar.gz;;
       esac
       tar zxf runtime.tar.gz -C .dotnet
       rm -rf runtime.tar.gz
     
-    case $architecture in
+      case $architecture in
         arm64) wget https://download.visualstudio.microsoft.com/download/pr/c1f15b51-5e8c-4e6c-a803-241790159af3/b5cbcc59f67089d760e0ed4a714c47ed/dotnet-sdk-5.0.202-linux-arm64.tar.gz -O sdk.tar.gz;;
         arm32) wget https://download.visualstudio.microsoft.com/download/pr/fada9b0c-202a-4720-817b-b8b92dddad99/fa6ace43156b7f73e5f7fb3cdfb5c302/dotnet-sdk-5.0.202-linux-arm.tar.gz -O sdk.tar.gz;;
-      x64) wget https://download.visualstudio.microsoft.com/download/pr/5f0f07ab-cd9a-4498-a9f7-67d90d582180/2a3db6698751e6cbb93ec244cb81cc5f/dotnet-sdk-5.0.202-linux-x64.tar.gz -O sdk.tar.gz;;
+        x64) wget https://download.visualstudio.microsoft.com/download/pr/5f0f07ab-cd9a-4498-a9f7-67d90d582180/2a3db6698751e6cbb93ec244cb81cc5f/dotnet-sdk-5.0.202-linux-x64.tar.gz -O sdk.tar.gz;;
       esac
       tar zxf sdk.tar.gz -C .dotnet
       rm -rf sdk.tar.gz
@@ -278,8 +284,44 @@ step_9() {
 }
 
 step_10() {
-  if $install_ssh ; then
+  if [ "$install_ssh" = true ]; then
     apt-get install -y openssh-server
+  fi
+}
+
+step_11() {
+  if [ "$install_java" = true ]; then
+    apt-get install openjdk-11-jre openjdk-11-jdk -y
+	java_folder=$(find /usr/lib/jvm -name "java-11-openjdk*")
+	echo "JAVA_HOME=$java_folder/" >> /etc/environment
+	. /etc/environment
+  fi
+}
+
+step_12() {
+  if [ "$install_keycloak" = true ]; then 
+    if [ ! -d /home/armnas/keycloak ]; then
+      cd /home/armnas
+	  wget https://github.com/keycloak/keycloak/releases/download/15.0.1/keycloak-15.0.1.zip -O keycloak.zip
+      unzip keycloak.zip
+      rm -rf keycloak.zip
+  	  mv keycloak* keycloak
+	  
+	  sed -i "s/keycloak.armnas.site/$keycloak_ip_domain/g" /var/www/armnas/frontend/web-app/main.*.js
+	  
+	  cd keycloak
+      echo "/home/armnas/keycloak/bin/standalone.sh -b 0.0.0.0 -Djboss.socket.binding.port-offset=100" > start.sh
+	  chmod +x start.sh
+	  if ! crontab -u armnas -l | grep -c '@reboot /home/armnas/keycloak/start.sh'; then
+        echo "@reboot /home/armnas/keycloak/start.sh" | crontab -u armnas -
+	  fi
+	  
+      cd bin/
+	  ./add-user-keycloak.sh -u $keycloak_username
+
+	  chown -R armnas /home/armnas/keycloak
+      chmod 755 -R /home/armnas/keycloak/*
+	fi
   fi
 }
 
@@ -295,7 +337,9 @@ color_green
 echo "=========================="
 echo "Armnas installation script"
 echo "=========================="
-
+echo " "
+echo "Enter domain names only if you have configured the DNS server! Please use 192.168... otherwise!"
+echo " "
 color_magenta
 
 while true; do
@@ -342,7 +386,7 @@ done
 
 while true; do
   stty -echo
-  printf "Armnas user password: "
+  printf "Armnas admin password: "
   read armnas_password
   stty echo
   printf "\n"
@@ -393,6 +437,60 @@ while true; do
   esac
 done
 
+while true; do
+  read -p "Install Java 11 JRE+JDK? (y/N): " yn
+  case $yn in
+    [Yy]* ) install_java=true; break;;
+    [Nn]* ) install_java=false; break;;
+    * ) 
+	  color_cyan
+	  echo "Please answer yes or no."
+      color_magenta;;
+  esac
+done
+
+while true; do
+  read -p "Install Keycloak? Is so, you will be asked for password, so be vigilant! (y/N): " yn
+  case $yn in
+    [Yy]* ) install_keycloak=true; install_java=true; break;;
+    [Nn]* ) install_keycloak=false; break;;
+    * ) 
+	  color_cyan
+	  echo "Please answer yes or no."
+      color_magenta;;
+  esac
+done
+
+if [ "$install_keycloak" = true ]; then 
+
+  while true; do
+  color_magenta
+  read -p 'Keycloak user name: ' keycloak_username
+  if [ ${#keycloak_username} -ge 4 ]; then 
+    break;
+  else 
+    color_cyan
+    echo "Please provide username that is at least 4 characters long."
+    color_magenta;
+  fi
+  done
+  
+  while true; do
+  color_cyan
+  echo "Example: $myip:8180 OR keycloak.armnas.com"
+  color_magenta
+  read -p 'Keycloak IP or domain name: ' keycloak_ip_domain
+  if [ ${#keycloak_ip_domain} -ge 3 ]; then 
+    break;
+  else 
+    color_cyan
+    echo "Please provide ip/domain that is at least 3 characters long."
+    color_magenta;
+  fi
+  done
+  
+fi
+
 #== Run steps
 
 show_steps 1
@@ -424,6 +522,12 @@ step_9
 
 show_steps 10
 step_10
+
+show_steps 11
+step_11
+
+show_steps 12
+step_12
 
 #=====
 

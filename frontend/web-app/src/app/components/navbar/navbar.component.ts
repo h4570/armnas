@@ -5,6 +5,7 @@ import { Message } from 'src/app/models/message.model';
 import { AppService } from 'src/app/services/app.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ODataService } from 'src/app/services/odata.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -19,6 +20,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   public newMessages: Message[] = [];
   public isMessagesIconDisabled = false;
   public messagesAutoRefresh: any; // NodeJS.Timeout
+  public keycloakUrl = environment.urls.keycloak;
   private readonly autoRefreshInterval = 10000;
 
   constructor(

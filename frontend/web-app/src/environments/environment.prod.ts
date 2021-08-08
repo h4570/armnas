@@ -3,6 +3,7 @@ export const environment = {
   urls: {
     app: 'http://armnas.site/',
     api: 'http://api.armnas.site/',
-    transmission: 'http://armnas.site:9091/'
+    transmission: 'http://armnas.site:9091/',
+    keycloak: 'http://keycloak.armnas.site/'
   }
 };

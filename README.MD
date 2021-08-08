@@ -63,6 +63,7 @@ Languages: English, Polish.
 * [Torrent client](#transmission) (transmission)  
 * [Cron jobs](#cron) configuration  
 * [Messages](#messages) system  
+* [Keycloak](#keycloak)  
 
 ### Branches
 * **main**: main releases - tested on **Armbian** (ARM32), **Raspbian** (ARM32) and **Debian** x64.
@@ -106,6 +107,10 @@ Messages system is used to **add notifications directly from your bash scripts, 
 For example, you can create backup script and send the result (success/fail) to Armnas. After it, Armnas will show new notification in navbar area for you.  
 Please check [Messages](https://github.com/h4570/armnas/blob/main/docs/messages.md) to get more details.  
 <img src="http://apgcglz.cluster028.hosting.ovh.net/github/armnas/messages.png" alt="Messages" width="300px" height="auto">  
+
+### Keycloak 
+Keycloak is an Open Source Identity and Access Management solution for modern Applications and Services.  
+[More information](https://github.com/keycloak/keycloak)
 
 ## Development 
 

@@ -211,7 +211,7 @@ step_5() {
 
   # Setup crontab for armnas if not configured
   if ! crontab -u armnas -l | grep -c '@reboot /var/www/armnas/backend/WebApi/start.sh'; then
-    echo "@reboot /var/www/armnas/backend/WebApi/start.sh" | crontab -u armnas -
+    echo -e "$(crontab -u armnas -l)\n@reboot /var/www/armnas/backend/WebApi/start.sh" | crontab -u armnas -
   fi
   
   # Run as armnas
@@ -301,27 +301,27 @@ step_11() {
 step_12() {
   if [ "$install_keycloak" = true ]; then 
     if [ ! -d /home/armnas/keycloak ]; then
-      cd /home/armnas
+          cd /home/armnas
 	  wget https://github.com/keycloak/keycloak/releases/download/15.0.1/keycloak-15.0.1.zip -O keycloak.zip
-      unzip keycloak.zip
-      rm -rf keycloak.zip
+          unzip keycloak.zip
+          rm -rf keycloak.zip
   	  mv keycloak* keycloak
 	  
 	  sed -i "s/keycloak.armnas.site/$keycloak_ip_domain/g" /var/www/armnas/frontend/web-app/main.*.js
 	  
 	  cd keycloak
-      echo "/home/armnas/keycloak/bin/standalone.sh -b 0.0.0.0 -Djboss.socket.binding.port-offset=100" > start.sh
+          echo "/home/armnas/keycloak/bin/standalone.sh -b 0.0.0.0 -Djboss.socket.binding.port-offset=100" > start.sh
 	  chmod +x start.sh
 	  if ! crontab -u armnas -l | grep -c '@reboot /home/armnas/keycloak/start.sh'; then
-        echo "@reboot /home/armnas/keycloak/start.sh" | crontab -u armnas -
+            echo -e "$(crontab -u armnas -l)\n@reboot /home/armnas/keycloak/start.sh" | crontab -u armnas -
 	  fi
 	  
-      cd bin/
+          cd bin/
 	  ./add-user-keycloak.sh -u $keycloak_username
 
 	  chown -R armnas /home/armnas/keycloak
-      chmod 755 -R /home/armnas/keycloak/*
-	fi
+          chmod 755 -R /home/armnas/keycloak/*
+    fi
   fi
 }
 

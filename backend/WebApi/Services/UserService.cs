@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebApi.Auth;
 using WebApi.Models.Internal;
+using Microsoft.Extensions.Logging;
 
 namespace WebApi.Services
 {
@@ -12,10 +13,12 @@ namespace WebApi.Services
     {
 
         private readonly AppDbContext _context;
+        private readonly ILogger _logger;
 
-        public UserService(AppDbContext context)
+        public UserService(AppDbContext context, ILogger logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <exception cref="T:System.Reflection.TargetInvocationException">On the .NET Framework 4.6.1 and earlier versions only: The algorithm was used with Federal Information Processing Standards (FIPS) mode enabled, but is not FIPS compatible.</exception>
@@ -52,8 +55,19 @@ namespace WebApi.Services
         {
             var generatedHash = AuthUtilities.ComputeSha256Hash(password, config.Salt);
             var user = await _context.Users.SingleOrDefaultAsync(c => c.Login.Trim() == login);
-            if (user == null) throw new AdminNotFoundException("Admin not found in database!");
-            return user.Password == generatedHash ? user : null;
+            if (user == null)
+            {
+                _logger.LogError($"Admin not found in database. Login: {login}");
+                throw new AdminNotFoundException("Admin not found in database!");
+            }
+            var hashAssert = user.Password == generatedHash;
+            if (!hashAssert)
+            {
+                _logger.LogError($"Wrong password for user {login}. " +
+                    $"Provided hash: {generatedHash.Substring(0, 5)}... " +
+                    $"Stored hash: {user.Password.Substring(0, 5)}...");
+            }
+            return hashAssert ? user : null;
         }
 
         /// <exception cref="T:System.ArgumentNullException"></exception>

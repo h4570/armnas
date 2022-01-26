@@ -210,7 +210,9 @@ step_5() {
   chown -R armnas /var/www/armnas
 
   # Setup crontab for armnas if not configured
-  if ! crontab -u armnas -l | grep -c '@reboot /var/www/armnas/backend/WebApi/start.sh'; then
+  if [ ! -f /var/spool/cron/crontab/armnas ]; then
+    echo "@reboot /var/www/armnas/backend/WebApi/start.sh" | crontab -u armnas -
+  elif ! crontab -u armnas -l | grep -c '@reboot /var/www/armnas/backend/WebApi/start.sh'; then
     echo -e "$(crontab -u armnas -l)\n@reboot /var/www/armnas/backend/WebApi/start.sh" | crontab -u armnas -
   fi
   

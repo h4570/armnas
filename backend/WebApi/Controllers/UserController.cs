@@ -22,7 +22,7 @@ namespace WebApi.Controllers
         private readonly ConfigEnvironment _config;
         private readonly AppDbContext _context;
 
-        public UserController(DbContextOptions<AppDbContext> options, IOptions<ConfigEnvironment> config, ILogger logger)
+        public UserController(DbContextOptions<AppDbContext> options, IOptions<ConfigEnvironment> config, ILogger<UserController> logger)
         {
             _config = config.Value;
             _context = new AppDbContext(options);

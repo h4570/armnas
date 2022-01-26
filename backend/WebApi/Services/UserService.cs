@@ -37,6 +37,7 @@ namespace WebApi.Services
         {
             user.Password = AuthUtilities.ComputeSha256Hash(user.Password, config.Salt);
             await _context.Users.AddAsync(user);
+            _logger.LogInformation($"Registered user with password: {user.Password.Substring(0, 5)}...");
             await _context.SaveChangesAsync();
             return user;
         }

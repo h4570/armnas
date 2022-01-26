@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WebApi.Auth;
 using WebApi.Exceptions;
@@ -21,11 +22,11 @@ namespace WebApi.Controllers
         private readonly ConfigEnvironment _config;
         private readonly AppDbContext _context;
 
-        public UserController(DbContextOptions<AppDbContext> options, IOptions<ConfigEnvironment> config)
+        public UserController(DbContextOptions<AppDbContext> options, IOptions<ConfigEnvironment> config, ILogger logger)
         {
             _config = config.Value;
             _context = new AppDbContext(options);
-            _userService = new UserService(_context);
+            _userService = new UserService(_context,logger);
         }
 
         /// <summary>

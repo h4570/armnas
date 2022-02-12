@@ -52,8 +52,8 @@ Languages: English, Polish.
 [![CI](https://github.com/h4570/armnas/actions/workflows/ci-master.yml/badge.svg)](https://github.com/h4570/armnas/actions/workflows/ci-master.yml)
 [![Coverage Status](https://coveralls.io/repos/github/h4570/armnas/badge.svg?branch=)](https://coveralls.io/github/h4570/armnas)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![.NET 5.0.5](https://img.shields.io/badge/.NET-5.0.5-informational.svg)](https://devblogs.microsoft.com/dotnet/net-april-2021-updates/)
-[![Angular 11](https://img.shields.io/badge/Angular-11-informational.svg)](https://devblogs.microsoft.com/dotnet/net-april-2021-updates/)
+[![.NET 6.0.2](https://img.shields.io/badge/.NET-6.0.2-informational.svg)](https://dotnet.microsoft.com/en-us/)
+[![Angular 11](https://img.shields.io/badge/Angular-11-informational.svg)](https://angular.io/)
 
 ### Features list
 * [System info](#system-info)   
@@ -151,7 +151,7 @@ Distributed under the Apache License 2.0 License. See `LICENSE` for more informa
 
 ## Built With  
 
-* [.NET 5.0.5](https://devblogs.microsoft.com/dotnet/net-april-2021-updates/)  
+* [.NET 6.0.2](https://dotnet.microsoft.com/en-us/)  
 * [Angular 11](https://angular.io/)  
 * [Caddy](https://caddyserver.com/)  
 * [oData](https://www.odata.org/)  

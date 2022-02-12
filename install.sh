@@ -36,7 +36,7 @@ show_steps() {
   set_step_color $step 3
   echo "👉 Install dependencies"
   set_step_color $step 4
-  echo "👉 Install .NET v5.0.5"
+  echo "👉 Install .NET v6.0.2"
   set_step_color $step 5
   echo "👉 Reinstall Armnas"
   set_step_color $step 6
@@ -101,26 +101,26 @@ step_4() {
     mkdir .dotnet
 
     case $architecture in
-      arm64) wget https://download.visualstudio.microsoft.com/download/pr/3acd1792-c80d-4336-8ffc-552776a1297c/08af3aa6f51d6e8670bb422b6bec5541/aspnetcore-runtime-5.0.5-linux-arm64.tar.gz -O aspnet.tar.gz;;
-      arm32) wget https://download.visualstudio.microsoft.com/download/pr/254a9fbb-e834-470c-af08-294c274a349f/ee755caf0b8a801cf30dcdc0c9e4273d/aspnetcore-runtime-5.0.5-linux-arm.tar.gz -O aspnet.tar.gz;;
-      x64) wget https://download.visualstudio.microsoft.com/download/pr/827b12a8-8dea-43da-92a2-2d24c4936236/d2d61b3ed4b5ba3f682de3e04fc4d243/aspnetcore-runtime-5.0.5-linux-x64.tar.gz -O aspnet.tar.gz;;
+      arm64) wget https://download.visualstudio.microsoft.com/download/pr/51b8de3c-7f68-46cd-96dd-de822855d744/cd8ed6f4342d294df04720006d0eba61/aspnetcore-runtime-6.0.2-linux-arm64.tar.gz -O aspnet.tar.gz;;
+      arm32) wget https://download.visualstudio.microsoft.com/download/pr/a7e77f1a-db9d-403f-a611-f925cea0e6f3/af5baacfa05d023671f08bf14f98bcb2/aspnetcore-runtime-6.0.2-linux-arm.tar.gz -O aspnet.tar.gz;;
+      x64) wget https://download.visualstudio.microsoft.com/download/pr/26078483-7a4c-4113-8c39-eab5ee24f10f/3c2d24a5c71179af652cc92e8b57eb5f/aspnetcore-runtime-6.0.2-linux-x64.tar.gz -O aspnet.tar.gz;;
     esac
     tar zxf aspnet.tar.gz -C .dotnet
     rm -rf aspnet.tar.gz
   
     if $install_sdk_runtime ; then
       case $architecture in
-        arm64) wget https://download.visualstudio.microsoft.com/download/pr/7f6c5b75-07c9-47aa-bc31-9e1343f42929/ad787b9a12b164a7c967ba498151f6aa/dotnet-runtime-5.0.5-linux-arm64.tar.gz -O runtime.tar.gz;;
-        arm32) wget https://download.visualstudio.microsoft.com/download/pr/09600837-0358-45ce-b530-a25a49490e61/db0ac3b43d1164a0fdd428f64316d188/dotnet-runtime-5.0.5-linux-arm.tar.gz -O runtime.tar.gz;;
-        x64) wget https://download.visualstudio.microsoft.com/download/pr/6f26a190-5979-4fc4-b67a-df4e5b263e39/39e43561651183bb731ee6f3290fdcff/dotnet-runtime-5.0.5-linux-x64.tar.gz -O runtime.tar.gz;;
+        arm64) wget https://download.visualstudio.microsoft.com/download/pr/8555e038-2eb9-4042-a3dc-7453ec204a56/bb90dd8837905df3c4351ea2e9ee313d/dotnet-runtime-6.0.2-linux-arm64.tar.gz -O runtime.tar.gz;;
+        arm32) wget https://download.visualstudio.microsoft.com/download/pr/fbc7f55f-9a43-498c-a7f0-ad589c64d7d4/e48b95570140a2d9ba460ef9c98f6b1c/dotnet-runtime-6.0.2-linux-arm.tar.gz -O runtime.tar.gz;;
+        x64) wget https://download.visualstudio.microsoft.com/download/pr/eec7db31-0187-4751-88ec-53ea526d4d35/d183e3973cc9a4b988cd4d1184db433f/dotnet-runtime-6.0.2-linux-x64.tar.gz -O runtime.tar.gz;;
       esac
       tar zxf runtime.tar.gz -C .dotnet
       rm -rf runtime.tar.gz
     
       case $architecture in
-        arm64) wget https://download.visualstudio.microsoft.com/download/pr/c1f15b51-5e8c-4e6c-a803-241790159af3/b5cbcc59f67089d760e0ed4a714c47ed/dotnet-sdk-5.0.202-linux-arm64.tar.gz -O sdk.tar.gz;;
-        arm32) wget https://download.visualstudio.microsoft.com/download/pr/fada9b0c-202a-4720-817b-b8b92dddad99/fa6ace43156b7f73e5f7fb3cdfb5c302/dotnet-sdk-5.0.202-linux-arm.tar.gz -O sdk.tar.gz;;
-        x64) wget https://download.visualstudio.microsoft.com/download/pr/5f0f07ab-cd9a-4498-a9f7-67d90d582180/2a3db6698751e6cbb93ec244cb81cc5f/dotnet-sdk-5.0.202-linux-x64.tar.gz -O sdk.tar.gz;;
+        arm64) wget https://download.visualstudio.microsoft.com/download/pr/93dd8d1e-f2af-45b1-8e86-9b8c3d58f4d2/b3fc3ef9da1db691043387fcb56f4d6f/dotnet-sdk-6.0.102-linux-arm64.tar.gz -O sdk.tar.gz;;
+        arm32) wget https://download.visualstudio.microsoft.com/download/pr/2509d293-6a9f-4108-8fe1-10e78341c5df/18f693729320bdbb5e8d936460dd0e2b/dotnet-sdk-6.0.102-linux-arm.tar.gz -O sdk.tar.gz;;
+        x64) wget https://download.visualstudio.microsoft.com/download/pr/e7acb87d-ab08-4620-9050-b3e80f688d36/e93bbadc19b12f81e3a6761719f28b47/dotnet-sdk-6.0.102-linux-x64.tar.gz -O sdk.tar.gz;;
       esac
       tar zxf sdk.tar.gz -C .dotnet
       rm -rf sdk.tar.gz

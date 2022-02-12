@@ -292,19 +292,25 @@ namespace OSCommander
         {
             try
             {
-                const string cpuNameBeginning = "model name";
+                var cpuNameBeginning = "model name";
                 var cpuNameLine = cpuInfo
                     .Split("\n")
                     .FirstOrDefault(c => c.ToLower().StartsWith(cpuNameBeginning));
                 if (cpuNameLine == null)
+                {
+                    cpuNameBeginning = "hardware";
+                    cpuNameLine = cpuInfo
+                    .Split("\n")
+                    .FirstOrDefault(c => c.ToLower().StartsWith(cpuNameBeginning));
+                }
+                if (cpuNameLine == null)
                     throw new CommandResponseParsingException("Line with CPU name was not found.");
-                var parts = cpuNameLine
+                var result = cpuNameLine
+                    .Substring(cpuNameBeginning.Length)
                     .Replace("\t", string.Empty)
-                    .Replace("\r", string.Empty)
-                    .Split(" ")
-                    .Where(c => c.Trim() != string.Empty)
-                    .ToList();
-                if (parts.Count >= 4) return parts[3];
+                    .Replace("\r", string.Empty);
+                if (result.StartsWith(":")) result = result.Substring(1);
+                return result.Trim();
                 throw new CommandResponseParsingException("Line with CPU name is incorrect.");
             }
             catch (Exception ex)

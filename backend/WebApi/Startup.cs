@@ -56,19 +56,21 @@ namespace WebApi
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
             services.Configure<ConfigEnvironment>(Configuration.GetSection("configuration:" + envName));
-            services.AddControllers().AddNewtonsoftJson();
-            services.AddOData(opt =>
-                opt.AddModel("odata", GetEdmModel())
-                    .Select()
-                    .Expand()
-                    .Filter()
-                    .Count()
-                    .OrderBy()
-                    .SetMaxTop(100)
+            services.AddControllers()
+                .AddNewtonsoftJson()
+                .AddOData(opt => opt
+                        .AddRouteComponents("odata", GetEdmModel())
+                        .Select()
+                        .Expand()
+                        .Filter()
+                        .Count()
+                        .OrderBy()
+                        .SetMaxTop(100)
                 );
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ArmNas", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Armnas", Version = "v1" });
                 c.DocInclusionPredicate((_, api) => api.HttpMethod != null); // oData fix
             });
             services.AddOdataSwaggerSupport();
@@ -79,7 +81,7 @@ namespace WebApi
             InitializeDatabase(app);
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ArmNas"));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Armnas"));
             app.UseRouting();
             app.UseAuthorization();
             app.UseCors();

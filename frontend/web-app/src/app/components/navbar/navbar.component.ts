@@ -88,7 +88,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     const odataMessages = this.odata.messages.entities();
     this.newMessages = await odataMessages
       .filter({ hasBeenRead: false })
-      .top(10)
+      .top(30)
       .get()
       .toPromise()
       .then(c => c.entities);

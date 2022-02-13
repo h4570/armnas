@@ -89,7 +89,7 @@ namespace OSCommanderTests
         public void GetCPUInfoTest_Good()
         {
             var res = _good.GetCPUInfo();
-            Assert.Equal("ARMv7", res.Name);
+            Assert.Equal("ARMv7 Processor rev 3 (v7l)", res.Name);
             Assert.Equal(2.7M, res.PercentageUsage);
             Assert.Equal(48.5M, res.Temperature);
         }

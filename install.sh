@@ -140,6 +140,12 @@ step_5() {
   if [ ! -d /var/www ]; then
     mkdir /var/www
   fi
+  
+  if [ ! -d /mnt/armnas ]; then
+    mkdir /mnt/armnas
+    chmod 755 -R /mnt/armnas/
+    chown armnas -R /mnt/armnas/
+  fi
 
   if [ ! -d /var/www/armnas ]; then
     mkdir /var/www/armnas

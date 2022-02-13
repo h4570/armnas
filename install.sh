@@ -243,7 +243,8 @@ http://$web_api_ip_domain {
     reverse_proxy localhost:5070
 }" > /etc/caddy/Caddyfile
       
-  systemctl reload caddy
+  systemctl reload caddy || true
+  systemctl start caddy || true
   ufw allow 80
 }
 

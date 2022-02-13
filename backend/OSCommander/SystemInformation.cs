@@ -308,7 +308,8 @@ namespace OSCommander
                 var result = cpuNameLine
                     .Substring(cpuNameBeginning.Length)
                     .Replace("\t", string.Empty)
-                    .Replace("\r", string.Empty);
+                    .Replace("\r", string.Empty)
+                    .Trim();
                 if (result.StartsWith(":")) result = result.Substring(1);
                 return result.Trim();
                 throw new CommandResponseParsingException("Line with CPU name is incorrect.");

@@ -80,33 +80,33 @@ If you want to get more details about installation/uninstallation and update pro
 ### System info 
 System information with latest CPU temperature, RAM usage, etc.  
 Refresh interval can be set in **Tweak mode**.  
-<img src="http://apgcglz.cluster028.hosting.ovh.net/github/armnas/system-info.png" alt="System info" width="400px" height="auto">
+<img src="https://raw.githubusercontent.com/h4570/armnas/master/docs/pics/system-info.png" alt="System info" width="400px" height="auto">
 
 ### Partitions 
 Partitions module is used to mount/unmount your HDDs, pendrives, etc. very quickly.  
 Partitions can be also set in **automount** mode, which will mount you partitions at startup.  
 Custom names of the partitions can be set in **Tweak mode**.  
-<img src="http://apgcglz.cluster028.hosting.ovh.net/github/armnas/partitions.png" alt="Partitions" width="400px" height="auto">
+<img src="https://raw.githubusercontent.com/h4570/armnas/master/docs/pics/partitions.png" alt="Partitions" width="400px" height="auto">
 
 ### Cron 
 Cron jobs allows you to **schedule your custom commands**, programs or bash scripts.  
-<img src="http://apgcglz.cluster028.hosting.ovh.net/github/armnas/cron.png" alt="Cron" width="400px" height="auto">
+<img src="https://raw.githubusercontent.com/h4570/armnas/master/docs/pics/cron.png" alt="Cron" width="400px" height="auto">
 
 ### Samba 
 Samba is used to share some directories or mounted partitions via SMB protocole. You can easily **mount these shares in your Windows machine**.  
-<img src="http://apgcglz.cluster028.hosting.ovh.net/github/armnas/samba.png" alt="Samba" width="400px" height="auto">  
-<img src="http://apgcglz.cluster028.hosting.ovh.net/github/armnas/smb-shares.png" alt="Samba shares" width="400px" height="auto">
+<img src="https://raw.githubusercontent.com/h4570/armnas/master/docs/pics/samba.png" alt="Samba" width="400px" height="auto">  
+<img src="https://raw.githubusercontent.com/h4570/armnas/master/docs/pics/smb-shares.png" alt="Samba shares" width="400px" height="auto">
 
 ### Transmission 
 Transmission is a simple torrent client with web dashboard.      
 Incomplete directory and complete directory can be set in **Tweak mode**.  
-<img src="http://apgcglz.cluster028.hosting.ovh.net/github/armnas/transmission.png" alt="Transmission" width="400px" height="auto">
+<img src="https://raw.githubusercontent.com/h4570/armnas/master/docs/pics/transmission.png" alt="Transmission" width="400px" height="auto">
 
 ### Messages 
 Messages system is used to **add notifications directly from your bash scripts, programs and bash terminal**.  
 For example, you can create backup script and send the result (success/fail) to Armnas. After it, Armnas will show new notification in navbar area for you.  
 Please check [Messages](https://github.com/h4570/armnas/blob/main/docs/messages.md) to get more details.  
-<img src="http://apgcglz.cluster028.hosting.ovh.net/github/armnas/messages.png" alt="Messages" width="300px" height="auto">  
+<img src="https://raw.githubusercontent.com/h4570/armnas/master/docs/pics/messages.png" alt="Messages" width="300px" height="auto">  
 
 ### Keycloak 
 Keycloak is an Open Source Identity and Access Management solution for modern Applications and Services.  

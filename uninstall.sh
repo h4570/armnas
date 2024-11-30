@@ -9,7 +9,7 @@ alias color_magenta='printf "\e[95m"'
 #====
 
 killall -u armnas || true
-deluser -f armnas || true
+deluser armnas || true
 color_magenta
 echo "Removed armnas user"
 color_default

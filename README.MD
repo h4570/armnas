@@ -75,6 +75,11 @@ If you want to install armnas, please run theses two commands:
 `sudo chmod +x install.sh && sudo ./install.sh`  
 If you want to get more details about installation/uninstallation and update procedure, please go to [Installation guide](https://github.com/h4570/armnas/blob/main/docs/installation.md). 
 
+## Uninstallation  
+If you want to uninstall armnas, please run theses two commands:  
+`sudo wget https://raw.githubusercontent.com/h4570/armnas/main/uninstall.sh`  
+`sudo chmod +x uninstall.sh && sudo ./uninstall.sh`  
+
 ## Features
 
 ### System info 

@@ -68,6 +68,7 @@ jobs:
 
     - name: Build Angular
       run: |
+        export NODE_OPTIONS=--openssl-legacy-provider
         ng build --configuration=production --output-hashing=all --output-path=./dist
       working-directory: ./frontend/web-app
        

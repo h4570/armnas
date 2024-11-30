@@ -36,7 +36,7 @@ show_steps() {
   set_step_color $step 3
   echo "👉 Install dependencies"
   set_step_color $step 4
-  echo "👉 Install .NET v6.0.2"
+  echo "👉 Install .NET v8.0.11"
   set_step_color $step 5
   echo "👉 Reinstall Armnas"
   set_step_color $step 6
@@ -84,7 +84,7 @@ step_3() {
   apt-get install debian-keyring acl unzip jq curl debian-archive-keyring ntfs-3g ufw apt-transport-https -y
   # Check if caddy repo was already added. Add if not
   if [ ! -f /etc/apt/sources.list.d/caddy-stable.list ]; then
-    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo apt-key add -
+    curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee -a /etc/apt/sources.list.d/caddy-stable.list
   fi
   apt-get update
@@ -101,26 +101,26 @@ step_4() {
     mkdir .dotnet
 
     case $architecture in
-      arm64) wget https://download.visualstudio.microsoft.com/download/pr/51b8de3c-7f68-46cd-96dd-de822855d744/cd8ed6f4342d294df04720006d0eba61/aspnetcore-runtime-6.0.2-linux-arm64.tar.gz -O aspnet.tar.gz;;
-      arm32) wget https://download.visualstudio.microsoft.com/download/pr/a7e77f1a-db9d-403f-a611-f925cea0e6f3/af5baacfa05d023671f08bf14f98bcb2/aspnetcore-runtime-6.0.2-linux-arm.tar.gz -O aspnet.tar.gz;;
-      x64) wget https://download.visualstudio.microsoft.com/download/pr/26078483-7a4c-4113-8c39-eab5ee24f10f/3c2d24a5c71179af652cc92e8b57eb5f/aspnetcore-runtime-6.0.2-linux-x64.tar.gz -O aspnet.tar.gz;;
+      arm64) wget https://download.visualstudio.microsoft.com/download/pr/64a9f696-b039-4a73-b705-288fbf9c2e8f/c36bc24d6d359c019408b4f94ee67b59/aspnetcore-runtime-8.0.11-linux-arm64.tar.gz -O aspnet.tar.gz;;
+      arm32) https://download.visualstudio.microsoft.com/download/pr/003f180b-e695-4094-bc3f-ef6473883d43/e861cb56edd58b05b03b5a92cf995f12/aspnetcore-runtime-8.0.11-linux-arm.tar.gz -O aspnet.tar.gz;;
+      x64) wget https://download.visualstudio.microsoft.com/download/pr/6f89757c-3dde-4c3a-96a0-b04b1bde2c92/6a3591b360ed0f9d1118b97560b89625/aspnetcore-runtime-8.0.11-linux-x64.tar.gz -O aspnet.tar.gz;;
     esac
     tar zxf aspnet.tar.gz -C .dotnet
     rm -rf aspnet.tar.gz
   
     if $install_sdk_runtime ; then
       case $architecture in
-        arm64) wget https://download.visualstudio.microsoft.com/download/pr/8555e038-2eb9-4042-a3dc-7453ec204a56/bb90dd8837905df3c4351ea2e9ee313d/dotnet-runtime-6.0.2-linux-arm64.tar.gz -O runtime.tar.gz;;
-        arm32) wget https://download.visualstudio.microsoft.com/download/pr/fbc7f55f-9a43-498c-a7f0-ad589c64d7d4/e48b95570140a2d9ba460ef9c98f6b1c/dotnet-runtime-6.0.2-linux-arm.tar.gz -O runtime.tar.gz;;
-        x64) wget https://download.visualstudio.microsoft.com/download/pr/eec7db31-0187-4751-88ec-53ea526d4d35/d183e3973cc9a4b988cd4d1184db433f/dotnet-runtime-6.0.2-linux-x64.tar.gz -O runtime.tar.gz;;
+        arm64) wget https://download.visualstudio.microsoft.com/download/pr/501c5677-1a80-4232-9223-2c1ad336a304/867b5afc628837835a409cf4f465211d/dotnet-runtime-8.0.11-linux-arm64.tar.gz -O runtime.tar.gz;;
+        arm32) wget https://download.visualstudio.microsoft.com/download/pr/b4d8f2f3-a0fd-4d48-b584-cae2c3af5c06/97479f98b5746e515d7d99f72b67c852/dotnet-runtime-8.0.11-linux-arm.tar.gz -O runtime.tar.gz;;
+        x64) wget https://download.visualstudio.microsoft.com/download/pr/805cdca8-ac43-4d76-8ce8-efd11f1997f2/17aeb8b0cd34c6f8d80217bf6a4ed3cd/dotnet-runtime-8.0.11-linux-x64.tar.gz -O runtime.tar.gz;;
       esac
       tar zxf runtime.tar.gz -C .dotnet
       rm -rf runtime.tar.gz
     
       case $architecture in
-        arm64) wget https://download.visualstudio.microsoft.com/download/pr/93dd8d1e-f2af-45b1-8e86-9b8c3d58f4d2/b3fc3ef9da1db691043387fcb56f4d6f/dotnet-sdk-6.0.102-linux-arm64.tar.gz -O sdk.tar.gz;;
-        arm32) wget https://download.visualstudio.microsoft.com/download/pr/2509d293-6a9f-4108-8fe1-10e78341c5df/18f693729320bdbb5e8d936460dd0e2b/dotnet-sdk-6.0.102-linux-arm.tar.gz -O sdk.tar.gz;;
-        x64) wget https://download.visualstudio.microsoft.com/download/pr/e7acb87d-ab08-4620-9050-b3e80f688d36/e93bbadc19b12f81e3a6761719f28b47/dotnet-sdk-6.0.102-linux-x64.tar.gz -O sdk.tar.gz;;
+        arm64) wget https://download.visualstudio.microsoft.com/download/pr/5ac82fcb-c260-4c46-b62f-8cde2ddfc625/feb12fc704a476ea2227c57c81d18cdf/dotnet-sdk-8.0.404-linux-arm64.tar.gz -O sdk.tar.gz;;
+        arm32) wget https://download.visualstudio.microsoft.com/download/pr/44135b0f-e6d4-4e48-831b-fcd32c06a17f/b5dd8932aac6655a1ebd99ea9f24cc76/dotnet-sdk-8.0.404-linux-arm.tar.gz -O sdk.tar.gz;;
+        x64) wget wget https://download.visualstudio.microsoft.com/download/pr/4e3b04aa-c015-4e06-a42e-05f9f3c54ed2/74d1bb68e330eea13ecfc47f7cf9aeb7/dotnet-sdk-8.0.404-linux-x64.tar.gz -O sdk.tar.gz;;
       esac
       tar zxf sdk.tar.gz -C .dotnet
       rm -rf sdk.tar.gz

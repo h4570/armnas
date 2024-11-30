@@ -210,7 +210,7 @@ step_5() {
   sed -i "s/<SALT_INSERTED_BY_INSTALLER>/$salt/g" appsettings.json
   
   # Generate and replace private key
-  privateKey="$(tr -dc A-Za-z0-9 </dev/urandom | head -c 20)"
+  privateKey="$(tr -dc A-Za-z0-9 </dev/urandom | head -c 40)"
   sed -i "s/<KEY_GENERATED_BY_INSTALLER>/$privateKey/g" appsettings.json
 
   chown -R armnas /var/www/armnas

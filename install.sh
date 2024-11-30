@@ -81,7 +81,7 @@ step_2() {
 }
 
 step_3() {
-  apt-get install debian-keyring acl unzip jq curl debian-archive-keyring ntfs-3g ufw apt-transport-https -y
+  apt-get install lsof debian-keyring acl unzip jq curl debian-archive-keyring ntfs-3g ufw apt-transport-https -y
   # Check if caddy repo was already added. Add if not
   if [ ! -f /etc/apt/sources.list.d/caddy-stable.list ]; then
     curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg

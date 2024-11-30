@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -26,7 +27,7 @@ namespace WebApi.Controllers
         {
             _config = config.Value;
             _context = new AppDbContext(options);
-            _userService = new UserService(_context,logger);
+            _userService = new UserService(_context, logger);
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace WebApi.Controllers
                 var newUser = await _userService.ComputePasswordHashAndAddUser(payload, _config);
                 var jwt = AuthUtilities.GenerateJwtToken(_config.PrivateKey, newUser.Id);
                 newUser.Password = null;
-                HttpContext.Response.Headers.Add("x-auth-token", $"{jwt}");
+                HttpContext.Response.Headers.Append("x-auth-token", $"{jwt}");
                 return Ok(newUser);
             }
             catch { return StatusCode(461, "Internal server error occurred during register operation."); }
@@ -79,7 +80,7 @@ namespace WebApi.Controllers
                 if (newUser == null) return StatusCode(460, "Login failed!");
                 var jwt = AuthUtilities.GenerateJwtToken(_config.PrivateKey, newUser.Id);
                 newUser.Password = null;
-                HttpContext.Response.Headers.Add("x-auth-token", $"{jwt}");
+                HttpContext.Response.Headers.Append("x-auth-token", $"{jwt}");
                 return Ok(newUser);
             }
             catch (AdminNotFoundException)

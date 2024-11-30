@@ -156,7 +156,7 @@ Distributed under the Apache License 2.0 License. See `LICENSE` for more informa
 
 ## Built With  
 
-* [.NET 6.0.2](https://dotnet.microsoft.com/en-us/)  
+* [.NET 8.0.11](https://dotnet.microsoft.com/en-us/)  
 * [Angular 11](https://angular.io/)  
 * [Caddy](https://caddyserver.com/)  
 * [oData](https://www.odata.org/)  

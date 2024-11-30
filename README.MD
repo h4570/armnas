@@ -63,7 +63,7 @@ Languages: English, Polish.
 * [Torrent client](#transmission) (transmission)  
 * [Cron jobs](#cron) configuration  
 * [Messages](#messages) system  
-* [Keycloak](#keycloak)  
+* [Keycloak](#keycloak) (optional)
 
 ### Branches
 * **main**: main releases - tested on **Armbian** (ARM32), **Raspbian** (ARM32) and **Debian** x64.

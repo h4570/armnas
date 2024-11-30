@@ -22,12 +22,14 @@ namespace WebApi.Controllers
         private readonly UserService _userService;
         private readonly ConfigEnvironment _config;
         private readonly AppDbContext _context;
+        private readonly ILogger<UserController> _logger;
 
         public UserController(DbContextOptions<AppDbContext> options, IOptions<ConfigEnvironment> config, ILogger<UserController> logger)
         {
             _config = config.Value;
             _context = new AppDbContext(options);
             _userService = new UserService(_context, logger);
+            _logger = logger;
         }
 
         /// <summary>
@@ -58,7 +60,11 @@ namespace WebApi.Controllers
                 HttpContext.Response.Headers.Append("x-auth-token", $"{jwt}");
                 return Ok(newUser);
             }
-            catch { return StatusCode(461, "Internal server error occurred during register operation."); }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Internal server error occurred during register operation.");
+                return StatusCode(461, "Internal server error occurred during register operation.");
+            }
         }
 
         /// <summary>
@@ -87,8 +93,10 @@ namespace WebApi.Controllers
             {
                 return StatusCode(461, "Admin user not found!");
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Internal server error occurred during login operation.");
+
                 // For security issues
                 // ReSharper disable once ThrowFromCatchWithNoInnerException
                 throw new LoginOperationException("Internal server error occurred during login operation.");

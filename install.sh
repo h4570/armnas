@@ -102,7 +102,7 @@ step_4() {
 
     case $architecture in
       arm64) wget https://download.visualstudio.microsoft.com/download/pr/64a9f696-b039-4a73-b705-288fbf9c2e8f/c36bc24d6d359c019408b4f94ee67b59/aspnetcore-runtime-8.0.11-linux-arm64.tar.gz -O aspnet.tar.gz;;
-      arm32) https://download.visualstudio.microsoft.com/download/pr/003f180b-e695-4094-bc3f-ef6473883d43/e861cb56edd58b05b03b5a92cf995f12/aspnetcore-runtime-8.0.11-linux-arm.tar.gz -O aspnet.tar.gz;;
+      arm32) wget https://download.visualstudio.microsoft.com/download/pr/003f180b-e695-4094-bc3f-ef6473883d43/e861cb56edd58b05b03b5a92cf995f12/aspnetcore-runtime-8.0.11-linux-arm.tar.gz -O aspnet.tar.gz;;
       x64) wget https://download.visualstudio.microsoft.com/download/pr/6f89757c-3dde-4c3a-96a0-b04b1bde2c92/6a3591b360ed0f9d1118b97560b89625/aspnetcore-runtime-8.0.11-linux-x64.tar.gz -O aspnet.tar.gz;;
     esac
     tar zxf aspnet.tar.gz -C .dotnet
